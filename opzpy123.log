@@ -1,0 +1,73 @@
+2020-03-18 11:17:59.809  INFO 14916 --- [restartedMain] c.opzpy123.opzpy123.Opzpy123Application  : Starting Opzpy123Application on opzpy123 with PID 14916 (C:\IDEA_WorkSpace\opzpy123\target\classes started by opzpy123 in C:\IDEA_WorkSpace\opzpy123)
+2020-03-18 11:17:59.814  INFO 14916 --- [restartedMain] c.opzpy123.opzpy123.Opzpy123Application  : No active profile set, falling back to default profiles: default
+2020-03-18 11:17:59.855  INFO 14916 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2020-03-18 11:17:59.855  INFO 14916 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2020-03-18 11:18:00.541  WARN 14916 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.opzpy123.opzpy123]' package. Please check your configuration.
+2020-03-18 11:18:01.021  INFO 14916 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8888 (http)
+2020-03-18 11:18:01.029  INFO 14916 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-03-18 11:18:01.030  INFO 14916 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-03-18 11:18:01.103  INFO 14916 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-03-18 11:18:01.104  INFO 14916 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1249 ms
+2020-03-18 11:18:01.262  INFO 14916 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-03-18 11:18:01.329  INFO 14916 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2020-03-18 11:18:01.379  WARN 14916 --- [restartedMain] org.thymeleaf.templatemode.TemplateMode  : [THYMELEAF][restartedMain] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-03-18 11:18:01.584  INFO 14916 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2020-03-18 11:18:01.623  INFO 14916 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8888 (http) with context path ''
+2020-03-18 11:18:01.625  INFO 14916 --- [restartedMain] c.opzpy123.opzpy123.Opzpy123Application  : Started Opzpy123Application in 2.446 seconds (JVM running for 6.663)
+2020-03-18 11:29:09.415  INFO 12744 --- [restartedMain] c.opzpy123.opzpy123.Opzpy123Application  : Starting Opzpy123Application on opzpy123 with PID 12744 (C:\IDEA_WorkSpace\opzpy123\target\classes started by opzpy123 in C:\IDEA_WorkSpace\opzpy123)
+2020-03-18 11:29:09.418  INFO 12744 --- [restartedMain] c.opzpy123.opzpy123.Opzpy123Application  : No active profile set, falling back to default profiles: default
+2020-03-18 11:29:09.467  INFO 12744 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2020-03-18 11:29:09.467  INFO 12744 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2020-03-18 11:29:10.167  WARN 12744 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.opzpy123.opzpy123]' package. Please check your configuration.
+2020-03-18 11:29:10.558  INFO 12744 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8888 (http)
+2020-03-18 11:29:10.567  INFO 12744 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-03-18 11:29:10.568  INFO 12744 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-03-18 11:29:10.685  INFO 12744 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-03-18 11:29:10.685  INFO 12744 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1218 ms
+2020-03-18 11:29:10.841  INFO 12744 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-03-18 11:29:10.899  INFO 12744 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2020-03-18 11:29:10.946  WARN 12744 --- [restartedMain] org.thymeleaf.templatemode.TemplateMode  : [THYMELEAF][restartedMain] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-03-18 11:29:11.151  INFO 12744 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2020-03-18 11:29:11.189  INFO 12744 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8888 (http) with context path ''
+2020-03-18 11:29:11.191  INFO 12744 --- [restartedMain] c.opzpy123.opzpy123.Opzpy123Application  : Started Opzpy123Application in 2.181 seconds (JVM running for 3.049)
+2020-03-18 11:29:21.875  INFO 12744 --- [http-nio-8888-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-03-18 11:29:21.875  INFO 12744 --- [http-nio-8888-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-03-18 11:29:21.881  INFO 12744 --- [http-nio-8888-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2020-03-18 11:33:03.770  INFO 10992 --- [restartedMain] c.opzpy123.opzpy123.Opzpy123Application  : Starting Opzpy123Application on opzpy123 with PID 10992 (C:\IDEA_WorkSpace\opzpy123\target\classes started by opzpy123 in C:\IDEA_WorkSpace\opzpy123)
+2020-03-18 11:33:03.774  INFO 10992 --- [restartedMain] c.opzpy123.opzpy123.Opzpy123Application  : No active profile set, falling back to default profiles: default
+2020-03-18 11:33:03.826  INFO 10992 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2020-03-18 11:33:03.826  INFO 10992 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2020-03-18 11:33:04.695  WARN 10992 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.opzpy123.opzpy123]' package. Please check your configuration.
+2020-03-18 11:33:05.224  INFO 10992 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8888 (http)
+2020-03-18 11:33:05.236  INFO 10992 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-03-18 11:33:05.236  INFO 10992 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-03-18 11:33:05.321  INFO 10992 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-03-18 11:33:05.322  INFO 10992 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1495 ms
+2020-03-18 11:33:05.502  INFO 10992 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-03-18 11:33:05.564  INFO 10992 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2020-03-18 11:33:05.619  WARN 10992 --- [restartedMain] org.thymeleaf.templatemode.TemplateMode  : [THYMELEAF][restartedMain] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-03-18 11:33:05.813  INFO 10992 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2020-03-18 11:33:05.856  INFO 10992 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8888 (http) with context path ''
+2020-03-18 11:33:05.859  INFO 10992 --- [restartedMain] c.opzpy123.opzpy123.Opzpy123Application  : Started Opzpy123Application in 2.503 seconds (JVM running for 3.414)
+2020-03-18 11:33:05.894  INFO 10992 --- [http-nio-8888-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-03-18 11:33:05.894  INFO 10992 --- [http-nio-8888-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-03-18 11:33:05.899  INFO 10992 --- [http-nio-8888-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2020-03-18 11:33:34.843  INFO 11380 --- [restartedMain] c.opzpy123.opzpy123.Opzpy123Application  : Starting Opzpy123Application on opzpy123 with PID 11380 (C:\IDEA_WorkSpace\opzpy123\target\classes started by opzpy123 in C:\IDEA_WorkSpace\opzpy123)
+2020-03-18 11:33:34.847  INFO 11380 --- [restartedMain] c.opzpy123.opzpy123.Opzpy123Application  : No active profile set, falling back to default profiles: default
+2020-03-18 11:33:34.910  INFO 11380 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2020-03-18 11:33:34.910  INFO 11380 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2020-03-18 11:33:35.647  WARN 11380 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.opzpy123.opzpy123]' package. Please check your configuration.
+2020-03-18 11:33:36.152  INFO 11380 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8888 (http)
+2020-03-18 11:33:36.159  INFO 11380 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-03-18 11:33:36.159  INFO 11380 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-03-18 11:33:36.230  INFO 11380 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-03-18 11:33:36.230  INFO 11380 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1319 ms
+2020-03-18 11:33:36.376  INFO 11380 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-03-18 11:33:36.437  INFO 11380 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2020-03-18 11:33:36.491  WARN 11380 --- [restartedMain] org.thymeleaf.templatemode.TemplateMode  : [THYMELEAF][restartedMain] Template Mode 'LEGACYHTML5' is deprecated. Using Template Mode 'HTML' instead.
+2020-03-18 11:33:36.698  INFO 11380 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2020-03-18 11:33:36.737  INFO 11380 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8888 (http) with context path ''
+2020-03-18 11:33:36.739  INFO 11380 --- [restartedMain] c.opzpy123.opzpy123.Opzpy123Application  : Started Opzpy123Application in 2.319 seconds (JVM running for 3.183)
+2020-03-18 11:33:36.950  INFO 11380 --- [http-nio-8888-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-03-18 11:33:36.951  INFO 11380 --- [http-nio-8888-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-03-18 11:33:36.958  INFO 11380 --- [http-nio-8888-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms

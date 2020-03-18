@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>opzpy123的个人博客</title>
+    <link rel="stylesheet" href="/css/layui.css">
+    <script src="/js/layui.js"></script>
+</head>
+<body>
+<div>
+    <div class="layui-col-12">
+        <ul class="layui-nav" lay-filter="">
+            <li class="layui-nav-item"><a href="/">opzpy123</a></li>
+            <li class="layui-nav-item layui-this"><a href="">博客主页</a></li>
+            <li class="layui-nav-item"><input type="text" name="title" required lay-verify="required"
+                                              placeholder="输入内容..." autocomplete="off" class="layui-input"
+                                              style="width: 230px"></li>
+            <li class="layui-nav-item">
+                <button class="layui-btn">搜索</button>
+            </li>
+            <li class="layui-nav-item"><a href="http://118.178.138.20:8080/">社区</a></li>
+        </ul>
+    </div>
+    <div class="layui-col-12">
+        <div class="layui-col-3">
+            ajshdk
+        </div>
+        <div class="layui-col-9">
+            asd
+        </div>
+    </div>
+</div>
+
+
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function () {
+        var element = layui.element;
+
+        //…
+    });
+</script>
+</body>
+</html>
