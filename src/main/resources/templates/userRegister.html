@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="opzpy123">
+    <title>注册</title>
+    <link rel="canonical" href="/">
+    <link rel="shortcut icon" href="/brand/zicon.svg"/>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .container {
+            max-width: 960px;
+        }
+
+        .lh-condensed {
+            line-height: 1.25;
+        }
+    </style>
+
+</head>
+<body class="bg-light">
+<div th:insert="navbar :: nav"></div>
+<!--主体-->
+<div class="container">
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
+        <h2>注册</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 ">
+            <h4 class="mb-3 ">个人信息</h4>
+            <form class="needs-validation" novalidate action="/user/register" method="post">
+                <div class="mb-3">
+                    <label for="username">用户名</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="username" name="name" placeholder="Username"
+                               required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            请输入用户名
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email">邮箱<span class="text-muted"> (选填)</span></label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+                    <div class="invalid-feedback">
+                        请输入正确的邮箱
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="username">密码</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="password"
+                               required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            请输入密码
+                        </div>
+                    </div>
+                </div>
+
+
+                <hr class="mb-4">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="save-info">
+                    <label class="custom-control-label" for="save-info">保存信息</label>
+                </div>
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">注 册</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2017-2021 Company Name</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
+</div>
+
+
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script>
+
+    (function () {
+        'use strict'
+
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        }, false)
+    })()
+
+</script>
+</body>
+</html>
