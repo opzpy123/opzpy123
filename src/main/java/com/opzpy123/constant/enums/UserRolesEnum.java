@@ -1,9 +1,6 @@
 package com.opzpy123.constant.enums;
 
 public enum UserRolesEnum {
-    SUPER_ADMIN,//超级管理员
-    ADMIN,//管理员
-    USER;//用户
-
-
+    ROLE_ADMIN,//管理员
+    ROLE_USER;//用户
 }

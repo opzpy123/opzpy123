@@ -7,7 +7,7 @@ import lombok.Data;
 
 
 @Data
-public class User extends BaseModel {
+public class AuthUser extends BaseModel {
 
     private String name;
 

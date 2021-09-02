@@ -13,7 +13,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         this.strictInsertFill(metaObject, "createTime", Date.class, new Date());
         this.strictInsertFill(metaObject, "updateTime", Date.class, new Date());
-        this.strictInsertFill(metaObject, "roles", UserRolesEnum.class, UserRolesEnum.USER);
+        this.strictInsertFill(metaObject, "roles", UserRolesEnum.class, UserRolesEnum.ROLE_USER);
         this.strictInsertFill(metaObject, "isDelete", Integer.class, 0);
     }
 
