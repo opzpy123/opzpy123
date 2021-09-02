@@ -23,7 +23,7 @@ public class JwtUtils {
      * @param APP_SECRET 密钥
      * @author: opzpy
      */
-    public static final long EXPIRE = 1000 * 60 * 10;
+    public static final long EXPIRE = 1000 * 60 * 60 * 48;
     public static final String APP_SECRET = "opzpy123";
 
     //修改密码类型
@@ -33,13 +33,13 @@ public class JwtUtils {
      * @description: 生成Token字符串
      * @author: opzpy
      */
-    public static String getJwtToken(String Subject, String id, Map<String, Object> map) {
+    public static String getJwtToken( String id, Map<String, Object> map) {
         JwtBuilder builder = Jwts.builder()
                 //设置Token头信息
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("alg", "HS384")
                 //设置分类
-                .setSubject(Subject)
+                .setSubject("user")
                 //设置过期时间
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRE))
                 //获取当前时间

@@ -36,7 +36,7 @@
         <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
         <h2>欢迎</h2>
     </div>
-    <form class="form-signin" action="/user/login" method="post">
+    <form class="form-signin" action="/user/login" >
         <div class="text-center">
             <label for="name" class="sr-only">用户名</label>
             <input id="name" name="name" class="form-control" placeholder="用户名" required autofocus>
@@ -45,10 +45,12 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="密码" required>
             <div class="checkbox mb-3">
                 <label>
-                    <input type="checkbox" value="remember-me"> 记住我
+                    <input type="checkbox" value="remember-me" name="remember-me"> 记住我
                 </label>
             </div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">登 录</button>
+            <br class="mb-4">
+            <a class="nav-link" href="/register" >注册</a>
             <p class="mt-5 mb-3 text-muted">opzpy123 &copy; 2021-2021</p>
         </div>
     </form>

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
 public class BaseModel implements Serializable {
@@ -16,8 +16,10 @@ public class BaseModel implements Serializable {
     private Integer isDelete;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp createTime;
+    @TableField(fill = FieldFill.INSERT)
+    private Date createTime;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp updateTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Date updateTime;
 }

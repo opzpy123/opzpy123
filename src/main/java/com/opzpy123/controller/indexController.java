@@ -12,10 +12,23 @@ public class indexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request, HttpServletResponse response){
-        //遍历cookie 拿到token 看是否过期 否则更新过期时间 并跳转主页面
-        //如果已过期或者未登录 跳转到登陆页面
-        Cookie[] cookies = request.getCookies();
         return "index";
+    }
+
+    /**
+     * 跳转登录
+     */
+    @GetMapping("/login")
+    public String login() {
+        return "userLogin";
+    }
+
+    /**
+     * 跳转注册
+     */
+    @GetMapping("/register")
+    public String register() {
+        return "userRegister";
     }
 
 }
