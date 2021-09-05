@@ -4,6 +4,7 @@ package com.opzpy123.config;
  * spring security 配置类
  */
 
+import com.opzpy123.constant.enums.UserRolesEnum;
 import com.opzpy123.service.AuthUserDetailService;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +24,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@MapperScan(basePackages = "com.opzpy123,mapper")
-@ComponentScan(basePackages = {"com.opzpy123"})
-//开启注解控制权限
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Autowired
-    private AuthUserDetailService authUserDetailService;
+    private AuthUserDetailService myAuthUserDetailService;
 
     /**
      * 用户认证配置
@@ -41,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         /**
          * 指定用户认证时，默认从哪里获取认证用户信息
          */
-        auth.userDetailsService(authUserDetailService);
+        auth.userDetailsService(myAuthUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
@@ -54,24 +51,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        //设置表单提交
+        http.formLogin()
+                .loginPage("/login")//跳转登录页面
+                .loginProcessingUrl("/user/login")//发送登录请求
+                .defaultSuccessUrl("/",true)
+                .failureForwardUrl("/register")//跳转注册页
+                .permitAll()
+                .and()
+                .csrf().disable();
+
         //设置授权
         http.authorizeRequests()
-//                .antMatchers("/").hasAnyRole("ADMIN")
                 .antMatchers("/login").permitAll()//允许通过的路径
                 .antMatchers("/user/login").permitAll()//允许通过的路径
                 .antMatchers("/register").permitAll()//允许通过的路径
                 .antMatchers("/user/register").permitAll()//允许通过的路径
                 .anyRequest().authenticated();
 
-        //设置表单提交
-        http.formLogin()
-                .loginPage("/login")//跳转登录页面
-                .loginProcessingUrl("/user/login")//发送登录请求
-                .successForwardUrl("/")//跳转首页
-                .failureForwardUrl("/register")//跳转注册页
-                .permitAll()
-                .and()
-                .csrf().disable();
+
 
 
         http.sessionManagement()

@@ -29,6 +29,13 @@
 <body>
 <!--导航条-->
 <div th:insert="navbar :: nav"></div>
+<!--通知-->
+<div class="alert  alert-dismissible fade " id="alertTag" role="alert" style="height: 50px;">
+    <p><strong>Holy guacamole!</strong> You should check in on some of those fields below.</p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 
 <!--主体-->
 <div class="container">
@@ -36,26 +43,66 @@
         <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
         <h2>欢迎</h2>
     </div>
-    <form class="form-signin" action="/user/login" >
+    <form class="form-signin" action="/user/login" method="post">
         <div class="text-center">
-            <label for="name" class="sr-only">用户名</label>
-            <input id="name" name="name" class="form-control" placeholder="用户名" required autofocus>
+            <label for="username" class="sr-only">用户名</label>
+            <input id="username" name="username" class="form-control" placeholder="用户名" required autofocus>
             <br class="mb-4">
             <label for="password" class="sr-only">密码</label>
             <input type="password" id="password" name="password" class="form-control" placeholder="密码" required>
             <div class="checkbox mb-3">
                 <label>
-                    <input type="checkbox"  name="remember-me"> 记住我
+                    <input type="checkbox" name="remember_me" id="remember_me"> 记住我
                 </label>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">登 录</button>
+            <button class="btn btn-lg btn-primary btn-block" id="submitBtn" type="submit">登 录</button>
             <br class="mb-4">
-            <a class="nav-link" href="/register" >注册</a>
+            <a class="nav-link" href="/register">注册</a>
             <p class="mt-5 mb-3 text-muted">opzpy123 &copy; 2021-2021</p>
         </div>
     </form>
 </div>
 
+<button type="button" class="btn btn-primary" id="showTag">Show me the tag</button>
 
+
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script>
+    $("#submitBtn").click(function () {
+        var name = $("#name").val();
+        var pwd = $("#password").val();
+        $.ajax({
+            url: '/user/login',
+            type: 'get',
+            data: {'name': name, 'pwd': pwd},
+            dataType: 'json',
+            success: function (data) {
+                if (data.flag == 1) {
+                    $('#alertTag').addClass("alert-success show").show()
+                    location.href = '/';
+                } else {
+                    $('#alertTag').addClass("alert-warning show").show()
+                }
+            },
+            error: function () {
+                $('#alertTag').addClass("alert-warning show").show()
+            }
+        })
+    });
+
+    // $('#liveToastBtn').click(function () {
+    //     $('.toast').toast('show')
+    // })
+
+    $('#showTag').click(function showSuccess(){
+        // $('#alertTag').addClass("alert-warning show").show();
+        $('#alertTag').addClass("alert-success show").show();
+    });
+
+
+
+
+</script>
 </body>
 </html>

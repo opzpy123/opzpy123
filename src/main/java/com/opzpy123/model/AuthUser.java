@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class AuthUser extends BaseModel {
 
-    private String name;
+    private String username;
 
     private String password;
 

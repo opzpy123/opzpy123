@@ -35,7 +35,15 @@
 
 </head>
 <body class="bg-light">
+<!--导航条-->
 <div th:insert="navbar :: nav"></div>
+<!--通知-->
+<div class="alert  alert-dismissible fade " id="alertTag" role="alert" style="height: 50px;">
+    <p><strong>Holy guacamole!</strong> You should check in on some of those fields below.</p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 <!--主体-->
 <div class="container">
     <div class="py-5 text-center">
@@ -51,7 +59,7 @@
                 <div class="mb-3">
                     <label for="username">用户名</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="username" name="name" placeholder="Username"
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username"
                                required>
                         <div class="invalid-feedback" style="width: 100%;">
                             请输入用户名

@@ -19,15 +19,6 @@ public class AuthUserController {
 
 
     /**
-     * 用户登录
-     */
-    @GetMapping("/login")
-    public String formLogin(AuthUser user, HttpServletRequest request, HttpServletResponse response) {
-        return authUserService.login(user, request, response);
-    }
-
-
-    /**
      * 用户注册
      */
     @GetMapping("/register")
