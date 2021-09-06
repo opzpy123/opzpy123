@@ -38,9 +38,10 @@
 <!--导航条-->
 <div th:insert="navbar :: nav"></div>
 <!--通知-->
-<div class="alert  alert-dismissible fade " id="alertTag" role="alert" style="height: 50px;">
-    <p><strong>Holy guacamole!</strong> You should check in on some of those fields below.</p>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<!--通知-->
+<div class="alert  alert-dismissible fade alert-warning show " id="alertTag" role="alert" style="height: 50px;" th:if="${session.registerValide}!=null">
+    <strong th:text="${session.registerValide}"></strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -55,7 +56,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 ">
             <h4 class="mb-3 ">个人信息</h4>
-            <form class="needs-validation" novalidate action="/user/register" >
+            <form class="needs-validation" novalidate action="/user/register" method="post"  enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="username">用户名</label>
                     <div class="input-group">
@@ -85,17 +86,10 @@
                         </div>
                     </div>
                 </div>
-
-
-<!--                <hr class="mb-4">-->
-<!--                <div class="custom-control custom-checkbox">-->
-<!--                    <input type="checkbox" class="custom-control-input" id="save-info">-->
-<!--                    <label class="custom-control-label" for="save-info">保存信息</label>-->
-<!--                </div>-->
                 <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">注 册</button>
+                <button class="btn btn-primary btn-lg btn-block" type="submit" id="registerBtn">注 册</button>
                 <br class="mb-4">
-                <a class="nav-link" href="/login" style="text-align: center" >登录</a>
+                <a class="nav-link" href="/login" style="text-align: center">登录</a>
             </form>
         </div>
     </div>
@@ -130,6 +124,7 @@
             })
         }, false)
     })()
+
 
 </script>
 </body>
