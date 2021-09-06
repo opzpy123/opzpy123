@@ -11,10 +11,8 @@
 </head>
 <body>
 <div th:insert="navbar :: nav"></div>
-
-asdad
-<button> hahaha</button>
-
+<p th:text="${#authentication.principal}"></p>
+主页内容
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
 

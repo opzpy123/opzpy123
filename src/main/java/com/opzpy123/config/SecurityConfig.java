@@ -4,24 +4,25 @@ package com.opzpy123.config;
  * spring security 配置类
  */
 
-import com.opzpy123.constant.enums.UserRolesEnum;
+
 import com.opzpy123.service.AuthUserDetailService;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -29,6 +30,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthUserDetailService myAuthUserDetailService;
+
+    @Autowired
+    private DataSource dataSource;
+
 
     /**
      * 用户认证配置
@@ -55,8 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .loginPage("/login")//跳转登录页面
                 .loginProcessingUrl("/user/login")//发送登录请求
-                .defaultSuccessUrl("/",true)
-                .failureForwardUrl("/register")//跳转注册页
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error=true")
                 .permitAll()
                 .and()
                 .csrf().disable();
@@ -69,7 +74,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/register").permitAll()//允许通过的路径
                 .anyRequest().authenticated();
 
-
+        //对记住我进行设置
+        http.rememberMe()
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(60 * 60 * 24) //设置Token的有效时间
+                .userDetailsService(myAuthUserDetailService);    //使用userDetailsService用Token从数据库中获取用户自动登录
 
 
         http.sessionManagement()
@@ -99,4 +108,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        tokenRepository.setCreateTableOnStartup(false);  //系统在启动的时候生成“记住我”的数据表（只能使用一次）
+        return tokenRepository;
+    }
+
 }

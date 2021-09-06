@@ -1,7 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"><!-- Thymeleaf为我们提供的Spring Security的标签支持 -->
 <head>
     <meta charset="utf-8">
+    <meta content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="opzpy123">
     <title>登录</title>
@@ -30,8 +32,9 @@
 <!--导航条-->
 <div th:insert="navbar :: nav"></div>
 <!--通知-->
-<div class="alert  alert-dismissible fade " id="alertTag" role="alert" style="height: 50px;">
-    <p><strong>Holy guacamole!</strong> You should check in on some of those fields below.</p>
+<div class="alert  alert-dismissible fade alert-warning show " id="alertTag" role="alert" style="height: 50px;" th:if="${param.error}">
+    <strong th:if="${session.SPRING_SECURITY_LAST_EXCEPTION.message}=='Bad credentials'">用户名或密码错误</strong>
+    <strong th:if="${session.SPRING_SECURITY_LAST_EXCEPTION.message}!='Bad credentials'" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -52,7 +55,7 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="密码" required>
             <div class="checkbox mb-3">
                 <label>
-                    <input type="checkbox" name="remember_me" id="remember_me"> 记住我
+                    <input type="checkbox" name="remember-me" id="remember-me"> 记住我
                 </label>
             </div>
             <button class="btn btn-lg btn-primary btn-block" id="submitBtn" type="submit">登 录</button>
@@ -63,44 +66,40 @@
     </form>
 </div>
 
-<button type="button" class="btn btn-primary" id="showTag">Show me the tag</button>
-
 
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
 <script>
-    $("#submitBtn").click(function () {
-        var name = $("#name").val();
-        var pwd = $("#password").val();
-        $.ajax({
-            url: '/user/login',
-            type: 'get',
-            data: {'name': name, 'pwd': pwd},
-            dataType: 'json',
-            success: function (data) {
-                if (data.flag == 1) {
-                    $('#alertTag').addClass("alert-success show").show()
-                    location.href = '/';
-                } else {
-                    $('#alertTag').addClass("alert-warning show").show()
-                }
-            },
-            error: function () {
-                $('#alertTag').addClass("alert-warning show").show()
-            }
-        })
-    });
-
-    // $('#liveToastBtn').click(function () {
-    //     $('.toast').toast('show')
-    // })
-
-    $('#showTag').click(function showSuccess(){
-        // $('#alertTag').addClass("alert-warning show").show();
-        $('#alertTag').addClass("alert-success show").show();
-    });
-
-
+    // $("#submitBtn").click(function () {
+    //     var name = $("#name").val();
+    //     var pwd = $("#password").val();
+    //     $.ajax({
+    //         url: '/user/login',
+    //         type: 'get',
+    //         data: {'name': name, 'pwd': pwd},
+    //         dataType: 'json',
+    //         success: function (data) {
+    //             if (data.flag == 1) {
+    //                 $('#alertTag').addClass("alert-success show").show()
+    //                 location.href = '/';
+    //             } else {
+    //                 $('#alertTag').addClass("alert-warning show").show()
+    //             }
+    //         },
+    //         error: function () {
+    //             $('#alertTag').addClass("alert-warning show").show()
+    //         }
+    //     })
+    // });
+    //
+    // // $('#liveToastBtn').click(function () {
+    // //     $('.toast').toast('show')
+    // // })
+    //
+    // $('#showTag').click(function showSuccess() {
+    //     // $('#alertTag').addClass("alert-warning show").show();
+    //     $('#alertTag').addClass("alert-success show").show();
+    // });
 
 
 </script>
