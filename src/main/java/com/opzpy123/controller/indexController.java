@@ -37,4 +37,12 @@ public class indexController {
         return "userRegister";
     }
 
+    /**
+     * 跳转注册
+     */
+    @GetMapping("/dashboard")
+    public String dashboard() {
+        return "dashboard";
+    }
+
 }
