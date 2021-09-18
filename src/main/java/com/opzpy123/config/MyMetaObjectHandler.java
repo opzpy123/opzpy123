@@ -4,8 +4,12 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.opzpy123.constant.enums.UserRolesEnum;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
+/**
+ * mybatis-plus自动生成
+ */
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {
 

@@ -3,6 +3,8 @@ package com.opzpy123.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.opzpy123.model.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.thymeleaf.spring5.context.SpringContextUtils;
+import redis.clients.jedis.Jedis;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +31,11 @@ import java.util.List;
 @Component
 public class AuthUserDetailService implements UserDetailsService {
 
-    @Autowired
+    @Resource
     private AuthUserService authUserService;
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
 
     /**
@@ -37,17 +44,6 @@ public class AuthUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
 
-//            //将账号登录记录放入缓存
-//            if (SystemCache.userCertificationCache.getIfPresent(username) == null) {
-//                SystemCache.userCertificationCache.put(username, 1);
-//            } else {
-//                SystemCache.userCertificationCache.put(username, (int) SystemCache.userCertificationCache.getIfPresent(username) + 1);
-//            }
-//
-//            //判断10分钟内当前IP指定账号登录次数
-//            if ((int) SystemCache.userCertificationCache.getIfPresent(username) > 5) {
-//                throw new BadCredentialsException("您的登录次数过于频繁 请10分钟后再试");
-//            }
         //查询用户名是否存在
         AuthUser authUser = authUserService.getUserByUsername(username);
         if (authUser == null) {
@@ -58,6 +54,5 @@ public class AuthUserDetailService implements UserDetailsService {
         return new org.springframework.security.core.userdetails
                 .User(authUser.getUsername(), authUser.getPassword(),
                 AuthorityUtils.commaSeparatedStringToAuthorityList(authUser.getRoles().name()));
-
     }
 }

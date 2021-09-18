@@ -33,7 +33,7 @@ public class AuthUserService extends ServiceImpl<AuthUserMapper, AuthUser> {
                 .eq(AuthUser::getUsername, user.getUsername()));
         if (null != saveUser) {
             //同名 不能创建
-            request.getSession().setAttribute("registerValide","该用户已存在");
+            request.getSession().setAttribute("registerValide", "该用户已存在");
             return "redirect:/register";
         }
 
@@ -43,7 +43,6 @@ public class AuthUserService extends ServiceImpl<AuthUserMapper, AuthUser> {
         //注册成功返回登录
         return "redirect:/login";
     }
-
 
 
     public AuthUser getUserByUsername(String username) {

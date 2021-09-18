@@ -17,7 +17,7 @@ import java.util.List;
 public class indexController {
 
     @GetMapping("/")
-    public String index(HttpServletRequest request, HttpServletResponse response){
+    public String index(HttpServletRequest request, HttpServletResponse response) {
         return "index";
     }
 
