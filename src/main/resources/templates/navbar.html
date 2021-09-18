@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse" id="navbarsExample04">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/dashboard">面板 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/dashboard">控制面板 <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <ul class="navbar-nav" th:if="${#authentication.name}!='anonymousUser'">
@@ -29,7 +29,9 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-md-0">
-                <input class="form-control" type="text" placeholder="搜索">
+                <input class="form-control" type="text"  aria-label="Search">
+                <p style="margin-left: 10px"></p>
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">搜索</button>
             </form>
         </div>
     </nav>
