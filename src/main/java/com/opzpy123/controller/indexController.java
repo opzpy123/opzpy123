@@ -45,4 +45,13 @@ public class indexController {
         return "dashboard";
     }
 
+    /**
+     * 内联页面路径跳转
+     * @return
+     */
+    @GetMapping("/innerIframe")
+    public String innerIframe() {
+        return "innerIframe";
+    }
+
 }
