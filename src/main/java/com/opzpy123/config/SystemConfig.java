@@ -13,8 +13,7 @@ import javax.servlet.ServletContext;
 @Configuration
 @Slf4j
 public class SystemConfig implements ApplicationListener<ContextRefreshedEvent> {
-//    @Autowired
-//    private SysSystemService service;
+
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -24,16 +23,11 @@ public class SystemConfig implements ApplicationListener<ContextRefreshedEvent> 
         // 从 webApplicationContext 中获取  servletContext
         ServletContext servletContext = webApplicationContext.getServletContext();
 
-
-//        List<SysSystem> sysSystems = service.list(null);
-//        SysSystem sysSystem = sysSystems.get(0);
-//
         updateSystem(servletContext);
     }
 
     public static void updateSystem(ServletContext servletContext) {
-        log.info("哈哈哈哈哈");
-        log.warn("警告1231321");
-
+        //配置全局参数
+        //servletContext.setAttribute();
     }
 }

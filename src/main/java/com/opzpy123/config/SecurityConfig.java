@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
@@ -41,7 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         /**
          * 指定用户认证时，默认从哪里获取认证用户信息
          */
-        auth.userDetailsService(myAuthUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("admin").password(new BCryptPasswordEncoder().encode("opzpy123")).roles("ADMIN");
+//        auth.userDetailsService(myAuthUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
@@ -53,6 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //(授权)配置 URL 访问权限,对应用户的权限
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //允许同源iframe请求
+        http.headers().frameOptions().sameOrigin();
 
         //设置表单提交
         http.formLogin()
@@ -114,5 +118,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         tokenRepository.setCreateTableOnStartup(false);  //系统在启动的时候生成“记住我”的数据表（只能使用一次）
         return tokenRepository;
     }
+
 
 }
