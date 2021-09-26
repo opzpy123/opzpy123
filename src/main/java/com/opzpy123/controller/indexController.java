@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -38,20 +39,21 @@ public class indexController {
     }
 
     /**
-     * 跳转注册
-     */
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "dashboard";
-    }
-
-    /**
      * 内联页面路径跳转
      * @return
      */
     @GetMapping("/innerIframe")
-    public String innerIframe() {
+    public String innerIframe(HttpServletRequest request,String path) {
+        request.setAttribute("jump",path);
         return "innerIframe";
+    }
+
+
+
+    @GetMapping("/dashboard")
+    public String dashboardHome(HttpServletRequest request,String path){
+        request.setAttribute("jump",path);
+        return "dashboard";
     }
 
 }
