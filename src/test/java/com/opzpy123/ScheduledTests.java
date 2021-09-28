@@ -24,8 +24,7 @@ class ScheduledTests {
     }
     @Test
     public void execute() {
-        WeatherTaskVo taskVo = new WeatherTaskVo("44esT6oeg4FZZzh8ce6sjf", "南京");
-        threadPoolTaskScheduler.schedule(taskVo, new CronTrigger("5 * * * * ? "));
+
     }
 
 }

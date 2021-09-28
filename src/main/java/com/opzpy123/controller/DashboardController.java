@@ -21,22 +21,13 @@ public class DashboardController {
     @Resource
     private DashboardService dashboardService;
 
-    /**
-     * 控制面板路由
-     *
-     * @param request
-     * @param path
-     * @return
-     */
     @GetMapping("")
-    public String dashboard(HttpServletRequest request, String path) {
-        request.setAttribute("jump", path);
+    public String dashboard() {
         return "dashboard";
     }
 
     /**
      * 主面板
-     *
      * @return
      */
     @GetMapping("/dashboard")
@@ -45,55 +36,16 @@ public class DashboardController {
     }
 
     /**
-     * 天气面板
-     *
-     * @param request
-     * @param session
-     * @param model
-     * @param principal
-     * @return
+     *  天气详情面板
      */
     @GetMapping("/weather")
     public String dashboardWeather(HttpServletRequest request, HttpSession session, Model model, Principal principal) {
-        //查看当前登录用户 是否有天气
         dashboardService.getDashboardWeatherInfo(request, session, model, principal);
         return "dashboardWeather";
     }
 
     /**
-     * 创建天气路由
-     *
-     * @param request
-     * @param session
-     * @param model
-     * @param principal
-     * @return
-     */
-    @GetMapping("/weather/create")
-    public String dashboardCreateWeatherRouter(HttpServletRequest request, HttpSession session, Model model, Principal principal) {
-        dashboardService.addDashboardWeatherRouter(request, session, model, principal);
-        return "dashboardCreateWeather";
-    }
-
-    /**
-     * 创建天气接口
-     *
-     * @return
-     */
-    @PostMapping("/weather/create")
-    public String dashboardCreateWeather(UserWeather userWeather) {
-        dashboardService.addDashboardWeather(userWeather);
-        return "redirect:/dashboard/weather";
-    }
-
-    /**
-     * 网盘服务
-     *
-     * @param request
-     * @param session
-     * @param model
-     * @param principal
-     * @return
+     *  网盘面板
      */
     @GetMapping("/netdisc")
     public String dashboardNetdisc(HttpServletRequest request, HttpSession session, Model model, Principal principal) {

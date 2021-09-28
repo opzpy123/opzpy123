@@ -1,6 +1,7 @@
 package com.opzpy123.model;
 
 
+import com.opzpy123.constant.enums.WeatherEnum;
 import lombok.Data;
 
 
@@ -16,5 +17,7 @@ public class UserWeather extends BaseModel {
     private String cronExpression;  //corn表达式
 
     private Integer enabled;        //是否启用 1启用 0不启用
+
+    private WeatherEnum pushType;   //推送类型 日报/温差/预警
 
 }

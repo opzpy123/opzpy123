@@ -1,7 +1,6 @@
-
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:th="http://www.thymeleaf.org"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"><!-- Thymeleaf为我们提供的Spring Security的标签支持 -->
 <head>
     <meta charset="utf-8">
@@ -16,16 +15,54 @@
 </head>
 <body>
 
-<div class="py-5 text-center">
+<div class="py-1 text-center">
     <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
     <h2>天气主页</h2>
-<!--    //显示正在运行中的天气数量-->
-<!--    //显示天气运行图表-->
-    <p th:text="${loginUser.username}"></p>
-   <p th:text="'当前正在运行的天气任务数量：'+${#lists.size(userWeathers)}"></p>
-    <a href="/dashboard/weather/create">创建天气任务</a>
-<!--    //集合判空-->
-<!--    <p th:if="${userWeathers}==null">null</p>-->
+    <!--    //显示正在运行中的天气数量-->
+    <!--    //显示天气运行图表-->
+<!--    <p th:text="${loginUser.username}"></p>-->
+    <br class="mb-4">
+    <p th:text="'当前正在运行的天气任务数量：'+${#lists.size(userWeathers)}"></p>
+    <div th:if="${#lists.size(userWeathers)}!=0">
+        <ul class="list-group list-group-horizontal " style="margin-left: 6%">
+            <li class="list-group-item list-group-item-secondary" style="width: 16%">id</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 30%">barkId</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 10%">城市</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 10%">cron表达式</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 6%">类型</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 6%">状态</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 16%">操作</li>
+        </ul>
+        <ul class="list-group list-group-horizontal" style="margin-left: 6%" th:each="weather : ${userWeathers}">
+            <li class="list-group-item" style="width:  16%" th:text="${weather.id}"></li>
+            <li class="list-group-item" style="width:  30%" th:text="${weather.barkId}"></li>
+            <li class="list-group-item" style="width:  10%" th:text="${weather.weatherCity}"></li>
+            <li class="list-group-item" style="width:  10%" th:text="${weather.cronExpression}"></li>
+
+            <li class="list-group-item" style="width:  6%" th:if="${weather.pushType.name}=='DAILY'">日报</li>
+            <li class="list-group-item" style="width:  6%" th:if="${weather.pushType.name}=='TEMPERATURE_DIFFERENCE'">温差</li>
+            <li class="list-group-item" style="width:  6%" th:if="${weather.pushType.name}=='EARLY_WARNING'">预警</li>
+
+            <li class="list-group-item" style="width:  6%" th:if="${weather.enabled}==1">
+                <div style="margin-left:30%;margin-top:5%;width:17px;height:17px ;border-radius: 10px;background-color:#28a745 "></div>
+            </li>
+            <li class="list-group-item" style="width: 6%" th:if="${weather.enabled}==0">
+                <div style="margin-left:30%;margin-top:5%;width:17px;height:17px ;border-radius: 10px;background-color:#dc3545  "></div>
+            </li>
+            <li class="list-group-item" style="width: 16%;padding: 6px">
+                <button type="button" class="btn btn-primary" style="width:60px;height: 25px;padding:0;margin: 5px">开启
+                </button>
+                <button type="button" class="btn btn-secondary" style="width:60px;height: 25px;padding:0;margin: 5px">关闭
+                </button>
+            </li>
+        </ul>
+    </div>
+    <ul class="list-group list-group-horizontal " style="margin-left: 6%">
+        <li class="list-group-item" style="width: 94%">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/weather/create'" >创建新的天气任务</button>
+        </li>
+    </ul>
+
 </div>
 
 

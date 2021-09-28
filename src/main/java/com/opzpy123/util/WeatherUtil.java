@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class WeatherUtil {
 
-    public static void sendMsg(String id, String place) {
+    public static void sendMsg(String barkId, String weatherCity) {
         try {
-            String json = JsonUitl.loadJson(PropertiesConfig.WEATHER_API + place);
+            String json = JsonUitl.loadJson(PropertiesConfig.WEATHER_API + weatherCity);
             WeatherResp r = JSON.parseObject(json, WeatherResp.class);
             CaiYunApiResp weather = r.getResult();
 
@@ -51,7 +51,7 @@ public class WeatherUtil {
                     + weather.getTemplow() + "~" + weather.getTemphigh() + "℃" + windspeed + "%0a"
                     + details
                     + (hasRain ? "%0a今天有雨!" : "%0a今日无雨。");
-            String url = PropertiesConfig.BARK_API + "/" + id + "/" + "天气通知-opzpy" + "/" + s;
+            String url = barkId + "天气通知-" +weatherCity+ "/" + s;
             CloseableHttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet(url);
             client.execute(request);

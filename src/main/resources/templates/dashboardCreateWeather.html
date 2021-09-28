@@ -12,27 +12,49 @@
     <link rel="shortcut icon" href="/brand/zicon.svg"/>
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/signin.css" rel="stylesheet">
+    <link href="/css/form-validation.css" rel="stylesheet">
 </head>
 <body>
 
-<div class="py-5 text-center">
-    <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
-    <h2>创建天气任务</h2>
-    <form class="form-signin" action="#" method="post">
-        <div class="text-center">
-
+<div class="py-1">
+    <img class="d-block mx-auto mb-4 text-center" src="/brand/zicon.svg" alt="" width="72" height="72">
+    <h2 class="text-center">创建天气任务</h2>
+    <br class="mb-4">
+    <form class="form-control-sm form-check  " action="/weather/create" method="post">
+        <div style="width: 40%;margin-left: 30%">
             <input id="userId" name="userId" th:value="${loginUser.id}" class="form-control" hidden>
+            <input id="pushType" name="pushType" value="DAILY" class="form-control" hidden>
 
-            <label for="barkId" class="sr-only">barkId</label>
-            <input id="barkId" name="barkId" class="form-control" placeholder="barkId" required autofocus>
+            <h6 class="px-1">bark推送地址</h6>
+            <input id="barkId" name="barkId" class="form-control" placeholder="https://api.day.app/{yourBarkId}/"
+                   required autofocus>
             <br class="mb-4">
-            <label for="weatherCity" class="sr-only">城市</label>
-            <input id="weatherCity" name="weatherCity" class="form-control" placeholder="城市" required>
+
+            <h6 class="px-1">城市</h6>
+            <input id="weatherCity" name="weatherCity" class="form-control" placeholder="北京" required>
             <br class="mb-4">
-            <label for="cronExpression" class="sr-only">cron表达式</label>
-            <input id="cronExpression" name="cronExpression" class="form-control" placeholder="cron表达式(默认早7晚19)"
-                   value="* * 7,19 * * ?" required>
+
+            <h6 class="px-1">cron表达式(默认早7晚19)</h6>
+            <input id="cronExpression" name="cronExpression" class="form-control" placeholder="* * 7,19 * * ? "
+                   value="* * 7,19 * * ? " required>
             <br class="mb-4">
+
+            <h6 class="px-1">推送类型</h6>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="DAILY" value="DAILY" id="pushTypeInput" disabled
+                       aria-label="pushType" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text" style="margin: 0;padding: 0" id="basic-addon2">
+                        <button type="button" onclick="pushTypeSelect('DAILY')" class="btn btn-secondary">日报</button>
+                        <button type="button" onclick="pushTypeSelect('TEMPERATURE_DIFFERENCE')"
+                                class="btn btn-secondary">预警</button>
+                        <button type="button" onclick="pushTypeSelect('EARLY_WARNING')"
+                                class="btn btn-secondary">温差</button>
+                    </span>
+                </div>
+            </div>
+            <br class="mb-4">
+
             <button class="btn btn-lg btn-primary btn-block" id="submitBtn" type="submit">提 交</button>
         </div>
     </form>
@@ -41,5 +63,12 @@
 
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
+<script>
+    function pushTypeSelect(type) {
+        $("#pushTypeInput").val(type);
+        $("#pushType").val(type);
+    }
+
+</script>
 </body>
 </html>

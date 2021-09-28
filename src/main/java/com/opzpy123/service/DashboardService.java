@@ -28,14 +28,10 @@ public class DashboardService {
         model.addAttribute("loginUser", loginUser);
         List<UserWeather> userWeathers = userWeatherService.findByUserId(loginUser.getId());
         model.addAttribute("userWeathers", userWeathers);
-
     }
 
 
-    public void addDashboardWeather(UserWeather userWeather) {
-        System.out.println(userWeather);
-        userWeatherService.save(userWeather);
-    }
+
 
 
     public void addDashboardWeatherRouter(HttpServletRequest request, HttpSession session, Model model, Principal principal) {

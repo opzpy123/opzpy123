@@ -24,4 +24,8 @@ public class UserWeatherService extends ServiceImpl<UserWeatherMapper, UserWeath
                 .eq(UserWeather::getUserId, userId));
     }
 
+    public void addUserWeather(UserWeather userWeather) {
+        userWeatherMapper.insert(userWeather);
+    }
+
 }
