@@ -15,27 +15,18 @@
 <body>
 <!-----------------------------主页面------------------>
 <div class="container" th:if="${jump}==null or (${jump}!=null and ${jump}=='Dashboard')">
-    <h2>hello</h2>
-    <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
-    </div>
+    <div th:insert="dashboardMain :: dashboardMain"></div>
 </div>
 
 
 <!-----------------------------天气主页------------------------->
 <div class="container" th:if="${jump}=='Weather'">
-    <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
-        <h2>天气主页</h2>
-    </div>
+    <div th:insert="dashboardWeather :: dashboardWeather"></div>
 </div>
 
 <!-----------------------------网盘主页------------------------->
 <div class="container" th:if="${jump}=='Netdisc'">
-    <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
-        <h2>网盘主页</h2>
-    </div>
+    <div th:insert="dashboardNetdisc :: dashboardNetdisc"></div>
 </div>
 
 

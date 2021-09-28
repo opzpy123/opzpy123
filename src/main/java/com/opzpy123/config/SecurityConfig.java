@@ -42,8 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         /**
          * 指定用户认证时，默认从哪里获取认证用户信息
          */
-        auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("admin").password(new BCryptPasswordEncoder().encode("opzpy123")).roles("ADMIN");
-//        auth.userDetailsService(myAuthUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
+//        auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("admin").password(new BCryptPasswordEncoder().encode("opzpy123")).roles("ADMIN");
+        auth.userDetailsService(myAuthUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"><!-- Thymeleaf为我们提供的Spring Security的标签支持 -->
+<body>
+<!--控制面板天气页面-->
+<div th:fragment="dashboardWeather">
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
+        <h2>天气主页</h2>
+        //显示正在运行中的天气数量
+        //显示天气运行图表
+        <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+    </div>
+</div>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+</body>
+</html>

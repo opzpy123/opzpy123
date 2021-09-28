@@ -9,5 +9,5 @@ import lombok.Data;
 public class WeatherResp {
     private Integer status;
     private String msg;
-    private Weather result;
+    private CaiYunApiResp result;
 }

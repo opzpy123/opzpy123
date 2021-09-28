@@ -145,12 +145,15 @@
             <!--            <div th:insert="navbar :: nav"></div>-->
 
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<!--                <iframe name="myIframe" style="border: 0" width="100%"-->
+<!--                        onload="this.height=myIframe.document.body.scrollHeight"-->
+<!--                        th:if="${jump}==null" src="/innerIframe"></iframe>-->
+<!--                <iframe name="myIframe" style="border: 0" width="100%"-->
+<!--                        onload="this.height=myIframe.document.body.scrollHeight"-->
+<!--                        th:if="${jump}!=null" th:src="'/innerIframe?path='+${jump}"></iframe>-->
                 <iframe name="myIframe" style="border: 0" width="100%"
                         onload="this.height=myIframe.document.body.scrollHeight"
-                        th:if="${jump}==null" src="/innerIframe"></iframe>
-                <iframe name="myIframe" style="border: 0" width="100%"
-                        onload="this.height=myIframe.document.body.scrollHeight"
-                        th:if="${jump}!=null" th:src="'/innerIframe?path='+${jump}"></iframe>
+                         th:src="@{${session.url}}"></iframe>
             </div>
 
             <!--            <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>-->

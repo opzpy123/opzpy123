@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-public class Weather {
+public class CaiYunApiResp {
     private String city;
     private Integer cityid;
     private String citycode;
