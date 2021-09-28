@@ -4,15 +4,12 @@ package com.opzpy123.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 
 @Controller
 public class indexController {
 
     @GetMapping("/")
-    public String index(HttpServletRequest request, HttpServletResponse response) {
+    public String index() {
         return "index";
     }
 
@@ -30,17 +27,6 @@ public class indexController {
     @GetMapping("/register")
     public String register() {
         return "userRegister";
-    }
-
-    /**
-     * 内联页面路径跳转
-     *
-     * @return
-     */
-    @GetMapping("/innerIframe")
-    public String innerIframe(HttpServletRequest request, String path) {
-        request.setAttribute("jump", path);
-        return "innerIframe";
     }
 
 }

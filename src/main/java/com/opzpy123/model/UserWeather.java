@@ -13,7 +13,7 @@ public class UserWeather extends BaseModel {
 
     private String weatherCity;        //通知天气的城市
 
-    private String cornExpression;  //corn表达式
+    private String cronExpression;  //corn表达式
 
     private Integer enabled;        //是否启用 1启用 0不启用
 

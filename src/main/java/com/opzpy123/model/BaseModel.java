@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 public class BaseModel implements Serializable {
     @TableId(type = IdType.ASSIGN_ID)
-    private String id;
+    private Long id;
 
     @TableLogic
     private Integer isDelete;

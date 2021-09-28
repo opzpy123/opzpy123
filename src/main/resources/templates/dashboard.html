@@ -58,19 +58,19 @@
                 </div>
                 <ul class="nav flex-column" id="funcUl">
                     <li class="nav-item">
-                        <a class="nav-link" href="/dashboard?path=Dashboard">
+                        <a class="nav-link" href="/dashboard?path=dashboard">
                             <span data-feather="home"></span>
                             主面板
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/dashboard?path=Weather">
+                        <a class="nav-link" href="/dashboard?path=weather">
                             <span data-feather="cloud-rain"></span>
                             天气
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/dashboard?path=Netdisc">
+                        <a class="nav-link" href="/dashboard?path=netdisc">
                             <span data-feather="database"></span>
                             网盘
                         </a>
@@ -129,7 +129,7 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2" th:if="${jump==null}">Dashboard</h1>
+                <h1 class="h2" th:if="${jump==null}">dashboard</h1>
                 <h1 class="h2" th:if="${jump!=null}" th:text="${jump}"></h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group mr-2">

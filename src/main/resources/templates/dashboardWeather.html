@@ -1,5 +1,7 @@
+
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"><!-- Thymeleaf为我们提供的Spring Security的标签支持 -->
 <head>
     <meta charset="utf-8">
@@ -17,9 +19,13 @@
 <div class="py-5 text-center">
     <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
     <h2>天气主页</h2>
-    //显示正在运行中的天气数量
-    //显示天气运行图表
-    <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+<!--    //显示正在运行中的天气数量-->
+<!--    //显示天气运行图表-->
+    <p th:text="${loginUser.username}"></p>
+   <p th:text="'当前正在运行的天气任务数量：'+${#lists.size(userWeathers)}"></p>
+    <a href="/dashboard/weather/create">创建天气任务</a>
+<!--    //集合判空-->
+<!--    <p th:if="${userWeathers}==null">null</p>-->
 </div>
 
 

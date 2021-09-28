@@ -23,7 +23,7 @@ public class AuthUserController {
      * 用户注册
      */
     @PostMapping("/register")
-    public String formRegister( AuthUser user,HttpServletRequest request) {
+    public String formRegister(AuthUser user, HttpServletRequest request) {
         return authUserService.register(user, request);
     }
 }
