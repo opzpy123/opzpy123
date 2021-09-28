@@ -13,23 +13,10 @@
     <link href="/css/signin.css" rel="stylesheet">
 </head>
 <body>
-<!-----------------------------主页面------------------>
-<div class="container" th:if="${jump}==null or (${jump}!=null and ${jump}=='Dashboard')">
-    <div th:insert="dashboardMain :: dashboardMain"></div>
+<div class="py-5 text-center">
+    <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
+    <h2>主页</h2>
 </div>
-
-
-<!-----------------------------天气主页------------------------->
-<div class="container" th:if="${jump}=='Weather'">
-    <div th:insert="dashboardWeather :: dashboardWeather"></div>
-</div>
-
-<!-----------------------------网盘主页------------------------->
-<div class="container" th:if="${jump}=='Netdisc'">
-    <div th:insert="dashboardNetdisc :: dashboardNetdisc"></div>
-</div>
-
-
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
 </body>
