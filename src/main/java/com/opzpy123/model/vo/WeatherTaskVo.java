@@ -1,5 +1,6 @@
 package com.opzpy123.model.vo;
 
+import com.opzpy123.constant.enums.WeatherEnum;
 import com.opzpy123.model.UserWeather;
 import com.opzpy123.util.WeatherUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +20,10 @@ public class WeatherTaskVo implements Runnable {
     @Override
     public void run() {
         try {
-            WeatherUtil.sendMsg(userWeather.getBarkId(),userWeather.getWeatherCity());
-            log.info("定时任务完成{},{},{}",userWeather.getWeatherCity(),userWeather.getCronExpression(),userWeather.getId());
-        }catch (Exception e){
-            log.error("定时任务出错:{}",e.getMessage());
+            WeatherUtil.sendMsg(userWeather);
+            log.info("定时任务完成:{}", userWeather);
+        } catch (Exception e) {
+            log.error("定时任务出错:{}", e.getMessage());
         }
     }
 }
