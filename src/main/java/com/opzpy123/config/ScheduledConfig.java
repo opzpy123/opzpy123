@@ -1,5 +1,6 @@
 package com.opzpy123.config;
 
+import com.opzpy123.model.UserWeather;
 import com.opzpy123.model.vo.WeatherTaskVo;
 import com.opzpy123.util.WeatherUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
 
@@ -23,5 +25,10 @@ public class ScheduledConfig {
     @Bean
     public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
         return new ThreadPoolTaskScheduler();
+    }
+
+    @Bean("scheduledFutureMap")
+    public ConcurrentHashMap<Long, ScheduledFuture<?>> scheduledFutureMap() {
+        return new ConcurrentHashMap<>();
     }
 }

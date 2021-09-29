@@ -28,6 +28,7 @@ public class DashboardController {
 
     /**
      * 主面板
+     *
      * @return
      */
     @GetMapping("/dashboard")
@@ -36,7 +37,7 @@ public class DashboardController {
     }
 
     /**
-     *  天气详情面板
+     * 天气详情面板
      */
     @GetMapping("/weather")
     public String dashboardWeather(HttpServletRequest request, HttpSession session, Model model, Principal principal) {
@@ -45,7 +46,7 @@ public class DashboardController {
     }
 
     /**
-     *  网盘面板
+     * 网盘面板
      */
     @GetMapping("/netdisc")
     public String dashboardNetdisc(HttpServletRequest request, HttpSession session, Model model, Principal principal) {
