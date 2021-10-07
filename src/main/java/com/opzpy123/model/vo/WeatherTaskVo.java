@@ -1,15 +1,19 @@
 package com.opzpy123.model.vo;
 
-import com.opzpy123.constant.enums.WeatherEnum;
 import com.opzpy123.model.UserWeather;
-import com.opzpy123.util.WeatherUtil;
+import com.opzpy123.service.BarkWeatherService;
+import com.opzpy123.service.UserWeatherService;
+import com.opzpy123.util.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.stereotype.Component;
 
-import java.util.concurrent.Callable;
+import javax.annotation.Resource;
 
 @Slf4j
 public class WeatherTaskVo implements Runnable {
+//   实现runnable无法注入bean
+//    @Resource
+//    private BarkWeatherService barkWeatherService;
 
     private UserWeather userWeather;
 
@@ -20,7 +24,25 @@ public class WeatherTaskVo implements Runnable {
     @Override
     public void run() {
         try {
-            WeatherUtil.sendMsg(userWeather);
+            BarkWeatherService barkWeatherService = (BarkWeatherService)SpringContextUtil.getBean("BarkWeatherService");
+            switch (userWeather.getPushType()){
+                case DAILY:{
+                    //早报和晚报
+                    BarkWeatherService.sendMsg(userWeather);
+//                    weatherUtil.sendMsgDaily(userWeather);
+                    break;
+                }
+                case EARLY_WARNING:{
+                    //预警 每10分钟触发一次
+                    barkWeatherService.sendMsgEarlyWarning(userWeather);
+                    break;
+                }
+                case TEMPERATURE_DIFFERENCE:{
+                    //温差 每天提醒一次
+                    barkWeatherService.sendMsgTemperatureDifference(userWeather);
+                    break;
+                }
+            }
             log.info("定时任务完成:{}", userWeather);
         } catch (Exception e) {
             log.error("定时任务出错:{}", e.getMessage());

@@ -17,6 +17,9 @@ import javax.annotation.Resource;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
+/**
+ * 定时任务启动
+ */
 @Slf4j
 @Configuration
 public class MyApplicationRunner implements ApplicationRunner {

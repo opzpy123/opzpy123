@@ -12,6 +12,15 @@
     <link rel="shortcut icon" href="/brand/zicon.svg"/>
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/signin.css" rel="stylesheet">
+    <style>
+        li {
+            /*li溢出做...处理*/
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+        }
+    </style>
 </head>
 <body>
 
@@ -26,7 +35,7 @@
     <div th:if="${#lists.size(userWeathers)}!=0">
         <ul class="list-group list-group-horizontal " style="margin-left: 10%">
             <li class="list-group-item list-group-item-secondary" style="width: 15%">任务名称</li>
-<!--            <li class="list-group-item list-group-item-secondary" style="width: 30%">barkId</li>-->
+            <!--            <li class="list-group-item list-group-item-secondary" style="width: 30%">barkId</li>-->
             <li class="list-group-item list-group-item-secondary" style="width: 15%">城市</li>
             <li class="list-group-item list-group-item-secondary" style="width: 15%">cron表达式</li>
             <li class="list-group-item list-group-item-secondary" style="width: 10%">类型</li>
@@ -36,7 +45,7 @@
         </ul>
         <ul class="list-group list-group-horizontal" style="margin-left: 10%" th:each="weather : ${userWeathers}">
             <li class="list-group-item" style="width:  15%" th:text="${weather.weatherName}"></li>
-<!--            <li class="list-group-item" style="width:  30%" th:text="${weather.barkId}"></li>-->
+            <!--            <li class="list-group-item" style="width:  30%" th:text="${weather.barkId}"></li>-->
             <li class="list-group-item" style="width:  15%" th:text="${weather.weatherCity}"></li>
             <li class="list-group-item" style="width:  15%" th:text="${weather.cronExpression}"></li>
 

@@ -26,7 +26,7 @@
             <input id="pushType" name="pushType" value="DAILY" class="form-control" hidden>
 
             <h6 class="px-1">任务名称</h6>
-            <input id="weatherName" name="weatherName" class="form-control" placeholder="zpy-北京天气"
+            <input id="weatherName" name="weatherName" class="form-control" placeholder="任务名称"
                    required autofocus>
             <br class="mb-4">
 
@@ -51,9 +51,9 @@
                 <div class="input-group-append">
                     <span class="input-group-text" style="margin: 0;padding: 0" id="basic-addon2">
                         <button type="button" onclick="pushTypeSelect('DAILY')" class="btn btn-secondary">日报</button>
-                        <button type="button" onclick="pushTypeSelect('TEMPERATURE_DIFFERENCE')"
-                                class="btn btn-secondary">预警</button>
                         <button type="button" onclick="pushTypeSelect('EARLY_WARNING')"
+                                class="btn btn-secondary">预警</button>
+                        <button type="button" onclick="pushTypeSelect('TEMPERATURE_DIFFERENCE')"
                                 class="btn btn-secondary">温差</button>
                     </span>
                 </div>
