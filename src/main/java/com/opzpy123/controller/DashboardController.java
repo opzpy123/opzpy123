@@ -49,8 +49,16 @@ public class DashboardController {
      * 网盘面板
      */
     @GetMapping("/netdisc")
-    public String dashboardNetdisc(HttpServletRequest request, HttpSession session, Model model, Principal principal) {
+    public String dashboardNetdisc() {
         return "dashboardNetdisc";
+    }
+
+    /**
+     * 日志面板
+     */
+    @GetMapping("/log")
+    public String dashboardLog(Model model) {
+        return "dashboardLog";
     }
 
 

@@ -23,29 +23,23 @@ public class WeatherTaskVo implements Runnable {
 
     @Override
     public void run() {
-        try {
-            BarkWeatherService barkWeatherService = (BarkWeatherService) SpringContextUtil.getBean("BarkWeatherService");
-            switch (userWeather.getPushType()) {
-                case DAILY: {
-                    //早报和晚报
-//                    barkWeatherService.sendMsg(userWeather);
-                    barkWeatherService.sendMsgDaily(userWeather);
-                    break;
-                }
-                case EARLY_WARNING: {
-                    //预警 每10分钟触发一次
-                    barkWeatherService.sendMsgEarlyWarning(userWeather);
-                    break;
-                }
-                case TEMPERATURE_DIFFERENCE: {
-                    //温差 每天提醒一次
-                    barkWeatherService.sendMsgTemperatureDifference(userWeather);
-                    break;
-                }
+        BarkWeatherService barkWeatherService = (BarkWeatherService) SpringContextUtil.getBean("BarkWeatherService");
+        switch (userWeather.getPushType()) {
+            case DAILY: {
+                //早报和晚报
+                barkWeatherService.sendMsgDaily(userWeather);
+                break;
             }
-            log.info("定时任务完成:{}", userWeather);
-        } catch (Exception e) {
-            log.error("定时任务出错:{}", e.getMessage());
+            case EARLY_WARNING: {
+                //预警 每10分钟触发一次
+                barkWeatherService.sendMsgEarlyWarning(userWeather);
+                break;
+            }
+            case TEMPERATURE_DIFFERENCE: {
+                //温差 每天提醒一次
+                barkWeatherService.sendMsgTemperatureDifference(userWeather);
+                break;
+            }
         }
     }
 }

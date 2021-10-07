@@ -1,0 +1,35 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"><!-- Thymeleaf为我们提供的Spring Security的标签支持 -->
+<head>
+    <meta charset="utf-8">
+    <meta content="text/html;charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="opzpy123">
+    <title>内联页面</title>
+    <link rel="canonical" href="/">
+    <link rel="shortcut icon" href="/brand/zicon.svg"/>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/signin.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="py-1 text-center">
+    <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
+    <h2>日志</h2>
+    <div th:text="${#authentication.principal.Authorities}"></div>
+    <div style="margin-left: 6vw; width: 1200px;height: 100%; overflow-x:auto;white-space:nowrap;">
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary" style="width: 15%">levl</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 15%">class</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 70%">Message</li>
+        </ul>
+    </div>
+</div>
+
+
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+</body>
+</html>

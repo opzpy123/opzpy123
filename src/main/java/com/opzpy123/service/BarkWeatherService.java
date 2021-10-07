@@ -87,8 +87,9 @@ public class BarkWeatherService {
             }
             HttpGet request = new HttpGet(barkMsg.toString());
             client.execute(request);
+            log.error("日报推送成功->{}", userWeather.getId());
         } catch (Exception e) {
-            log.error("日报失败{}", userWeather);
+            log.error("日报推送失败->{}::{}", userWeather.getId(), e.getMessage());
         }
     }
 
@@ -117,12 +118,16 @@ public class BarkWeatherService {
                         CloseableHttpClient client = HttpClients.createDefault();
                         HttpGet request = new HttpGet(barkMsg);
                         client.execute(request);
-                        log.info("预警发送成功" + barkMsg);
+                        log.info("预警推送成功->{}", userWeather.getId());
+                    } else {
+                        log.info("预警未更新->{}", userWeather.getId());
                     }
                 }
+            } else {
+                log.info("无预警信息->{}", userWeather.getId());
             }
         } catch (Exception e) {
-            log.error("预警发送失败:" + e.getMessage());
+            log.error("预警推送失败->{}::{}", userWeather.getId(), e.getMessage());
         }
     }
 
@@ -154,7 +159,7 @@ public class BarkWeatherService {
             HttpGet request = new HttpGet(url);
             client.execute(request);
         } catch (Exception e) {
-            log.error("天气发送失败" + e.getMessage());
+            log.error("天气发送失败::{}", e.getMessage());
         }
     }
 

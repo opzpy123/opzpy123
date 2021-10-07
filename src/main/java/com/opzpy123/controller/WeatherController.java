@@ -52,7 +52,6 @@ public class WeatherController {
     @PostMapping("/weather")
     public String dashboardCreateWeather(UserWeather userWeather) {
         userWeatherService.addUserWeather(userWeather);
-        log.info("天气任务创建:{}", userWeather);
         return "redirect:/dashboard/weather";
     }
 
@@ -62,21 +61,18 @@ public class WeatherController {
     @ResponseBody
     @DeleteMapping("/weather")
     public ApiResponse<String> dashboardDeleteWeather(Long userWeatherId) {
-        log.info("任务删除:{}", userWeatherId);
         return userWeatherService.delUserWeather(userWeatherId);
     }
 
     @ResponseBody
     @GetMapping("/open")
     public ApiResponse<String> dashboardOpenWeather(Long userWeatherId) {
-        log.info("任务开启:{}", userWeatherId);
         return userWeatherService.openUserWeather(userWeatherId);
     }
 
     @ResponseBody
     @GetMapping("/stop")
     public ApiResponse<String> dashboardCloseWeather(Long userWeatherId) {
-        log.info("任务停止:{}", userWeatherId);
         return userWeatherService.stopUserWeather(userWeatherId);
     }
 }

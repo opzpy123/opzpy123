@@ -21,7 +21,7 @@
     <h2 class="text-center">创建天气任务</h2>
     <br class="mb-4">
     <form class="form-control-sm form-check  " action="/weather/weather" method="post">
-        <div style="width: 40%;margin-left: 30%">
+        <div style="width: 50vw;margin-left: 25vw">
             <input id="userId" name="userId" th:value="${loginUser.id}" class="form-control" hidden>
             <input id="pushType" name="pushType" value="DAILY" class="form-control" hidden>
 
@@ -61,6 +61,7 @@
             <br class="mb-4">
 
             <button class="btn btn-lg btn-primary btn-block" id="submitBtn" type="submit">提 交</button>
+            <div style="height: 100px"></div>
         </div>
     </form>
 </div>
@@ -74,7 +75,7 @@
         $("#pushType").val(type);
         if (type === "EARLY_WARNING") {
             $("#cronExpressionLabel").html("cron表达式(早7到晚22点保持预警)");
-            $("#cronExpression").val("0 0/10 7-22 * * ?");
+            $("#cronExpression").val("0 0/30 7-22 * * ?");
         } else if (type === "TEMPERATURE_DIFFERENCE") {
             $("#cronExpressionLabel").html("cron表达式(每晚19点提示温差)");
             $("#cronExpression").val("0 0 19 * * ?");
