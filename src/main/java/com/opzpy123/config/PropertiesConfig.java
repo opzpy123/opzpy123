@@ -15,12 +15,17 @@ public class PropertiesConfig implements InitializingBean {
     @Value("${qweatherKey}")
     private String qweatherKey;
 
+    @Value("${qweatherUrl}")
+    private String qweatherUrl;
+
     public static String WEATHER_API;
     public static String QWEATHER_KEY;
+    public static String QWEATHER_URL;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         WEATHER_API = WeatherApi;
-        QWEATHER_KEY= qweatherKey;
+        QWEATHER_KEY = qweatherKey;
+        QWEATHER_URL = qweatherUrl;
     }
 }

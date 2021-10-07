@@ -39,10 +39,10 @@
             <input id="weatherCity" name="weatherCity" class="form-control" placeholder="北京" required>
             <br class="mb-4">
 
-<!--            <h6 class="px-1">cron表达式(默认早7晚19)</h6>-->
-<!--            <input id="cronExpression" name="cronExpression" class="form-control" placeholder="0 0 7,19 * * ? "-->
-<!--                   value="0 0 7,19 * * ? " required>-->
-<!--            <br class="mb-4">-->
+            <h6 class="px-1" id="cronExpressionLabel">cron表达式(早7晚19)</h6>
+            <input id="cronExpression" name="cronExpression" class="form-control" placeholder="0 0 7,19 * * ? "
+                   value="0 0 7,19 * * ?" required>
+            <br class="mb-4">
 
             <h6 class="px-1">推送类型</h6>
             <div class="input-group mb-3">
@@ -72,6 +72,16 @@
     function pushTypeSelect(type) {
         $("#pushTypeInput").val(type);
         $("#pushType").val(type);
+        if (type === "EARLY_WARNING") {
+            $("#cronExpressionLabel").html("cron表达式(早7到晚22点保持预警)");
+            $("#cronExpression").val("0 0/10 7-22 * * ?");
+        } else if (type === "TEMPERATURE_DIFFERENCE") {
+            $("#cronExpressionLabel").html("cron表达式(每晚19点提示温差)");
+            $("#cronExpression").val("0 0 19 * * ?");
+        } else {
+            $("#cronExpressionLabel").html("cron表达式(每天7点推送早报，19点推送晚报)");
+            $("#cronExpression").val("0 0 7,19 * * ?");
+        }
     }
 
 </script>

@@ -21,6 +21,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,14 +46,56 @@ public class BarkWeatherService {
     private RedisTemplate<String, Object> redisTemplate;
 
     public void sendMsgDaily(UserWeather userWeather) {
-        String cityId = getCityIdByName(userWeather.getWeatherCity());
+        try {
+            String cityId = getCityIdByName(userWeather.getWeatherCity());
+            CloseableHttpClient client = HttpClients.createDefault();
+            StringBuilder barkMsg;
+            GregorianCalendar ca = new GregorianCalendar();
+            ca.setTime(new Date());
+            String weatherUrl = PropertiesConfig.QWEATHER_URL + "/weather/3d?location=" + cityId + "&key=" + PropertiesConfig.QWEATHER_KEY;
+            String indicesUrl = PropertiesConfig.QWEATHER_URL + "/indices/1d?type=3&location=" + cityId + "&key=" + PropertiesConfig.QWEATHER_KEY;
+            if (ca.get(GregorianCalendar.AM_PM) == Calendar.AM) {
+                //7点发送早报
+                JSONObject weatherJson = JsonUitl.loadJsonAsJsonObj(weatherUrl).getJSONArray("daily").getJSONObject(0);
+                JSONObject indicesJson = JsonUitl.loadJsonAsJsonObj(indicesUrl).getJSONArray("daily").getJSONObject(0);
 
+                barkMsg = new StringBuilder().append(userWeather.getBarkId()).append("天气早报-")
+                        .append(userWeather.getWeatherCity()).append("/").append(weatherJson.getString("textDay"))
+                        .append(weatherJson.getString("tempMin")).append("~")
+                        .append(weatherJson.getString("tempMax"))
+                        .append(windScaleToString(weatherJson.getString("windScaleDay")))
+                        .append("%0a天气").append(indicesJson.getString("category")).append(",")
+                        .append(indicesJson.getString("text"));
+            } else {
+                //19点发送今晚天气以及第二天的预报
+                JSONObject weatherJson = JsonUitl.loadJsonAsJsonObj(weatherUrl).getJSONArray("daily").getJSONObject(0);
+
+                barkMsg = new StringBuilder().append(userWeather.getBarkId()).append("天气晚报-")
+                        .append(userWeather.getWeatherCity()).append("/").append("今晚:")
+                        .append(weatherJson.getString("textNight"))
+                        .append(weatherJson.getString("tempMin")).append("~")
+                        .append(weatherJson.getString("tempMax"))
+                        .append(windScaleToString(weatherJson.getString("windScaleNight")))
+                        .append("%0a");
+
+                JSONObject weatherJsonTomorrow = JsonUitl.loadJsonAsJsonObj(weatherUrl).getJSONArray("daily").getJSONObject(1);
+                barkMsg.append("明日:").append(weatherJsonTomorrow.getString("textDay"))
+                        .append(weatherJsonTomorrow.getString("tempMin")).append("~")
+                        .append(weatherJsonTomorrow.getString("tempMax"))
+                        .append(windScaleToString(weatherJsonTomorrow.getString("windScaleDay")))
+                        .append("%0a");
+            }
+            HttpGet request = new HttpGet(barkMsg.toString());
+            client.execute(request);
+        } catch (Exception e) {
+            log.error("日报失败{}", userWeather);
+        }
     }
 
     public void sendMsgEarlyWarning(UserWeather userWeather) {
         try {
             String cityId = getCityIdByName(userWeather.getWeatherCity());
-            String url = "https://devapi.qweather.com/v7/warning/now?location="
+            String url = PropertiesConfig.QWEATHER_URL + "warning/now?location="
                     + cityId + "&key=" + PropertiesConfig.QWEATHER_KEY;
             JSONObject jsonObject = JsonUitl.loadJsonAsJsonObj(url);
             if (jsonObject.containsKey("warning") && jsonObject.getJSONArray("warning").size() != 0) {
@@ -60,7 +105,7 @@ public class BarkWeatherService {
                     //预警id 唯一标识
                     String warningId = warning.getString("id");
                     //redis 判断是否和上次的有变化 如果无变化 则不做处理 如果有变化则推送 并重新存放id
-                    String redisKey = userWeather.getId() + "";
+                    String redisKey = "EarlyWarning:" + userWeather.getId();
                     //同时可能会存在多个预警
                     List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
                     if (range == null || !range.contains(warningId)) {
@@ -98,7 +143,7 @@ public class BarkWeatherService {
      * @param userWeather
      */
     @Deprecated
-    public static void sendMsg(UserWeather userWeather) {
+    public void sendMsg(UserWeather userWeather) {
         try {
             String json = JsonUitl.loadJson(PropertiesConfig.WEATHER_API + userWeather.getWeatherCity());
             WeatherResp r = JSON.parseObject(json, WeatherResp.class);
@@ -113,7 +158,7 @@ public class BarkWeatherService {
         }
     }
 
-    private static String constructStrDaily(CaiYunApiResp weather) {
+    private String constructStrDaily(CaiYunApiResp weather) {
         String details = weather.getIndex().get(6).get("detail")
                 .replace("年老体弱者", "")
                 .replace("体弱者", "")
@@ -124,26 +169,42 @@ public class BarkWeatherService {
                 .replace("，。", "。")
                 .replace("。，", "。");
         boolean hasRain = weather.getHourly().contains("雨");
-        String windspeed = "";
         int wind = Integer.parseInt(weather.getWindspeed().substring(0, weather.getWindspeed().indexOf(".")));
-        if (wind < 3) {
-            windspeed = "，无风";
-        } else if (wind < 5) {
-            windspeed = "，微风";
-        } else if (wind < 8) {
-            windspeed = "，和风";
-        } else if (wind < 10) {
-            windspeed = "，强风";
-        } else if (wind < 15) {
-            windspeed = "，狂风";
-        } else {
-            windspeed = "，飓风";
-        }
+        String windSpeed = windLevelToString(wind);
         //构建生成数据
         String s = weather.getCity() + ":" + weather.getWeather()
-                + weather.getTemplow() + "~" + weather.getTemphigh() + "℃" + windspeed + "%0a"
+                + weather.getTemplow() + "~" + weather.getTemphigh() + "℃" + windSpeed + "%0a"
                 + details
                 + (hasRain ? "%0a今天有雨!" : "%0a今日无雨。");
         return s;
+    }
+
+    private String windLevelToString(int wind) {
+        String windSpeed;
+        if (wind < 3) {
+            windSpeed = "，无风";
+        } else if (wind < 5) {
+            windSpeed = "，微风";
+        } else if (wind < 8) {
+            windSpeed = "，和风";
+        } else if (wind < 10) {
+            windSpeed = "，强风";
+        } else if (wind < 15) {
+            windSpeed = "，狂风";
+        } else {
+            windSpeed = "，飓风";
+        }
+        return windSpeed;
+    }
+
+    private String windScaleToString(String scale) {
+        String[] windScaleDays = scale.split("-");
+        String windScaleMin = windLevelToString(Integer.parseInt(windScaleDays[0]));
+        String windScaleMax = windLevelToString(Integer.parseInt(windScaleDays[1]));
+        if (windScaleMin.equals(windScaleMax)) {
+            return windScaleMax;
+        } else {
+            return windScaleMin + "至" + windScaleMax;
+        }
     }
 }

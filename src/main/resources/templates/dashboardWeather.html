@@ -26,12 +26,12 @@
 
 <div class="py-1 text-center">
     <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
-    <h2>天气主页</h2>
+    <h2>天气</h2>
     <!--    //显示正在运行中的天气数量-->
     <!--    //显示天气运行图表-->
     <!--    <p th:text="${loginUser.username}"></p>-->
     <br class="mb-4">
-    <p th:text="'当前正在运行的天气任务数量：'+${#lists.size(userWeathers)}"></p>
+    <p th:text="${loginUser.username}+'的天气任务数量：'+${#lists.size(userWeathers)}"></p>
     <div th:if="${#lists.size(userWeathers)}!=0">
         <ul class="list-group list-group-horizontal " style="margin-left: 10%">
             <li class="list-group-item list-group-item-secondary" style="width: 15%">任务名称</li>
