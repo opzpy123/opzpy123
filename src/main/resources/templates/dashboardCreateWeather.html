@@ -20,24 +20,29 @@
     <img class="d-block mx-auto mb-4 text-center" src="/brand/zicon.svg" alt="" width="72" height="72">
     <h2 class="text-center">创建天气任务</h2>
     <br class="mb-4">
-    <form class="form-control-sm form-check  " action="/weather/create" method="post">
+    <form class="form-control-sm form-check  " action="/weather/weather" method="post">
         <div style="width: 40%;margin-left: 30%">
             <input id="userId" name="userId" th:value="${loginUser.id}" class="form-control" hidden>
             <input id="pushType" name="pushType" value="DAILY" class="form-control" hidden>
 
+            <h6 class="px-1">任务名称</h6>
+            <input id="weatherName" name="weatherName" class="form-control" placeholder="zpy-北京天气"
+                   required autofocus>
+            <br class="mb-4">
+
             <h6 class="px-1">bark推送地址</h6>
             <input id="barkId" name="barkId" class="form-control" placeholder="https://api.day.app/{yourBarkId}/"
-                   required autofocus>
+                   required>
             <br class="mb-4">
 
             <h6 class="px-1">城市</h6>
             <input id="weatherCity" name="weatherCity" class="form-control" placeholder="北京" required>
             <br class="mb-4">
 
-            <h6 class="px-1">cron表达式(默认早7晚19)</h6>
-            <input id="cronExpression" name="cronExpression" class="form-control" placeholder="* * 7,19 * * ? "
-                   value="* * 7,19 * * ? " required>
-            <br class="mb-4">
+<!--            <h6 class="px-1">cron表达式(默认早7晚19)</h6>-->
+<!--            <input id="cronExpression" name="cronExpression" class="form-control" placeholder="0 0 7,19 * * ? "-->
+<!--                   value="0 0 7,19 * * ? " required>-->
+<!--            <br class="mb-4">-->
 
             <h6 class="px-1">推送类型</h6>
             <div class="input-group mb-3">

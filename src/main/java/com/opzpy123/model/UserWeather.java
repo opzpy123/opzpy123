@@ -8,6 +8,8 @@ import lombok.Data;
 @Data
 public class UserWeather extends BaseModel {
 
+    private String weatherName;     //天气任务名称
+
     private Long userId;            //用户Id
 
     private String barkId;          //消息推送(bark)Id

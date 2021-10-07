@@ -24,34 +24,35 @@
     <br class="mb-4">
     <p th:text="'当前正在运行的天气任务数量：'+${#lists.size(userWeathers)}"></p>
     <div th:if="${#lists.size(userWeathers)}!=0">
-        <ul class="list-group list-group-horizontal " style="margin-left: 6%">
-            <li class="list-group-item list-group-item-secondary" style="width: 16%">id</li>
-            <li class="list-group-item list-group-item-secondary" style="width: 30%">barkId</li>
-            <li class="list-group-item list-group-item-secondary" style="width: 10%">城市</li>
-            <li class="list-group-item list-group-item-secondary" style="width: 10%">cron表达式</li>
-            <li class="list-group-item list-group-item-secondary" style="width: 6%">类型</li>
-            <li class="list-group-item list-group-item-secondary" style="width: 6%">状态</li>
-            <li class="list-group-item list-group-item-secondary" style="width: 16%">操作</li>
+        <ul class="list-group list-group-horizontal " style="margin-left: 10%">
+            <li class="list-group-item list-group-item-secondary" style="width: 15%">任务名称</li>
+<!--            <li class="list-group-item list-group-item-secondary" style="width: 30%">barkId</li>-->
+            <li class="list-group-item list-group-item-secondary" style="width: 15%">城市</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 15%">cron表达式</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 10%">类型</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 8%">状态</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 15%">操作</li>
+            <li class="list-group-item list-group-item-secondary" style="width: 8%">删除</li>
         </ul>
-        <ul class="list-group list-group-horizontal" style="margin-left: 6%" th:each="weather : ${userWeathers}">
-            <li class="list-group-item" style="width:  16%" th:text="${weather.id}"></li>
-            <li class="list-group-item" style="width:  30%" th:text="${weather.barkId}"></li>
-            <li class="list-group-item" style="width:  10%" th:text="${weather.weatherCity}"></li>
-            <li class="list-group-item" style="width:  10%" th:text="${weather.cronExpression}"></li>
+        <ul class="list-group list-group-horizontal" style="margin-left: 10%" th:each="weather : ${userWeathers}">
+            <li class="list-group-item" style="width:  15%" th:text="${weather.weatherName}"></li>
+<!--            <li class="list-group-item" style="width:  30%" th:text="${weather.barkId}"></li>-->
+            <li class="list-group-item" style="width:  15%" th:text="${weather.weatherCity}"></li>
+            <li class="list-group-item" style="width:  15%" th:text="${weather.cronExpression}"></li>
 
-            <li class="list-group-item" style="width:  6%" th:if="${weather.pushType.name}=='DAILY'">日报</li>
-            <li class="list-group-item" style="width:  6%" th:if="${weather.pushType.name}=='TEMPERATURE_DIFFERENCE'">
+            <li class="list-group-item" style="width:  10%" th:if="${weather.pushType.name}=='DAILY'">日报</li>
+            <li class="list-group-item" style="width:  10%" th:if="${weather.pushType.name}=='TEMPERATURE_DIFFERENCE'">
                 温差
             </li>
-            <li class="list-group-item" style="width:  6%" th:if="${weather.pushType.name}=='EARLY_WARNING'">预警</li>
+            <li class="list-group-item" style="width:  10%" th:if="${weather.pushType.name}=='EARLY_WARNING'">预警</li>
 
-            <li class="list-group-item" style="width:  6%" th:if="${weather.enabled}==1">
+            <li class="list-group-item" style="width:  8%" th:if="${weather.enabled}==1">
                 <div style="margin-left:30%;margin-top:5%;width:17px;height:17px ;border-radius: 10px;background-color:#28a745 "></div>
             </li>
-            <li class="list-group-item" style="width: 6%" th:if="${weather.enabled}==0">
+            <li class="list-group-item" style="width: 8%" th:if="${weather.enabled}==0">
                 <div style="margin-left:30%;margin-top:5%;width:17px;height:17px ;border-radius: 10px;background-color:#dc3545  "></div>
             </li>
-            <li class="list-group-item" style="width: 16%;padding: 6px">
+            <li class="list-group-item" style="width: 15%;padding: 6px">
                 <button type="button" th:value="${weather.id}" onclick="openWeather(this)" class="btn btn-primary"
                         style="width:60px;height: 25px;padding:0;margin: 5px">开启
                 </button>
@@ -59,10 +60,16 @@
                         style="width:60px;height: 25px;padding:0;margin: 5px">关闭
                 </button>
             </li>
+            <li class="list-group-item" style="width:  8%;padding: 6px">
+                <button type="button" th:value="${weather.id}" onclick="delWeather(this)" class="btn btn-danger"
+                        style="width:60px;height: 25px;padding:0;margin: 5px">删除
+                </button>
+
+            </li>
         </ul>
     </div>
-    <ul class="list-group list-group-horizontal " style="margin-left: 6%">
-        <li class="list-group-item" style="width: 94%">
+    <ul class="list-group list-group-horizontal " style="margin-left: 10%">
+        <li class="list-group-item" style="width: 86%">
             <button type="button" class="btn btn-primary" onclick="window.location.href='/weather/create'">创建新的天气任务
             </button>
         </li>
@@ -91,6 +98,19 @@
         $.ajax({
             "url": "/weather/stop?userWeatherId=" + obj.value,
             "type": "get",
+            "success": function (obj) {
+                window.location.href = "/dashboard/weather"
+            },
+            "error": function (obj) {
+                alert(obj.message);
+            }
+        });
+    }
+
+    function delWeather(obj) {
+        $.ajax({
+            "url": "/weather/weather?userWeatherId=" + obj.value,
+            "type": "delete",
             "success": function (obj) {
                 window.location.href = "/dashboard/weather"
             },

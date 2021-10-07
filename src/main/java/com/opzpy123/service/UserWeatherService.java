@@ -2,6 +2,7 @@ package com.opzpy123.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.opzpy123.constant.enums.WeatherEnum;
 import com.opzpy123.mapper.AuthUserMapper;
 import com.opzpy123.mapper.UserWeatherMapper;
 import com.opzpy123.model.AuthUser;
@@ -38,6 +39,17 @@ public class UserWeatherService extends ServiceImpl<UserWeatherMapper, UserWeath
     }
 
     public void addUserWeather(UserWeather userWeather) {
+        switch (userWeather.getPushType()) {
+            case DAILY://日报 每天7点早报 19点晚报
+                userWeather.setCronExpression("0 0 7,19 * * ?");
+                break;
+            case EARLY_WARNING://极端天气预警 全天7-19 每10分钟
+                userWeather.setCronExpression("0 0/10 7-19 * * ?");
+                break;
+            case TEMPERATURE_DIFFERENCE://温差 每天19.00
+                userWeather.setCronExpression("0 0 19 * * ?");
+                break;
+        }
         userWeatherMapper.insert(userWeather);
     }
 
@@ -78,6 +90,12 @@ public class UserWeatherService extends ServiceImpl<UserWeatherMapper, UserWeath
         //更新数据库
         userWeather.setEnabled(0);
         userWeatherMapper.updateById(userWeather);
+        return ApiResponse.ofSuccess();
+    }
+
+    public ApiResponse<String> delUserWeather(Long userWeatherId) {
+        stopUserWeather(userWeatherId);
+        userWeatherMapper.deleteById(userWeatherId);
         return ApiResponse.ofSuccess();
     }
 }
