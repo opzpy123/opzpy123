@@ -41,6 +41,7 @@ public class AuthUserService extends ServiceImpl<AuthUserMapper, AuthUser> {
         authUserMapper.insert(user);
         request.getSession().removeAttribute("registerValide");
         //注册成功返回登录
+        log.info("注册成功->{}", user);
         return "redirect:/login";
     }
 

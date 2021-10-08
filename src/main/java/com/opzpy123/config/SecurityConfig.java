@@ -5,6 +5,8 @@ package com.opzpy123.config;
  */
 
 
+import com.opzpy123.handler.MyLoginSuccessHandler;
+import com.opzpy123.handler.MyLogoutSuccessHadler;
 import com.opzpy123.service.AuthUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
@@ -32,6 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private MyLoginSuccessHandler loginSuccessHandler;
+
+    @Autowired
+    private MyLogoutSuccessHadler logoutSuccessHadler;
 
 
     /**
@@ -64,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/user/login")//发送登录请求
                 .defaultSuccessUrl("/", true)
                 .failureUrl("/login?error=true")
+                .successHandler(loginSuccessHandler)
                 .permitAll()
                 .and()
                 .csrf().disable();
@@ -88,7 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .expiredUrl("/login")
                 .sessionRegistry(sessionRegistry());
 
-        http.logout();
+        http.logout().logoutSuccessHandler(logoutSuccessHadler);
 
     }
 
