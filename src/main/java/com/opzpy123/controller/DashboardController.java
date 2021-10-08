@@ -65,4 +65,5 @@ public class DashboardController {
         model.addAttribute("sysLog",logService.getLog());
         return "dashboardLog";
     }
+
 }
