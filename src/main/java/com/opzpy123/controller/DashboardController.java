@@ -3,6 +3,7 @@ package com.opzpy123.controller;
 
 import com.opzpy123.model.UserWeather;
 import com.opzpy123.service.DashboardService;
+import com.opzpy123.service.LogService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,9 @@ public class DashboardController {
 
     @Resource
     private DashboardService dashboardService;
+
+    @Resource
+    private LogService logService;
 
     @GetMapping("")
     public String dashboard() {
@@ -58,8 +62,7 @@ public class DashboardController {
      */
     @GetMapping("/log")
     public String dashboardLog(Model model) {
+        model.addAttribute("sysLog",logService.getLog());
         return "dashboardLog";
     }
-
-
 }

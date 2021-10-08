@@ -1,6 +1,7 @@
 package com.opzpy123.util;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
@@ -12,6 +13,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 
+@Slf4j
 public class JsonUitl {
 
     private static RequestConfig requestConfig;
@@ -28,12 +30,11 @@ public class JsonUitl {
                     String responseContent = EntityUtils.toString(entity);
                     jsonObject = JSONObject.parseObject(responseContent);
                 } else {
-                    System.out.println("Get 请求异常：" + url + "状态码：" + statusCode);
+                    log.error("Get 请求异常：{}，状态码{}" , url , statusCode);
                 }
             }
         } catch (IOException e) {
-            System.out.println("Get 请求异常：" + url + "状态码：" + e.getMessage());
-            e.printStackTrace();
+            log.error("Get 请求异常：{}，状态码{}" , url , e.getMessage());
         }
         return jsonObject.toString();
     }
@@ -49,12 +50,11 @@ public class JsonUitl {
                     String responseContent = EntityUtils.toString(entity);
                     jsonObject = JSONObject.parseObject(responseContent);
                 } else {
-                    System.out.println("Get 请求异常：" + url + "状态码：" + statusCode);
+                    log.error("Get 请求异常：{}，状态码{}" , url , statusCode);
                 }
             }
         } catch (IOException e) {
-            System.out.println("Get 请求异常：" + url + "状态码：" + e.getMessage());
-            e.printStackTrace();
+            log.error("Get 请求异常：{}，状态码{}" , url , e.getMessage());
         }
         return jsonObject;
     }

@@ -18,16 +18,14 @@
 <div class="py-1 text-center">
     <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
     <h2>日志</h2>
-    <div th:text="${#authentication.principal.Authorities}"></div>
-    <div style="margin-left: 6vw; width: 1200px;height: 100%; overflow-x:auto;white-space:nowrap;">
-        <ul class="list-group list-group-horizontal">
-            <li class="list-group-item list-group-item-secondary" style="width: 15%">levl</li>
-            <li class="list-group-item list-group-item-secondary" style="width: 15%">class</li>
-            <li class="list-group-item list-group-item-secondary" style="width: 70%">Message</li>
-        </ul>
+<!--    <div th:text="${#authentication.principal.Authorities}"></div>-->
+    <div style="height:600px;margin-left: 10%;width:80%;background-color: black;border-radius: 6px;overflow:auto;">
+        <div style="height: 10px"></div>
+        <div  th:each="log : ${sysLog}" >
+            <div  style="margin-left: 10px;color: white;font-weight:6;width: 100%;text-align: left" th:text="${log}" ></div>
+        </div>
     </div>
 </div>
-
 
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>

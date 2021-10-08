@@ -64,8 +64,7 @@ public class BarkWeatherService {
                         .append(weatherJson.getString("tempMin")).append("~")
                         .append(weatherJson.getString("tempMax"))
                         .append(windScaleToString(weatherJson.getString("windScaleDay")))
-                        .append("%0a天气").append(indicesJson.getString("category")).append(",")
-                        .append(indicesJson.getString("text"));
+                        .append("%0a").append(indicesJson.getString("text"));
             } else {
                 //19点发送今晚天气以及第二天的预报
                 JSONObject weatherJson = JsonUitl.loadJsonAsJsonObj(weatherUrl).getJSONArray("daily").getJSONObject(0);
