@@ -14,7 +14,10 @@
 <div th:insert="navbar :: nav"></div>
 <!--<p th:text="${#authentication.principal}"></p>-->
 <p style="margin-top: 40px"></p>
-
+<!--//小分辨率下显示 大分辨率不显示-->
+<!--d-block d-sm-block d-md-none d-lg-none d-xl-none-->
+<!--//小分辨率不显示 大分辨率显示-->
+<!--d-none d-sm-none d-md-block d-lg-block d-xl-block-->
 <div class="container">
     <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark shadow">
         <div class="col-md-6 px-0">
