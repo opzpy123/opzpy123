@@ -86,7 +86,7 @@ public class BarkWeatherService {
             }
             HttpGet request = new HttpGet(barkMsg.toString());
             client.execute(request);
-            log.error("日报推送成功->{}", userWeather);
+            log.info("日报推送成功->{}", userWeather);
         } catch (Exception e) {
             log.error("日报推送失败->{}::{}", e.getMessage(),userWeather);
         }

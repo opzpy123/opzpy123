@@ -11,11 +11,11 @@ import javax.annotation.Resource;
 
 @Slf4j
 public class WeatherTaskVo implements Runnable {
-//   实现runnable无法注入bean
+    //   实现runnable无法注入bean
 //    @Resource
-//    private BarkWeatherService barkWeatherService;
+    private final BarkWeatherService barkWeatherService = (BarkWeatherService) SpringContextUtil.getBean("BarkWeatherService");
 
-    private UserWeather userWeather;
+    private final UserWeather userWeather;
 
     public WeatherTaskVo(UserWeather userWeather) {
         this.userWeather = userWeather;
@@ -23,7 +23,6 @@ public class WeatherTaskVo implements Runnable {
 
     @Override
     public void run() {
-        BarkWeatherService barkWeatherService = (BarkWeatherService) SpringContextUtil.getBean("BarkWeatherService");
         switch (userWeather.getPushType()) {
             case DAILY: {
                 //早报和晚报
