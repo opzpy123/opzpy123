@@ -4,7 +4,7 @@
 <body>
 <!--导航条-->
 <div th:fragment="nav">
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow">
         <a class="navbar-brand" href="/">opzpy123</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04"
                 aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,8 +13,14 @@
 
         <div class="collapse navbar-collapse" id="navbarsExample04">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="/dashboard?path=dashboard">控制面板 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" href="/dashboard?path=log">
+                        <span data-feather="layers"></span>
+                        日志
+                    </a>
                 </li>
             </ul>
             <ul class="navbar-nav" th:if="${#authentication.name}!='anonymousUser'">

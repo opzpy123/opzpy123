@@ -51,7 +51,7 @@ public class UserWeatherService extends ServiceImpl<UserWeatherMapper, UserWeath
 //                break;
 //        }
         userWeatherMapper.insert(userWeather);
-        log.info("天气任务创建->{}", userWeather.getId());
+        log.info("天气任务创建->{}", userWeather);
     }
 
     public ApiResponse<String> openUserWeather(Long userWeatherId) {
@@ -71,7 +71,7 @@ public class UserWeatherService extends ServiceImpl<UserWeatherMapper, UserWeath
             userWeather.setEnabled(1);
             userWeatherMapper.updateById(userWeather);
         }
-        log.info("天气任务开启->{}", userWeatherId);
+        log.info("天气任务开启->{}", userWeather);
         return ApiResponse.ofSuccess();
     }
 
@@ -93,7 +93,7 @@ public class UserWeatherService extends ServiceImpl<UserWeatherMapper, UserWeath
                 userWeatherMapper.updateById(userWeather);
             }
         }
-        log.info("天气任务停止->{}", userWeatherId);
+        log.info("天气任务停止->{}", userWeather);
         return ApiResponse.ofSuccess();
     }
 

@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow d-block d-xl-none  d-lg-none d-md-none   d-sm-block  d-xl-none">
     <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/">opzpy123</a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,9 +33,12 @@
 
 <div class="container-fluid">
     <div class="row">
-        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="sidebar-sticky pt-3">
-                <div class="nav-link" href="#" id="funcUlSwitchBtn" style="cursor: pointer">
+        <nav id="sidebarMenu"  style="padding-top: 0" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="sidebar-sticky " style="padding-top: 0;">
+                <div class=" d-none d-sm-none d-md-block  d-lg-block  d-xl-block nav-link  center  bg-dark shadow" id="indexBtn" style="color: white;margin-bottom: 5px;cursor: pointer">
+                    <h4>opzpy123</h4>
+                </div>
+                <div class="nav-link" href="#" id="funcUlSwitchBtn" style="margin-top: 10px;cursor: pointer">
                     <h4>功能</h4>
                 </div>
                 <ul class="nav flex-column" id="funcUl">
@@ -83,9 +86,10 @@
 
                 <ul class="nav flex-column mb-2" id="bookUl">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link"
+                           href="/dashboard?book=https://opzpy.oss-cn-beijing.aliyuncs.com/book/Elasticsearch%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97.pdf">
                             <span data-feather="file-text"></span>
-                            Current month
+                            Elasticsearch
                         </a>
                     </li>
                     <li class="nav-item">
@@ -128,10 +132,12 @@
             </div>
             <iframe name="myIframe" style="border: 0" width="100%"
                     onload="this.height=myIframe.document.body.scrollHeight"
-                    th:if="${param.path}!=null" th:src="'/dashboard/'+${param.path}"></iframe>
-<!--            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">-->
-
-<!--            </div>-->
+                    th:if="${param.path}!=null" th:src="'/dashboard/'+${param.path}">
+            </iframe>
+            <iframe name="myIframe" style="border: 0" width="100%"
+                    height="1200px"
+                    th:if="${param.path}==null " th:src="${param.book}">
+            </iframe>
         </main>
     </div>
 </div>
@@ -160,6 +166,10 @@
         } else {
             $("#funcUl").css("display", "block");
         }
+    })
+
+    $("#indexBtn").click(function (){
+        window.location.href = "/";
     })
 
     function jumpToPath(path) {
