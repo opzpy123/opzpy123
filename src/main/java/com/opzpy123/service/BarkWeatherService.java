@@ -45,16 +45,16 @@ public class BarkWeatherService {
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
-    public void sendMsgDaily(UserWeather userWeather) {
+    public synchronized void sendMsgDaily(UserWeather userWeather) {
+        String cityId = getCityIdByName(userWeather.getWeatherCity());
+        CloseableHttpClient client = HttpClients.createDefault();
+        StringBuilder barkMsg;
+        GregorianCalendar ca = new GregorianCalendar();
+        ca.setTime(new Date());
+        String weatherUrl = PropertiesConfig.QWEATHER_URL + "/weather/3d?location=" + cityId + "&key=" + PropertiesConfig.QWEATHER_KEY;
+        String indicesUrl = PropertiesConfig.QWEATHER_URL + "/indices/1d?type=3&location=" + cityId + "&key=" + PropertiesConfig.QWEATHER_KEY;
         try {
-            String cityId = getCityIdByName(userWeather.getWeatherCity());
-            CloseableHttpClient client = HttpClients.createDefault();
-            StringBuilder barkMsg;
-            GregorianCalendar ca = new GregorianCalendar();
-            ca.setTime(new Date());
-            String weatherUrl = PropertiesConfig.QWEATHER_URL + "/weather/3d?location=" + cityId + "&key=" + PropertiesConfig.QWEATHER_KEY;
-            String indicesUrl = PropertiesConfig.QWEATHER_URL + "/indices/1d?type=3&location=" + cityId + "&key=" + PropertiesConfig.QWEATHER_KEY;
-            if (ca.get(GregorianCalendar.AM_PM) == Calendar.AM) {
+             if (ca.get(GregorianCalendar.AM_PM) == Calendar.AM) {
                 //7点发送早报
                 JSONObject weatherJson = JsonUitl.loadJsonAsJsonObj(weatherUrl).getJSONArray("daily").getJSONObject(0);
                 JSONObject indicesJson = JsonUitl.loadJsonAsJsonObj(indicesUrl).getJSONArray("daily").getJSONObject(0);
@@ -70,7 +70,7 @@ public class BarkWeatherService {
                 JSONObject weatherJson = JsonUitl.loadJsonAsJsonObj(weatherUrl).getJSONArray("daily").getJSONObject(0);
 
                 barkMsg = new StringBuilder().append(userWeather.getBarkId()).append("天气晚报-")
-                        .append(userWeather.getWeatherCity()).append("/").append("今晚:")
+                        .append(userWeather.getWeatherCity()).append("/").append("今晚%3A")
                         .append(weatherJson.getString("textNight"))
                         .append(weatherJson.getString("tempMin")).append("~")
                         .append(weatherJson.getString("tempMax"))
@@ -78,12 +78,13 @@ public class BarkWeatherService {
                         .append("%0a");
 
                 JSONObject weatherJsonTomorrow = JsonUitl.loadJsonAsJsonObj(weatherUrl).getJSONArray("daily").getJSONObject(1);
-                barkMsg.append("明日:").append(weatherJsonTomorrow.getString("textDay"))
+                barkMsg.append("明日%3A").append(weatherJsonTomorrow.getString("textDay"))
                         .append(weatherJsonTomorrow.getString("tempMin")).append("~")
                         .append(weatherJsonTomorrow.getString("tempMax"))
                         .append(windScaleToString(weatherJsonTomorrow.getString("windScaleDay")))
                         .append("%0a");
             }
+             log.info("日报推送信息:{}",barkMsg);
             HttpGet request = new HttpGet(barkMsg.toString());
             client.execute(request);
             log.info("日报推送成功->{}", userWeather);
@@ -92,7 +93,7 @@ public class BarkWeatherService {
         }
     }
 
-    public void sendMsgEarlyWarning(UserWeather userWeather) {
+    public synchronized void sendMsgEarlyWarning(UserWeather userWeather) {
         try {
             String cityId = getCityIdByName(userWeather.getWeatherCity());
             String url = PropertiesConfig.QWEATHER_URL + "warning/now?location="
@@ -110,11 +111,12 @@ public class BarkWeatherService {
                     List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
                     if (range == null || !range.contains(warningId)) {
                         redisTemplate.opsForList().leftPush(redisKey, warningId);
-                        String title = userWeather.getWeatherCity() + ":" + warning.getString("typeName")
+                        String title = userWeather.getWeatherCity() + "%3A" + warning.getString("typeName")
                                 + warning.getString("level") + "预警";
                         String barkMsg = userWeather.getBarkId() + title + "-" + warning.getString("status") + "/"
                                 + warning.getString("text");
                         CloseableHttpClient client = HttpClients.createDefault();
+                        log.info("预警推送信息:{}",barkMsg);
                         HttpGet request = new HttpGet(barkMsg);
                         client.execute(request);
                         log.info("预警推送成功->{}", userWeather);
@@ -130,11 +132,11 @@ public class BarkWeatherService {
         }
     }
 
-    public void sendMsgTemperatureDifference(UserWeather userWeather) {
+    public synchronized void sendMsgTemperatureDifference(UserWeather userWeather) {
         String cityId = getCityIdByName(userWeather.getWeatherCity());
     }
 
-    public String getCityIdByName(String cityName) {
+    public synchronized String getCityIdByName(String cityName) {
         String url = "https://geoapi.qweather.com/v2/city/lookup?location=" + cityName + "&key=" + PropertiesConfig.QWEATHER_KEY;
         JSONObject jsonObject = JsonUitl.loadJsonAsJsonObj(url);
         return jsonObject.getJSONArray("location").getJSONObject(0).getString("id");

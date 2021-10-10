@@ -22,7 +22,7 @@ public class WeatherTaskVo implements Runnable {
     }
 
     @Override
-    public void run() {
+    public  void run() {
         switch (userWeather.getPushType()) {
             case DAILY: {
                 //早报和晚报
