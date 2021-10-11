@@ -2,6 +2,9 @@ package com.opzpy123.util;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.HttpVersion;
@@ -14,6 +17,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Slf4j
 public class JsonUitl {
@@ -23,25 +27,41 @@ public class JsonUitl {
     }
 
     public static JSONObject loadJsonAsJsonObj(String url) {
-
         JSONObject jsonObject = null;
-        try (CloseableHttpClient client = HttpClients.createDefault();) {
-            HttpGet request = new HttpGet(url);
-            request.setProtocolVersion(HttpVersion.HTTP_1_0);
-            request.addHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_CLOSE);
-            try (CloseableHttpResponse response = client.execute(request);) {
-                int statusCode = response.getStatusLine().getStatusCode();
-                if (statusCode == HttpStatus.SC_OK) {
-                    HttpEntity entity = response.getEntity();
-                    String responseContent = EntityUtils.toString(entity);
-                    jsonObject = JSONObject.parseObject(responseContent);
-                } else {
-                    log.error("Get 请求异常：{}，状态码{}", url, statusCode);
-                }
+        try {
+            OkHttpClient client = new OkHttpClient();
+
+            Request request = new Request.Builder()
+                    .get().url(url).build();
+            Response response = client.newCall(request).execute();
+            int statusCode = response.code();
+            if (statusCode == HttpStatus.SC_OK) {
+                jsonObject = JSONObject.parseObject(Objects.requireNonNull(response.body()).string());
+            } else {
+                log.error("Get 请求异常：{}，状态码{}", url, statusCode);
             }
-        } catch (IOException e) {
-            log.error("Get 请求异常：{}，状态码{}", url, e.getMessage());
+        } catch (Exception e) {
+            log.error("Get 请求异常：{}，错误信息{}", url, e.getMessage());
         }
+
+//        JSONObject jsonObject = null;
+//        try (CloseableHttpClient client = HttpClients.createDefault();) {
+//            HttpGet request = new HttpGet(url);
+//            request.setProtocolVersion(HttpVersion.HTTP_1_0);
+//            request.addHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_CLOSE);
+//            try (CloseableHttpResponse response = client.execute(request);) {
+//                int statusCode = response.getStatusLine().getStatusCode();
+//                if (statusCode == HttpStatus.SC_OK) {
+//                    HttpEntity entity = response.getEntity();
+//                    String responseContent = EntityUtils.toString(entity);
+//                    jsonObject = JSONObject.parseObject(responseContent);
+//                } else {
+//                    log.error("Get 请求异常：{}，状态码{}", url, statusCode);
+//                }
+//            }
+//        } catch (IOException e) {
+//            log.error("Get 请求异常：{}，状态码{}", url, e.getMessage());
+//        }
         return jsonObject;
     }
 

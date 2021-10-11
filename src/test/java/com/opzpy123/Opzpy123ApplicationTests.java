@@ -8,6 +8,7 @@ import com.opzpy123.config.PropertiesConfig;
 import com.opzpy123.constant.enums.WeatherEnum;
 import com.opzpy123.mapper.UserWeatherMapper;
 import com.opzpy123.model.UserWeather;
+import com.opzpy123.util.JsonUitl;
 import com.opzpy123.util.OssUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.Properties;
 
 @Slf4j
-@SpringBootTest
+//@SpringBootTest
 class Opzpy123ApplicationTests {
     @Resource
     private UserWeatherMapper userWeatherMapper;
@@ -45,6 +46,12 @@ class Opzpy123ApplicationTests {
         userWeather.setPushType(WeatherEnum.DAILY);
         userWeatherMapper.insert(userWeather);
     }
+
+    @Test
+    void httpTest(){
+        System.out.println(JsonUitl.loadJson("https://devapi.qweather.com/v7/warning/now?location=101190101&key=5ca481c318344e159d8cd32039abb747"));
+    }
+
 
     @Test
     void propertiesTest() {
