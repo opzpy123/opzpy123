@@ -29,11 +29,7 @@ public class JsonUitl {
     public static JSONObject loadJsonAsJsonObj(String url) {
         JSONObject jsonObject = null;
         try {
-            OkHttpClient client = new OkHttpClient();
-
-            Request request = new Request.Builder()
-                    .get().url(url).build();
-            Response response = client.newCall(request).execute();
+            Response response = HttpUtil.get(url);
             int statusCode = response.code();
             if (statusCode == HttpStatus.SC_OK) {
                 jsonObject = JSONObject.parseObject(Objects.requireNonNull(response.body()).string());

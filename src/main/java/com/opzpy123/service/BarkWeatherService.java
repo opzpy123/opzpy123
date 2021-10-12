@@ -8,6 +8,7 @@ import com.opzpy123.constant.enums.WeatherEnum;
 import com.opzpy123.model.UserWeather;
 import com.opzpy123.model.vo.CaiYunApiResp;
 import com.opzpy123.model.vo.WeatherResp;
+import com.opzpy123.util.HttpUtil;
 import com.opzpy123.util.JsonUitl;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -47,14 +48,13 @@ public class BarkWeatherService {
 
     public synchronized void sendMsgDaily(UserWeather userWeather) {
         String cityId = getCityIdByName(userWeather.getWeatherCity());
-        CloseableHttpClient client = HttpClients.createDefault();
         StringBuilder barkMsg;
         GregorianCalendar ca = new GregorianCalendar();
         ca.setTime(new Date());
         String weatherUrl = PropertiesConfig.QWEATHER_URL + "/weather/3d?location=" + cityId + "&key=" + PropertiesConfig.QWEATHER_KEY;
         String indicesUrl = PropertiesConfig.QWEATHER_URL + "/indices/1d?type=3&location=" + cityId + "&key=" + PropertiesConfig.QWEATHER_KEY;
         try {
-             if (ca.get(GregorianCalendar.AM_PM) == Calendar.AM) {
+            if (ca.get(GregorianCalendar.AM_PM) == Calendar.AM) {
                 //7点发送早报
                 JSONObject weatherJson = JsonUitl.loadJsonAsJsonObj(weatherUrl).getJSONArray("daily").getJSONObject(0);
                 JSONObject indicesJson = JsonUitl.loadJsonAsJsonObj(indicesUrl).getJSONArray("daily").getJSONObject(0);
@@ -84,12 +84,11 @@ public class BarkWeatherService {
                         .append(windScaleToString(weatherJsonTomorrow.getString("windScaleDay")))
                         .append("%0a");
             }
-             log.info("日报推送信息:{}",barkMsg);
-            HttpGet request = new HttpGet(barkMsg.toString());
-            client.execute(request);
+            log.info("日报推送信息:{}", barkMsg);
+            HttpUtil.get(barkMsg.toString());
             log.info("日报推送成功->{}", userWeather);
         } catch (Exception e) {
-            log.error("日报推送失败->{}::{}", e.getMessage(),userWeather);
+            log.error("日报推送失败->{}::{}", e.getMessage(), userWeather);
         }
     }
 
@@ -110,16 +109,14 @@ public class BarkWeatherService {
                     //同时可能会存在多个预警
                     List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
                     if (range == null || !range.contains(warningId)) {
-                        redisTemplate.opsForList().leftPush(redisKey, warningId);
                         String title = userWeather.getWeatherCity() + "%3A" + warning.getString("typeName")
                                 + warning.getString("level") + "预警";
                         String barkMsg = userWeather.getBarkId() + title + "-" + warning.getString("status") + "/"
                                 + warning.getString("text");
-                        CloseableHttpClient client = HttpClients.createDefault();
-                        log.info("预警推送信息:{}",barkMsg);
-                        HttpGet request = new HttpGet(barkMsg);
-                        client.execute(request);
+                        log.info("预警推送信息:{}", barkMsg);
+                        HttpUtil.get(barkMsg);
                         log.info("预警推送成功->{}", userWeather);
+                        redisTemplate.opsForList().leftPush(redisKey, warningId);
                     } else {
                         log.info("预警未更新->{}", userWeather);
                     }
@@ -128,7 +125,7 @@ public class BarkWeatherService {
                 log.info("无预警信息->{}", userWeather);
             }
         } catch (Exception e) {
-            log.error("预警推送失败->{}::{}",e.getMessage(), userWeather );
+            log.error("预警推送失败->{}::{}", e.getMessage(), userWeather);
         }
     }
 
@@ -159,6 +156,7 @@ public class BarkWeatherService {
             CloseableHttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet(url);
             client.execute(request);
+            client.close();
         } catch (Exception e) {
             log.error("天气发送失败::{}", e.getMessage());
         }
