@@ -48,8 +48,13 @@ class Opzpy123ApplicationTests {
     }
 
     @Test
-    void httpTest(){
-        System.out.println(JsonUitl.loadJson("https://devapi.qweather.com/v7/warning/now?location=101190101&key=5ca481c318344e159d8cd32039abb747"));
+    void httpTest() throws InterruptedException {
+        while (true) {
+//            System.out.println(JsonUitl.loadJson("https://devapi.qweather.com/v7/warning/now?location=101190101&key=5ca481c318344e159d8cd32039abb747"));
+            System.out.println(JsonUitl.loadJson("https://devapi.qweather.com/v7/warning/now?location=101180901&key=5ca481c318344e159d8cd32039abb747"));
+            System.out.println("休息10秒");
+            Thread.sleep(10000);
+        }
     }
 
 
@@ -59,9 +64,9 @@ class Opzpy123ApplicationTests {
     }
 
     @Test
-    void testCallBack(){
+    void testCallBack() {
         InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("templates/dashboard.html");
-        System.out.println(ossUtils.upload(resourceAsStream, "test.html" ));
+        System.out.println(ossUtils.upload(resourceAsStream, "test.html"));
     }
 
 

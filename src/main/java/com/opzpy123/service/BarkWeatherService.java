@@ -12,6 +12,8 @@ import com.opzpy123.util.HttpUtil;
 import com.opzpy123.util.JsonUitl;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.Response;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -85,7 +87,12 @@ public class BarkWeatherService {
                         .append("%0a");
             }
             log.info("日报推送信息:{}", barkMsg);
-            HttpUtil.get(barkMsg.toString());
+            Response response = HttpUtil.get(barkMsg.toString());
+            int count=0;
+            while(response.code()!= HttpStatus.SC_OK&&count<3){
+                response=HttpUtil.get(barkMsg.toString());
+                count++;
+            }
             log.info("日报推送成功->{}", userWeather);
         } catch (Exception e) {
             log.error("日报推送失败->{}::{}", e.getMessage(), userWeather);
@@ -114,7 +121,12 @@ public class BarkWeatherService {
                         String barkMsg = userWeather.getBarkId() + title + "-" + warning.getString("status") + "/"
                                 + warning.getString("text");
                         log.info("预警推送信息:{}", barkMsg);
-                        HttpUtil.get(barkMsg);
+                        Response response = HttpUtil.get(barkMsg);
+                        int count=0;
+                        while(response.code()!= HttpStatus.SC_OK&&count<3){
+                            response=HttpUtil.get(barkMsg);
+                            count++;
+                        }
                         log.info("预警推送成功->{}", userWeather);
                         redisTemplate.opsForList().leftPush(redisKey, warningId);
                     } else {

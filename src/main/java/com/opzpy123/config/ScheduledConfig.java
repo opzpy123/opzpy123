@@ -15,7 +15,12 @@ public class ScheduledConfig {
 
     @Bean
     public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
-        return new ThreadPoolTaskScheduler();
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+        threadPoolTaskScheduler.setPoolSize(20);
+        threadPoolTaskScheduler.setThreadNamePrefix("task-");
+        threadPoolTaskScheduler.setAwaitTerminationSeconds(60);
+        threadPoolTaskScheduler.setWaitForTasksToCompleteOnShutdown(true);
+        return threadPoolTaskScheduler;
     }
 
     @Bean("scheduledFutureMap")

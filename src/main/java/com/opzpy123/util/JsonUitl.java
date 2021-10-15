@@ -30,11 +30,15 @@ public class JsonUitl {
         JSONObject jsonObject = null;
         try {
             Response response = HttpUtil.get(url);
-            int statusCode = response.code();
-            if (statusCode == HttpStatus.SC_OK) {
+            int count = 0;
+            while (response.code() != HttpStatus.SC_OK && count < 3) {
+                response = HttpUtil.get(url);
+                count++;
+            }
+            if (response.code() == HttpStatus.SC_OK) {
                 jsonObject = JSONObject.parseObject(Objects.requireNonNull(response.body()).string());
             } else {
-                log.error("Get 请求异常：{}，状态码{}", url, statusCode);
+                log.error("Get 请求异常：{}，状态码{}", url, response.code());
             }
         } catch (Exception e) {
             log.error("Get 请求异常：{}，错误信息{}", url, e.getMessage());
