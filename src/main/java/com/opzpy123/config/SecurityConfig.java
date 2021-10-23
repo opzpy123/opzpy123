@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private MyLogoutSuccessHadler logoutSuccessHadler;
 
 
+
     /**
      * 用户认证配置
      */

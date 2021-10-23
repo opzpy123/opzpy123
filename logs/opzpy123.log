@@ -7,3 +7,25 @@
 2021-10-15 17:03:08.939 INFO com.opzpy123.Opzpy123Application.logStarting [restartedMain] Starting Opzpy123Application using Java 1.8.0_301 on opzpy123 with PID 17132 (C:\IDEA_WorkSpace\opzpy123\target\classes started by opzpy123 in C:\IDEA_WorkSpace\opzpy123)
 2021-10-15 17:03:08.939 INFO com.opzpy123.Opzpy123Application.logStartupProfileInfo [restartedMain] The following profiles are active: test
 2021-10-15 17:03:10.587 INFO com.opzpy123.Opzpy123Application.logStarted [restartedMain] Started Opzpy123Application in 1.681 seconds (JVM running for 787.114)
+2021-10-15 17:39:49.987 INFO com.opzpy123.Opzpy123Application.logStarting [restartedMain] Starting Opzpy123Application using Java 1.8.0_301 on opzpy123 with PID 17132 (C:\IDEA_WorkSpace\opzpy123\target\classes started by opzpy123 in C:\IDEA_WorkSpace\opzpy123)
+2021-10-15 17:39:49.988 INFO com.opzpy123.Opzpy123Application.logStartupProfileInfo [restartedMain] The following profiles are active: test
+2021-10-15 17:39:51.881 INFO com.opzpy123.Opzpy123Application.logStarted [restartedMain] Started Opzpy123Application in 1.954 seconds (JVM running for 2988.408)
+2021-10-15 17:40:46.924 INFO com.opzpy123.Opzpy123Application.logStarting [restartedMain] Starting Opzpy123Application using Java 1.8.0_301 on opzpy123 with PID 7464 (C:\IDEA_WorkSpace\opzpy123\target\classes started by opzpy123 in C:\IDEA_WorkSpace\opzpy123)
+2021-10-15 17:40:46.928 INFO com.opzpy123.Opzpy123Application.logStartupProfileInfo [restartedMain] The following profiles are active: test
+2021-10-15 17:40:51.075 INFO com.opzpy123.Opzpy123Application.logStarted [restartedMain] Started Opzpy123Application in 4.616 seconds (JVM running for 6.249)
+2021-10-15 17:41:34.022 INFO com.opzpy123.handler.MyLoginSuccessHandler.onAuthenticationSuccess [http-nio-7789-exec-10] 登陆成功->UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=opzpy, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, credentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A1739A75FD425BD2C129D82BF1802A38], Granted Authorities=[ROLE_USER]]
+2021-10-15 17:45:40.104 INFO com.opzpy123.Opzpy123Application.logStarting [restartedMain] Starting Opzpy123Application using Java 1.8.0_301 on opzpy123 with PID 20180 (C:\IDEA_WorkSpace\opzpy123\target\classes started by opzpy123 in C:\IDEA_WorkSpace\opzpy123)
+2021-10-15 17:45:40.107 INFO com.opzpy123.Opzpy123Application.logStartupProfileInfo [restartedMain] The following profiles are active: test
+2021-10-15 17:45:44.465 INFO com.opzpy123.Opzpy123Application.logStarted [restartedMain] Started Opzpy123Application in 4.777 seconds (JVM running for 6.3)
+2021-10-15 17:46:52.034 INFO com.opzpy123.Opzpy123Application.logStarting [restartedMain] Starting Opzpy123Application using Java 1.8.0_301 on opzpy123 with PID 23124 (C:\IDEA_WorkSpace\opzpy123\target\classes started by opzpy123 in C:\IDEA_WorkSpace\opzpy123)
+2021-10-15 17:46:52.036 INFO com.opzpy123.Opzpy123Application.logStartupProfileInfo [restartedMain] The following profiles are active: test
+2021-10-15 17:46:56.081 INFO com.opzpy123.Opzpy123Application.logStarted [restartedMain] Started Opzpy123Application in 4.469 seconds (JVM running for 6.03)
+2021-10-15 17:47:49.351 INFO com.opzpy123.Opzpy123Application.logStarting [restartedMain] Starting Opzpy123Application using Java 1.8.0_301 on opzpy123 with PID 23124 (C:\IDEA_WorkSpace\opzpy123\target\classes started by opzpy123 in C:\IDEA_WorkSpace\opzpy123)
+2021-10-15 17:47:49.351 INFO com.opzpy123.Opzpy123Application.logStartupProfileInfo [restartedMain] The following profiles are active: test
+2021-10-15 17:47:50.715 INFO com.opzpy123.Opzpy123Application.logStarted [restartedMain] Started Opzpy123Application in 1.403 seconds (JVM running for 60.664)
+2021-10-15 17:47:52.862 INFO com.opzpy123.Opzpy123Application.logStarting [restartedMain] Starting Opzpy123Application using Java 1.8.0_301 on opzpy123 with PID 23124 (C:\IDEA_WorkSpace\opzpy123\target\classes started by opzpy123 in C:\IDEA_WorkSpace\opzpy123)
+2021-10-15 17:47:52.862 INFO com.opzpy123.Opzpy123Application.logStartupProfileInfo [restartedMain] The following profiles are active: test
+2021-10-15 17:47:53.997 INFO com.opzpy123.Opzpy123Application.logStarted [restartedMain] Started Opzpy123Application in 1.171 seconds (JVM running for 63.946)
+2021-10-15 17:52:46.330 INFO com.opzpy123.Opzpy123Application.logStarting [restartedMain] Starting Opzpy123Application using Java 1.8.0_301 on opzpy123 with PID 1112 (C:\IDEA_WorkSpace\opzpy123\target\classes started by opzpy123 in C:\IDEA_WorkSpace\opzpy123)
+2021-10-15 17:52:46.334 INFO com.opzpy123.Opzpy123Application.logStartupProfileInfo [restartedMain] The following profiles are active: test
+2021-10-15 17:52:50.786 INFO com.opzpy123.Opzpy123Application.logStarted [restartedMain] Started Opzpy123Application in 5.185 seconds (JVM running for 7.46)
