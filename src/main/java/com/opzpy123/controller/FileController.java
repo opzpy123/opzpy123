@@ -7,6 +7,7 @@ import com.opzpy123.model.UserNetdisc;
 import com.opzpy123.model.vo.ApiResponse;
 import com.opzpy123.service.AuthUserService;
 import com.opzpy123.util.OssUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
 
+@Slf4j
 @Controller
 @RequestMapping("file")
 public class FileController {
@@ -52,6 +54,7 @@ public class FileController {
         String url = ossUtils.upload(file.getInputStream(), fileKey);
         userNetdisc.setUrl(url);
         userNetdiscMapper.insert(userNetdisc);
+        log.info(authUser.getUsername()+"上传了:"+file.getOriginalFilename());
         return ApiResponse.ofSuccess("上传成功");
     }
 
@@ -64,6 +67,7 @@ public class FileController {
         String key = authUser.getUsername()+userNetdisc.getPath();
         ossUtils.deleteFile(key);
         userNetdiscMapper.deleteById(id);
+        log.info(authUser.getUsername()+"删除了:"+userNetdisc.getPath());
         return ApiResponse.ofSuccess();
     }
 }
