@@ -11,16 +11,129 @@
     <link rel="shortcut icon" href="/brand/zicon.svg"/>
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/signin.css" rel="stylesheet">
+    <style>
+        .progress {
+            width: 100%;
+            height: 5px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 10px 0px;
+            overflow: hidden;
+        }
+
+        /* 初始状态设置进度条宽度为0px */
+        .progress > div {
+            width: 0px;
+            height: 100%;
+            background-color: yellowgreen;
+            transition: all .3s ease;
+        }
+    </style>
 </head>
 <body>
 
 <div class="py-1 text-center">
     <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
     <h2>网盘</h2>
+    <br class="mb-4">
+    <div style="margin-left: 6vw; width: 80%;height: 100%; overflow-x:auto;white-space:nowrap;">
+        <div th:if="${#lists.size(netdiscFileList)}!=0">
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item list-group-item-secondary" style="width: 20%">id</li>
+                <li class="list-group-item list-group-item-secondary" style="width: 50%">文件名</li>
+                <li class="list-group-item list-group-item-secondary" style="width: 10%">大小</li>
+                <li class="list-group-item list-group-item-secondary" style="width: 10%">操作</li>
+                <li class="list-group-item list-group-item-secondary" style="width: 10%">删除</li>
+            </ul>
+        </div>
+        <ul class="list-group list-group-horizontal" th:each="file : ${netdiscFileList}">
+            <li class="list-group-item" style="width:  20%" th:text="${file.id}"></li>
+            <li class="list-group-item" style="width:   50%" th:text="${file.fileName}"></li>
+            <li class="list-group-item" style="width:  10%"
+                th:text="((${file.size})-(${file.size}%1000))/1000+'KB'"></li>
+            <li class="list-group-item" style="width:  10%;padding: 6px">
+                <button type="button" th:value="${file.url}" onclick="downloadFile(this)" class="btn btn-success"
+                        style="width:60px;height: 25px;padding:0;margin: 5px">下载
+                </button>
+            </li>
+            <li class="list-group-item" style="width:  10%;padding: 6px">
+                <button type="button" th:value="${file.id}" onclick="delFile(this)" class="btn btn-danger"
+                        style="width:60px;height: 25px;padding:0;margin: 5px">删除
+                </button>
+
+            </li>
+        </ul>
+        <ul class="list-group list-group-horizontal ">
+            <li class="list-group-item" style="width: 100%">
+                <div class="progress" id="process" style="opacity:0">
+                    <div></div>
+                </div>
+                <input type="file" id="file">
+                <button id="submit" type="button" class="btn btn-primary">上传文件</button>
+            </li>
+        </ul>
+        <div style="height: 100px"></div>
+    </div>
 </div>
 
 
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+<script>
+    submit.onclick = () => {
+        $("#process").css('opacity', 100);
+        const file = document.getElementById('file').files[0];
+        var form = new FormData();
+        form.append('file', file);
+        $.ajax({
+            type: "post",
+            url: "/file/upload",
+            data: form,
+            processData: false,
+            contentType: false,
+            xhr: function () {
+                var xhr = new XMLHttpRequest();
+                //使用XMLHttpRequest.upload监听上传过程，注册progress事件，打印回调函数中的event事件
+                xhr.upload.addEventListener('progress', function (e) {
+
+                    console.log(e);
+                    //loaded代表上传了多少
+                    //total代表总数为多少
+                    var progressRate = (e.loaded / e.total) * 100 + '%';
+                    //通过设置进度条的宽度达到效果
+                    $('.progress > div').css('width', progressRate);
+
+                })
+                return xhr;
+            },
+            success:function (res){
+                alert(res.data);
+                window.location.href = "/dashboard/netdisc";
+            },
+
+        });
+
+    }
+
+    function delFile(file) {
+        $.ajax({
+            "url": "/file/delete?id=" + file.value,
+            "type": "delete",
+            "success": function (obj) {
+                alert("删除成功")
+                window.location.href = "/dashboard/netdisc"
+            },
+            "error": function (obj) {
+                alert("删除失败")
+            }
+        });
+    }
+
+    function downloadFile(file) {
+        console.log(file.value);
+        window.location.href = file.value;
+    }
+</script>
 </body>
 </html>

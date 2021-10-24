@@ -73,7 +73,8 @@ public class DashboardController {
      * 网盘面板
      */
     @GetMapping("/netdisc")
-    public String dashboardNetdisc() {
+    public String dashboardNetdisc( Model model, Principal principal) {
+        dashboardService.getDashboardNetdiscInfo(model,principal);
         return "dashboardNetdisc";
     }
 

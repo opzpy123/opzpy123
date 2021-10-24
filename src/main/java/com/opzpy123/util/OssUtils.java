@@ -6,12 +6,15 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.sql.rowset.serial.SerialBlob;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.internal.OSSUtils;
+import com.aliyun.oss.model.*;
+import com.opzpy123.config.OssConfig;
 import com.opzpy123.config.PropertiesConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.logging.Log;
@@ -21,11 +24,6 @@ import org.apache.commons.logging.LogFactory;
 import com.aliyun.oss.ClientConfiguration;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.model.Bucket;
-import com.aliyun.oss.model.GeneratePresignedUrlRequest;
-import com.aliyun.oss.model.OSSObject;
-import com.aliyun.oss.model.ObjectMetadata;
-import com.aliyun.oss.model.PutObjectResult;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
@@ -38,10 +36,17 @@ import org.springframework.stereotype.Controller;
 public class OssUtils {
 
     @Resource
-    private OSS ossClient;
+    private OssConfig ossConfig;
+
+    public boolean doseBucketExit(String bucketName){
+
+        OSS ossClient = ossConfig.getBean();
+        return ossClient.doesBucketExist(bucketName);
+    }
 
 
     public String createBucket(String bucketName) {
+        OSS ossClient = ossConfig.getBean();
         if (!ossClient.doesBucketExist(bucketName)) {
             // 创建存储空间
             Bucket bucket = ossClient.createBucket(bucketName);
@@ -52,12 +57,14 @@ public class OssUtils {
     }
 
     public void deleteBucket(String bucketName) {
+        OSS ossClient = ossConfig.getBean();
         ossClient.deleteBucket(bucketName);
         log.info("删除" + bucketName + "Bucket成功");
     }
 
 
     public String createFolder(String bucketName, String folder) {
+        OSS ossClient = ossConfig.getBean();
         if (!ossClient.doesObjectExist(bucketName, folder)) {
             ossClient.putObject(bucketName, folder, new ByteArrayInputStream(new byte[0]));
             log.info("创建文件夹成功");
@@ -66,10 +73,11 @@ public class OssUtils {
         return folder;
     }
 
-    public void deleteFile(String folder, String fileName) {
-        ossClient.deleteObject(PropertiesConfig.ALI_OSS_BUCKET_NAME, folder + fileName);
-        log.info("删除" + PropertiesConfig.ALI_OSS_BUCKET_NAME + "下的文件" + folder + fileName + "成功");
-    }
+//    public void deleteFile(String folder, String fileName) {
+//        OSS ossClient = ossConfig.getBean();
+//        ossClient.deleteObject(PropertiesConfig.ALI_OSS_BUCKET_NAME, folder + fileName);
+//        log.info("删除" + PropertiesConfig.ALI_OSS_BUCKET_NAME + "下的文件" + folder + fileName + "成功");
+//    }
 
 
     public String upload(File file, String name) {
@@ -84,6 +92,7 @@ public class OssUtils {
     }
 
     public String upload(InputStream inputStream, String name) {
+        OSS ossClient = ossConfig.getBean();
         String url = "";
         try {
             ossClient.putObject(PropertiesConfig.ALI_OSS_BUCKET_NAME, name, inputStream);
@@ -93,10 +102,21 @@ public class OssUtils {
             log.info("oss上传文件成功:{}", name);
         } catch (Exception e) {
             log.error("oss上传文件失败:{}", e.getMessage());
-        } finally {
+        }finally {
             ossClient.shutdown();
         }
         return url;
     }
 
+    public boolean isFileExist(String fileKey){
+        OSS ossClient = ossConfig.getBean();
+        return ossClient.doesObjectExist(PropertiesConfig.ALI_OSS_BUCKET_NAME,fileKey);
+    }
+
+    public void deleteFile(String fileKey) {
+        OSS ossClient = ossConfig.getBean();
+        if(isFileExist(fileKey)) {
+            ossClient.deleteObject(PropertiesConfig.ALI_OSS_BUCKET_NAME, fileKey);
+        }
+    }
 }

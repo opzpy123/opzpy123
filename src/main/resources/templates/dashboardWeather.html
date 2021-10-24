@@ -127,6 +127,7 @@
             "url": "/weather/weather?userWeatherId=" + obj.value,
             "type": "delete",
             "success": function (obj) {
+                alert("删除成功")
                 window.location.href = "/dashboard/weather"
             },
             "error": function (obj) {

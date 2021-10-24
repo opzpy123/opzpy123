@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -88,14 +89,17 @@ public class BarkWeatherService {
             }
             log.info("日报推送信息:{}", barkMsg);
             Response response = HttpUtil.get(barkMsg.toString());
-            int count=0;
-            while(response.code()!= HttpStatus.SC_OK&&count<3){
-                response=HttpUtil.get(barkMsg.toString());
+            int count = 0;
+            while (response.code() != HttpStatus.SC_OK && count < 3) {
+                response = HttpUtil.get(barkMsg.toString());
                 count++;
             }
-            log.info("日报推送成功->{}", userWeather);
-        } catch (Exception e) {
-            log.error("日报推送失败->{}::{}", e.getMessage(), userWeather);
+            if (response.code() == HttpStatus.SC_OK) {
+                log.info("日报推送成功->{}", userWeather);
+            } else {
+                log.info("日报推送失败->{}", userWeather);
+            }
+        } catch (IOException ignored) {
         }
     }
 
@@ -122,22 +126,19 @@ public class BarkWeatherService {
                                 + warning.getString("text");
                         log.info("预警推送信息:{}", barkMsg);
                         Response response = HttpUtil.get(barkMsg);
-                        int count=0;
-                        while(response.code()!= HttpStatus.SC_OK&&count<3){
-                            response=HttpUtil.get(barkMsg);
+                        int count = 0;
+                        while (response.code() != HttpStatus.SC_OK && count < 3) {
+                            response = HttpUtil.get(barkMsg);
                             count++;
                         }
-                        log.info("预警推送成功->{}", userWeather);
-                        redisTemplate.opsForList().leftPush(redisKey, warningId);
-                    } else {
-                        log.info("预警未更新->{}", userWeather);
+                        if (response.code() == HttpStatus.SC_OK) {
+                            log.info("预警推送成功->{}", userWeather);
+                            redisTemplate.opsForList().leftPush(redisKey, warningId);
+                        }
                     }
                 }
-            } else {
-                log.info("无预警信息->{}", userWeather);
             }
-        } catch (Exception e) {
-            log.error("预警推送失败->{}::{}", e.getMessage(), userWeather);
+        } catch (IOException ignored) {
         }
     }
 
