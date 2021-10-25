@@ -51,12 +51,10 @@ public class DashboardController {
     public String dashboardHome() {
         List<AuthUser> authUserList = new ArrayList<>();
         for (Object principal : sessionRegistry.getAllPrincipals()) {
-            System.out.println(principal);
             User user = (User)principal;
             AuthUser authUser = userService.getUserByUsername(user.getUsername());
             authUserList.add(authUser);
         }
-        System.out.println(authUserList);
         return "dashboardHome";
     }
 

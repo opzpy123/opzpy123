@@ -17,7 +17,7 @@ import java.security.Principal;
 public class MyLogoutSuccessHadler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
-        log.info("退出登录->{}", ((Principal)authentication.getPrincipal()).getName());
+        log.info("退出登录->{}",authentication);
         httpServletResponse.sendRedirect("/");
     }
 }
