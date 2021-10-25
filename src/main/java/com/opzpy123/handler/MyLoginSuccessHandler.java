@@ -2,6 +2,7 @@ package com.opzpy123.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ public class MyLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
-        log.info("登陆成功->{}", authentication);
+        log.info("登陆成功->{}", ((User)authentication.getPrincipal()).getUsername());
         httpServletResponse.sendRedirect("/");
     }
 }
