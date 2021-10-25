@@ -15,7 +15,7 @@ public class LogService {
     public ArrayList<String> getLog() {
         ArrayList<String> res = new ArrayList<>();
         try (
-                FileInputStream fileInputStream = new FileInputStream("logs/opzpy123.log");
+                FileInputStream fileInputStream = new FileInputStream("./opzpy123.log");
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream))) {
             res = bufferedReader.lines().collect(Collectors.toCollection(ArrayList::new));
         } catch (Exception e) {

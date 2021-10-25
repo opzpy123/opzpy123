@@ -4,13 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.opzpy123.config.PropertiesConfig;
-import com.opzpy123.constant.enums.WeatherEnum;
 import com.opzpy123.model.UserWeather;
 import com.opzpy123.model.vo.CaiYunApiResp;
 import com.opzpy123.model.vo.WeatherResp;
 import com.opzpy123.util.HttpUtil;
 import com.opzpy123.util.JsonUitl;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Response;
 import org.apache.http.HttpStatus;
@@ -18,18 +16,14 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 发送天气服务信息
@@ -44,18 +38,28 @@ public class BarkWeatherService {
         return this;
     }
 
-    ;
+
+
+    @Resource
+    private UserWeatherService userWeatherService;
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
-    public synchronized void sendMsgDaily(UserWeather userWeather) {
-        String cityId = getCityIdByName(userWeather.getWeatherCity());
+    public  void sendMsgDaily(UserWeather userWeather) {
+        String cityCode;
+        if(userWeather.getCityCode()==null) {
+            cityCode = getCityIdByName(userWeather.getWeatherCity());
+            userWeather.setCityCode(cityCode);
+            userWeatherService.updateById(userWeather);
+        }else {
+            cityCode=userWeather.getCityCode();
+        }
         StringBuilder barkMsg;
         GregorianCalendar ca = new GregorianCalendar();
         ca.setTime(new Date());
-        String weatherUrl = PropertiesConfig.QWEATHER_URL + "/weather/3d?location=" + cityId + "&key=" + PropertiesConfig.QWEATHER_KEY;
-        String indicesUrl = PropertiesConfig.QWEATHER_URL + "/indices/1d?type=3&location=" + cityId + "&key=" + PropertiesConfig.QWEATHER_KEY;
+        String weatherUrl = PropertiesConfig.QWEATHER_URL + "/weather/3d?location=" + cityCode + "&key=" + PropertiesConfig.QWEATHER_KEY;
+        String indicesUrl = PropertiesConfig.QWEATHER_URL + "/indices/1d?type=3&location=" + cityCode + "&key=" + PropertiesConfig.QWEATHER_KEY;
         try {
             if (ca.get(GregorianCalendar.AM_PM) == Calendar.AM) {
                 //7点发送早报
@@ -90,26 +94,34 @@ public class BarkWeatherService {
             log.info("日报推送信息:{}", barkMsg);
             Response response = HttpUtil.get(barkMsg.toString());
             int count = 0;
-            while (response.code() != HttpStatus.SC_OK && count < 3) {
+            while ((response == null || response.code() != HttpStatus.SC_OK) && count < 5) {
                 response = HttpUtil.get(barkMsg.toString());
                 count++;
             }
-            if (response.code() == HttpStatus.SC_OK) {
+            if (response != null && response.code() == HttpStatus.SC_OK) {
                 log.info("日报推送成功->{}", userWeather);
             } else {
                 log.info("日报推送失败->{}", userWeather);
             }
-        } catch (IOException ignored) {
+        }catch (Exception e) {
+            log.error("日报推送异常::->{}",e.getMessage());
         }
     }
 
-    public synchronized void sendMsgEarlyWarning(UserWeather userWeather) {
+    public  void sendMsgEarlyWarning(UserWeather userWeather) {
         try {
-            String cityId = getCityIdByName(userWeather.getWeatherCity());
+            String cityCode;
+            if(userWeather.getCityCode()==null) {
+                cityCode = getCityIdByName(userWeather.getWeatherCity());
+                userWeather.setCityCode(cityCode);
+                userWeatherService.updateById(userWeather);
+            }else {
+                cityCode=userWeather.getCityCode();
+            }
             String url = PropertiesConfig.QWEATHER_URL + "warning/now?location="
-                    + cityId + "&key=" + PropertiesConfig.QWEATHER_KEY;
+                    + cityCode + "&key=" + PropertiesConfig.QWEATHER_KEY;
             JSONObject jsonObject = JsonUitl.loadJsonAsJsonObj(url);
-            if (jsonObject.containsKey("warning") && jsonObject.getJSONArray("warning").size() != 0) {
+            if (jsonObject!=null&&jsonObject.containsKey("warning") && jsonObject.getJSONArray("warning").size() != 0) {
                 JSONArray warnings = jsonObject.getJSONArray("warning");
                 for (int i = 0; i < warnings.size(); i++) {
                     JSONObject warning = warnings.getJSONObject(i);
@@ -127,26 +139,27 @@ public class BarkWeatherService {
                         log.info("预警推送信息:{}", barkMsg);
                         Response response = HttpUtil.get(barkMsg);
                         int count = 0;
-                        while (response.code() != HttpStatus.SC_OK && count < 3) {
+                        while ((response == null || response.code() != HttpStatus.SC_OK) && count < 5) {
                             response = HttpUtil.get(barkMsg);
                             count++;
                         }
-                        if (response.code() == HttpStatus.SC_OK) {
+                        if (response != null && response.code() == HttpStatus.SC_OK) {
                             log.info("预警推送成功->{}", userWeather);
                             redisTemplate.opsForList().leftPush(redisKey, warningId);
                         }
                     }
                 }
             }
-        } catch (IOException ignored) {
+        } catch (Exception e) {
+            log.error("日报推送异常::->{}",e.getMessage());
         }
     }
 
-    public synchronized void sendMsgTemperatureDifference(UserWeather userWeather) {
-        String cityId = getCityIdByName(userWeather.getWeatherCity());
+    public  void sendMsgTemperatureDifference() {
+
     }
 
-    public synchronized String getCityIdByName(String cityName) {
+    public  String getCityIdByName(String cityName) {
         String url = "https://geoapi.qweather.com/v2/city/lookup?location=" + cityName + "&key=" + PropertiesConfig.QWEATHER_KEY;
         JSONObject jsonObject = JsonUitl.loadJsonAsJsonObj(url);
         return jsonObject.getJSONArray("location").getJSONObject(0).getString("id");
@@ -156,7 +169,6 @@ public class BarkWeatherService {
     /**
      * (旧)使用聚合数据做推送
      *
-     * @param userWeather
      */
     @Deprecated
     public void sendMsg(UserWeather userWeather) {
@@ -189,11 +201,10 @@ public class BarkWeatherService {
         int wind = Integer.parseInt(weather.getWindspeed().substring(0, weather.getWindspeed().indexOf(".")));
         String windSpeed = windLevelToString(wind);
         //构建生成数据
-        String s = weather.getCity() + ":" + weather.getWeather()
+        return weather.getCity() + ":" + weather.getWeather()
                 + weather.getTemplow() + "~" + weather.getTemphigh() + "℃" + windSpeed + "%0a"
                 + details
                 + (hasRain ? "%0a今天有雨!" : "%0a今日无雨。");
-        return s;
     }
 
     private String windLevelToString(int wind) {

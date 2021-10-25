@@ -3,9 +3,12 @@ package com.opzpy123.model;
 
 import com.opzpy123.constant.enums.WeatherEnum;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class UserWeather extends BaseModel {
 
     private String weatherName;     //天气任务名称
@@ -15,6 +18,8 @@ public class UserWeather extends BaseModel {
     private String barkId;          //消息推送(bark)Id
 
     private String weatherCity;        //通知天气的城市
+
+    private String cityCode;    //通知天气的城市代码
 
     private String cronExpression;  //corn表达式
 

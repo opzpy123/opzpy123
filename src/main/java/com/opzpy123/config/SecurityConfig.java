@@ -41,15 +41,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private MyLogoutSuccessHadler logoutSuccessHadler;
 
 
-
     /**
      * 用户认证配置
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        /**
-         * 指定用户认证时，默认从哪里获取认证用户信息
-         */
+
+        //指定用户认证时，默认从哪里获取认证用户信息
+
 //        auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("admin").password(new BCryptPasswordEncoder().encode("opzpy123")).roles("ADMIN");
         auth.userDetailsService(myAuthUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
     }
@@ -106,9 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        /**
-         * BCryptPasswordEncoder：相同的密码明文每次生成的密文都不同，安全性更高
-         */
+        //BCryptPasswordEncoder：相同的密码明文每次生成的密文都不同，安全性更高
         return new BCryptPasswordEncoder();
     }
 

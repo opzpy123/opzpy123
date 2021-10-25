@@ -2,12 +2,8 @@ package com.opzpy123.model.vo;
 
 import com.opzpy123.model.UserWeather;
 import com.opzpy123.service.BarkWeatherService;
-import com.opzpy123.service.UserWeatherService;
 import com.opzpy123.util.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 @Slf4j
 public class WeatherTaskVo implements Runnable {
@@ -36,7 +32,7 @@ public class WeatherTaskVo implements Runnable {
             }
             case TEMPERATURE_DIFFERENCE: {
                 //温差 每天提醒一次
-                barkWeatherService.sendMsgTemperatureDifference(userWeather);
+                barkWeatherService.sendMsgTemperatureDifference();
                 break;
             }
         }

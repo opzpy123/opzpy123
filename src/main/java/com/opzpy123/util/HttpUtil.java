@@ -11,15 +11,20 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class HttpUtil {
 
-    public static Response get(String url) throws IOException {
+    public static Response get(String url) {
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
                 .build();
 
         Request request = new Request.Builder()
                 .get().url(url).build();
-        return client.newCall(request).execute();
+        try {
+            return client.newCall(request).execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
