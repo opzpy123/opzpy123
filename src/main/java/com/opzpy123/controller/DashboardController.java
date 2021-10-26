@@ -81,7 +81,8 @@ public class DashboardController {
      */
     @GetMapping("/log")
     public String dashboardLog(Model model) {
-        model.addAttribute("sysLog",logService.getLog());
+        model.addAttribute("sysLogTodayInfo",logService.getTodayLogInfo());
+        model.addAttribute("sysLogAllDebug",logService.getAllLogDebug());
         return "dashboardLog";
     }
 

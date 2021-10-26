@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Controller
@@ -28,11 +30,13 @@ public class FileController {
     @Resource
     private AuthUserService authUserService;
 
+    //存放上传任务
+//    private final ThreadPoolExecutor threadPoolExecutor;
     @SneakyThrows
     @ResponseBody
     @PostMapping("upload")
     @Transactional(rollbackFor = Exception.class)
-    ApiResponse<String> upload( MultipartFile file, Principal principal) {
+    ApiResponse<String> upload(MultipartFile file, Principal principal) {
         log.info("文件开始上传:{}", file.getOriginalFilename());
         //判空
         try {
@@ -40,7 +44,7 @@ public class FileController {
                 log.info("文件不能为空");
                 return ApiResponse.ofSuccess("文件不能为空");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
             throw new RuntimeException();
         }
@@ -58,7 +62,6 @@ public class FileController {
         userNetdisc.setSize(file.getSize() + "");
         userNetdisc.setPath("/" + file.getOriginalFilename());
         userNetdisc.setUserId(authUser.getId());
-
         String url = ossUtils.upload(file.getInputStream(), fileKey);
         userNetdisc.setUrl(url);
         userNetdiscMapper.insert(userNetdisc);

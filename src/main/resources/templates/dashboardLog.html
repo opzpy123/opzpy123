@@ -16,26 +16,54 @@
 <body>
 
 <div class="py-1 text-center">
-        <img class="= mx-auto mb-4 d-none d-sm-none d-md-block d-lg-block d-xl-block" src="/brand/zicon.svg" alt="" width="72" height="72">
+        <img style="cursor:pointer" class="= mx-auto mb-4 d-none d-sm-none d-md-block d-lg-block d-xl-block" id="brand" src="/brand/zicon.svg" alt="" width="72" height="72">
         <h2 class="d-none d-sm-none d-md-block d-lg-block d-xl-block">日志</h2>
     <!--    <div th:text="${#authentication.principal.Authorities}"></div>-->
     <div style="height:700px;margin: 3%;width:94%;background-color: black;border-radius: 6px;overflow-x:auto;white-space:nowrap;"
-         id="box">
+         id="box1">
         <div style="height: 10px"></div>
-        <div th:each="log : ${sysLog}">
+        <div id="logToday" th:each="log : ${sysLogTodayInfo}">
             <div style="margin-left: 10px;color: white;font-weight:6;width: 100%;text-align: left"
                  th:text="${log}"></div>
         </div>
     </div>
+
+    <div  style="height:700px;margin: 3%;width:94%;background-color: black;border-radius: 6px;overflow-x:auto;white-space:nowrap;"
+         id="box2">
+        <div style="height: 10px"></div>
+        <div  th:each="log : ${sysLogAllDebug}">
+            <div style="margin-left: 10px;color: white;font-weight:6;width: 100%;text-align: left"
+                 th:text="${log}"></div>
+        </div>
+    </div>
+
 </div>
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
 <script>
     window.onload = add;//不要括号
     function add() {
-        var scrollDiv = document.getElementById('box');
-        scrollDiv.scrollTop = scrollDiv.scrollHeight;
+        var scrollDiv1 = document.getElementById('box1');
+        scrollDiv1.scrollTop = scrollDiv1.scrollHeight;
+        var scrollDiv2 = document.getElementById('box2');
+        scrollDiv2.scrollTop = scrollDiv2.scrollHeight;
     }
+
+    $("#box1").show()
+    $("#box2").hide()
+
+    var flag = 2;
+    $("#brand").click(function (){
+        if(flag===1){
+            $("#box1").show()
+            $("#box2").hide()
+            flag=0;
+        }else{
+            $("#box1").hide()
+            $("#box2").show()
+            flag=1;
+        }
+    });
 </script>
 </body>
 </html>
