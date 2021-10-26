@@ -131,7 +131,10 @@
     }
 
     function downloadFile(file) {
-        console.log(file.value);
+        var regExp=new RegExp(/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/);
+        if(!regExp.test(file.value)){
+            alert("任务同步中...")
+        }
         window.location.href = file.value;
     }
 </script>

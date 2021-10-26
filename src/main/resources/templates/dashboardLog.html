@@ -55,12 +55,18 @@
     var flag = 2;
     $("#brand").click(function (){
         if(flag===1){
+            var scrollDiv1 = document.getElementById('box1');
+            scrollDiv1.scrollTop = scrollDiv1.scrollHeight;
             $("#box1").show()
+            scrollDiv1.scrollTop = scrollDiv1.scrollHeight;
             $("#box2").hide()
             flag=0;
         }else{
             $("#box1").hide()
+            var scrollDiv2 = document.getElementById('box2');
+            scrollDiv2.scrollTop = scrollDiv2.scrollHeight;
             $("#box2").show()
+            scrollDiv2.scrollTop = scrollDiv2.scrollHeight;
             flag=1;
         }
     });

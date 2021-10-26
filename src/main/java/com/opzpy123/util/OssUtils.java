@@ -21,7 +21,7 @@ public class OssUtils {
 
     public OssUtils() {
         ClientBuilderConfiguration conf = new ClientBuilderConfiguration();
-        conf.setConnectionTimeout(1000 * 60 * 10);
+        conf.setConnectionTimeout(1000 * 3);
         conf.setMaxErrorRetry(3);
         ossClient = new OSSClientBuilder().build(PropertiesConfig.ALI_OSS_ENDPOINT, PropertiesConfig.ALI_OSS_ACCESS_KEY_ID,
                 PropertiesConfig.ALI_OSS_ACCESS_KEY_SECRET, conf);

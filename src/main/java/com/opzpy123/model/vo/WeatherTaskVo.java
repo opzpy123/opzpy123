@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 public class WeatherTaskVo implements Runnable {
     //   实现runnable无法注入bean
 //    @Resource
-    private final BarkWeatherService barkWeatherService = (BarkWeatherService) SpringContextUtil.getBean("BarkWeatherService");
+    private final BarkWeatherService barkWeatherService = SpringContextUtil.getBean("BarkWeatherService");
 
     private final UserWeather userWeather;
 
@@ -18,7 +18,7 @@ public class WeatherTaskVo implements Runnable {
     }
 
     @Override
-    public  void run() {
+    public void run() {
         switch (userWeather.getPushType()) {
             case DAILY: {
                 //早报和晚报

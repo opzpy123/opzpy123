@@ -4,6 +4,7 @@ import com.opzpy123.mapper.UserNetdiscMapper;
 import com.opzpy123.model.AuthUser;
 import com.opzpy123.model.UserNetdisc;
 import com.opzpy123.model.vo.ApiResponse;
+import com.opzpy123.model.vo.OssUploadTask;
 import com.opzpy123.service.AuthUserService;
 import com.opzpy123.util.OssUtils;
 import lombok.SneakyThrows;
@@ -15,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +34,8 @@ public class FileController {
     private AuthUserService authUserService;
 
     //存放上传任务
-//    private final ThreadPoolExecutor threadPoolExecutor;
+    private final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 10, 30, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
+
     @SneakyThrows
     @ResponseBody
     @PostMapping("upload")
@@ -62,9 +66,10 @@ public class FileController {
         userNetdisc.setSize(file.getSize() + "");
         userNetdisc.setPath("/" + file.getOriginalFilename());
         userNetdisc.setUserId(authUser.getId());
-        String url = ossUtils.upload(file.getInputStream(), fileKey);
-        userNetdisc.setUrl(url);
         userNetdiscMapper.insert(userNetdisc);
+
+        //上传任务放入线程池
+        threadPoolExecutor.execute(new OssUploadTask(fileKey,file.getInputStream(),userNetdisc.getId()));
         log.info(authUser.getUsername() + "上传了:" + file.getOriginalFilename());
         return ApiResponse.ofSuccess("上传成功");
     }
