@@ -35,7 +35,7 @@
                 <div class="col p-4 d-flex flex-column position-static">
                     <strong class="d-inline-block mb-2 text-primary">function</strong>
                     <h3 class="mb-0">天气推送</h3>
-                    <div class="mb-1 text-muted">Users 12</div>
+                    <div class="mb-1 text-muted" th:text="'Users '+${weatherNum}">Users 12</div>
                     <p class="card-text mb-auto">利用定时任务及通知推送bark app，定时推送天气信息、以及极端天气预警。</p>
                     <a href="/dashboard?path=weather" class="stretched-link">了解更多...</a>
                 </div>
@@ -43,7 +43,7 @@
                     <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
                          role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
                          focusable="false"><title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c"/>
+                        <rect width="100%" height="100%" fill="#45709E"/>
                         <text x="50%" y="50%" fill="#eceeef" dy=".3em">Weather</text>
                     </svg>
                 </div>
@@ -54,7 +54,7 @@
                 <div class="col p-4 d-flex flex-column position-static">
                     <strong class="d-inline-block mb-2 text-success">function</strong>
                     <h3 class="mb-0">个人网盘</h3>
-                    <div class="mb-1 text-muted">Users 11</div>
+                    <div class="mb-1 text-muted" th:text="'Users '+${netdiscNum}">Users 11</div>
                     <p class="mb-auto">用阿里oss做你的无限量空间网盘，存储一切你想存的东西，满速下载。</p>
                     <a href="/dashboard?path=netdisc" class="stretched-link">了解更多...</a>
                 </div>
@@ -62,7 +62,7 @@
                     <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
                          role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
                          focusable="false"><title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c"/>
+                        <rect width="100%" height="100%" fill="#578D63"/>
                         <text x="50%" y="50%" fill="#eceeef" dy=".3em">NetDisc</text>
                     </svg>
                 </div>
