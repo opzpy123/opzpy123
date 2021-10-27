@@ -19,6 +19,12 @@ public class AuthUserController {
     private AuthUserService authUserService;
 
 
+    @GetMapping("/center")
+    public String center(){
+        return "userCenter";
+    }
+
+
     /**
      * 用户注册
      */

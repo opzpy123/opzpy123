@@ -1,0 +1,38 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"><!-- Thymeleaf为我们提供的Spring Security的标签支持 -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="opzpy123">
+    <title>opzpy123</title>
+    <link rel="canonical" href="/">
+    <link rel="shortcut icon" href="/brand/zicon.svg"/>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/blog.css" rel="stylesheet">
+</head>
+<body>
+<div th:insert="navbar :: nav"></div>
+<!--<p th:text="${#authentication.principal}"></p>-->
+<p style="margin-top: 40px"></p>
+<!--//小分辨率下显示 大分辨率不显示-->
+<!--d-block d-sm-block d-md-none d-lg-none d-xl-none-->
+<!--//小分辨率不显示 大分辨率显示-->
+<!--d-none d-sm-none d-md-block d-lg-block d-xl-block-->
+<div class="container">
+    <div class="jumbotron p-4 p-md-5  rounded  shadow">
+        <h1>个人中心</h1>
+        <hr>
+        asdads
+    </div>
+</div>
+<div th:insert="footer :: footer"></div>
+
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script>
+    // $("#blogPost").html("<h2 class=\"blog-post-title\">Sample blog post</h2> <p>After a hurricane comes a rainbow.</p>")
+</script>
+</body>
+</html>

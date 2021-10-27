@@ -28,6 +28,8 @@ public class indexController {
         return "index";
     }
 
+
+
     /**
      * 跳转登录
      */

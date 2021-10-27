@@ -1,6 +1,7 @@
 package com.opzpy123.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -15,30 +16,39 @@ import java.util.stream.Collectors;
 @Service
 public class LogService {
     public ArrayList<String> getTodayLogInfo() {
-        ArrayList<String> res = new ArrayList<>();
+        ArrayList<String> tmp = new ArrayList<>();
         try (
                 FileInputStream fileInputStream = new FileInputStream("logs" + File.separator + "opzpy123.log");
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream))) {
-            res = bufferedReader.lines().collect(Collectors.toCollection(ArrayList::new));
+            tmp = bufferedReader.lines().collect(Collectors.toCollection(ArrayList::new));
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        Stack<String> stack = new Stack<>();
-        stack.addAll(res);
-        return stack.stream().limit(100).collect(Collectors.toCollection(ArrayList::new));
+        return getLastLogs(tmp);
     }
 
     public ArrayList<String> getAllLogDebug() {
-        ArrayList<String> res = new ArrayList<>();
+        ArrayList<String> tmp = new ArrayList<>();
         try {
             FileInputStream fileInputStream = new FileInputStream("." + File.separator + "opzpy123.log");
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-            res = bufferedReader.lines().collect(Collectors.toCollection(ArrayList::new));
+            tmp = bufferedReader.lines().collect(Collectors.toCollection(ArrayList::new));
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        Stack<String> stack = new Stack<>();
-        stack.addAll(res);
-        return stack.stream().limit(100).collect(Collectors.toCollection(ArrayList::new));
+        return getLastLogs(tmp);
+    }
+
+    @NotNull
+    private ArrayList<String> getLastLogs(ArrayList<String> tmp) {
+        ArrayList<String> res = new ArrayList<>();
+        if(tmp.size()<=100){
+            res.addAll(tmp);
+        }else {
+            for (int i = tmp.size()-100; i <tmp.size() ; i++) {
+                res.add(tmp.get(i));
+            }
+        }
+        return res;
     }
 }

@@ -16,12 +16,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/dashboard?path=dashboard">控制面板 <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link" href="/dashboard?path=log">
-                        <span data-feather="layers"></span>
-                        日志
-                    </a>
-                </li>
+<!--                <li class="nav-item" sec:authorize="hasRole('ADMIN')">-->
+<!--                    <a class="nav-link" href="/dashboard?path=log">-->
+<!--                        <span data-feather="layers"></span>-->
+<!--                        日志-->
+<!--                    </a>-->
+<!--                </li>-->
             </ul>
             <ul class="navbar-nav" th:if="${#authentication.name}!='anonymousUser'">
                 <li class="nav-item dropdown">
@@ -29,7 +29,7 @@
                        aria-haspopup="true"
                        aria-expanded="false" th:text="${#authentication.name}"></a>
                     <div class="dropdown-menu" aria-labelledby="dropdown04">
-                        <a class="dropdown-item" href="#">个人中心</a>
+                        <a class="dropdown-item" href="/user/center">个人中心</a>
                         <a class="dropdown-item" href="/logout">退出登录</a>
                     </div>
                 </li>
