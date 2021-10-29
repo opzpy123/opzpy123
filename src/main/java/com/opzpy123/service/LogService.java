@@ -42,10 +42,10 @@ public class LogService {
     @NotNull
     private ArrayList<String> getLastLogs(ArrayList<String> tmp) {
         ArrayList<String> res = new ArrayList<>();
-        if(tmp.size()<=100){
+        if(tmp.size()<=300){
             res.addAll(tmp);
         }else {
-            for (int i = tmp.size()-100; i <tmp.size() ; i++) {
+            for (int i = tmp.size()-300; i <tmp.size() ; i++) {
                 res.add(tmp.get(i));
             }
         }

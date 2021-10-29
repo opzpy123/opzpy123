@@ -11,6 +11,14 @@
     <link rel="shortcut icon" href="/brand/zicon.svg"/>
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/blog.css" rel="stylesheet">
+    <style>
+        #userAvatar:hover {
+            transform: scale(1.05, 1.05);
+
+            cursor: pointer;
+            transition: 0.3s;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="navbar :: nav"></div>
@@ -24,16 +32,66 @@
     <div class="jumbotron p-4 p-md-7  rounded  shadow">
         <h1>个人中心</h1>
         <hr>
-        asdads
+        <div class="row">
+            <div class="col-lg-5">
+                <svg class="bd-placeholder-img rounded-circle" id="userAvatar" width="140" height="140"
+                     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#777"/>
+                    <image th:href="${loginUser.avatar}" width="100%" height="100%"/>
+                </svg>
+                <hr>
+                <div id="userName" class="form-inline"><h3 th:text="'名字:'+${loginUser.username}">名字:</h3></div>
+                <div id="userEmail" class="form-inline"><h3 th:text="'邮箱:'+${loginUser.email}">邮箱:</h3></div>
+                <div id="userPhone" class="form-inline"><h3 th:text="'电话:'+${loginUser.phone}">电话:</h3></div>
+                <p th:text="'Some representative placeholder content for the three columns of text below the carousel. This is the
+                    first column.'"></p>
+                <br>
+                <p><a class="btn btn-secondary" id="changeUserInfo">修改个人信息</a></p>
+            </div>
+            <div class="col-lg-2"></div>
+            <!--            <div class="col-lg-4 bg-dark rounded-lg">-->
+        </div>
     </div>
 </div>
+</div>
+
 
 <div th:insert="footer :: footer"></div>
 
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
 <script>
-    // $("#blogPost").html("<h2 class=\"blog-post-title\">Sample blog post</h2> <p>After a hurricane comes a rainbow.</p>")
+    var i = 0;
+    $("#changeUserInfo").click(function () {
+        var username = "[[${loginUser.username}]]"
+        var userEmail = "[[${loginUser.email}]]"
+        var userPhone = "[[${loginUser.phone}]]"
+        if (i === 0) {
+            i = 1;
+            // $("#userName").html("<h3>名字:</h3><input class=\"form-control\" placeholder=\""+username+"\">")
+            $("#userEmail").html("<h3>邮箱:</h3><input id=\"userNameInput\" class=\"form-control\" value=\"" + userEmail + "\" placeholder=\"" + userEmail + "\">")
+            $("#userPhone").html("<h3>电话:</h3><input id=\"userPhoneInput\" class=\"form-control\" value=\"" + userPhone + "\" placeholder=\"" + userPhone + "\">")
+            $("#changeUserInfo").removeClass("btn-secondary");
+            $("#changeUserInfo").addClass("btn-success")
+            $("#changeUserInfo").text("提交")
+        } else {
+            //提交个人信息
+            var id = "[[${loginUser.id}]]"
+            var nameInput=$("#userNameInput").val();
+            var phoneInput=$("#userPhoneInput").val();
+            console.log(id+";"+nameInput+";"+phoneInput);
+
+            i = 0;
+            // $("#userName").html("<h3>名字:"+username+"</h3>")
+            $("#userEmail").html("<h3>邮箱:" + userEmail + "</h3>")
+            $("#userPhone").html("<h3>电话:" + userPhone + "</h3>")
+            $("#changeUserInfo").addClass("btn-secondary");
+            $("#changeUserInfo").removeClass("btn-success")
+            $("#changeUserInfo").text("修改个人信息");
+
+        }
+    })
 </script>
 </body>
 </html>
