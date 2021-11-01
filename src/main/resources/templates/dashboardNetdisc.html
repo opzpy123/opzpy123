@@ -52,7 +52,7 @@
             <li class="list-group-item" style="width:  10%"
                 th:text="((${file.size})-(${file.size}%1000))/1000+'KB'"></li>
             <li class="list-group-item" style="width:  10%;padding: 6px">
-                <button type="button" th:value="${file.url}" onclick="downloadFile(this)" class="btn btn-success"
+                <button type="button" th:value="${file}" th:onclick="downloadFile([[${file}]])" class="btn btn-success"
                         style="width:60px;height: 25px;padding:0;margin: 5px">下载
                 </button>
             </li>
@@ -107,7 +107,7 @@
                 })
                 return xhr;
             },
-            success:function (res){
+            success: function (res) {
                 alert(res.data);
                 window.location.href = "/dashboard/netdisc";
             },
@@ -131,11 +131,26 @@
     }
 
     function downloadFile(file) {
-        var regExp=new RegExp(/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/);
-        if(!regExp.test(file.value)){
+        var regExp = new RegExp(/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/);
+        if (!regExp.test(file.url)) {
             alert("任务同步中...")
         }
-        window.location.href = file.value;
+        //向后端记录日志
+        $.ajax({
+            data: JSON.stringify(file.fileName),
+            dataType: "json",
+            url: "/file/download",
+            type: "post",
+            contentType:"application/json",
+            success: function () {
+                window.location.href = file.url;
+            },
+            error: function () {
+                alert("下载失败")
+            }
+        });
+
+
     }
 </script>
 </body>

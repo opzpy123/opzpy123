@@ -87,4 +87,13 @@ public class FileController {
         log.info(authUser.getUsername() + "删除了:" + userNetdisc.getPath());
         return ApiResponse.ofSuccess();
     }
+
+    @ResponseBody
+    @PostMapping("/download")
+    ApiResponse<String> downloadLog(Principal principal,@RequestBody String fileName){
+        System.out.println(principal.getName());
+        System.out.println(fileName);
+        log.info(principal.getName()+"下载了"+fileName);
+        return ApiResponse.ofSuccess();
+    }
 }
