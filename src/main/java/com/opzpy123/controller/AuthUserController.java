@@ -30,6 +30,13 @@ public class AuthUserController {
         return "userCenter";
     }
 
+    @ResponseBody
+    @PutMapping("/center")
+    public ApiResponse<AuthUser> changeUserInfo(@RequestBody AuthUser user){
+        authUserService.updateById(user);
+        return ApiResponse.ofSuccess(user);
+    }
+
 
     /**
      * 用户注册

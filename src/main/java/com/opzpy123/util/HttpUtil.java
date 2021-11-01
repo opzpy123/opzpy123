@@ -22,7 +22,7 @@ public class HttpUtil {
         try {
             return client.newCall(request).execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return null;
     }

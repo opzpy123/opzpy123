@@ -29,7 +29,7 @@ public class JsonUitl {
             try {
                 jsonObject = JSONObject.parseObject(Objects.requireNonNull(response.body()).string());
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             }
         } else {
             log.error("Get 请求异常：{}", url);

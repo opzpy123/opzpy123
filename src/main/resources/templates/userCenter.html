@@ -70,18 +70,28 @@
         if (i === 0) {
             i = 1;
             // $("#userName").html("<h3>名字:</h3><input class=\"form-control\" placeholder=\""+username+"\">")
-            $("#userEmail").html("<h3>邮箱:</h3><input id=\"userNameInput\" class=\"form-control\" value=\"" + userEmail + "\" placeholder=\"" + userEmail + "\">")
+            $("#userEmail").html("<h3>邮箱:</h3><input id=\"userEmailInput\" class=\"form-control\" value=\"" + userEmail + "\" placeholder=\"" + userEmail + "\">")
             $("#userPhone").html("<h3>电话:</h3><input id=\"userPhoneInput\" class=\"form-control\" value=\"" + userPhone + "\" placeholder=\"" + userPhone + "\">")
             $("#changeUserInfo").removeClass("btn-secondary");
             $("#changeUserInfo").addClass("btn-success")
             $("#changeUserInfo").text("提交")
         } else {
             //提交个人信息
-            var id = "[[${loginUser.id}]]"
-            var nameInput=$("#userNameInput").val();
-            var phoneInput=$("#userPhoneInput").val();
-            console.log(id+";"+nameInput+";"+phoneInput);
-
+            var id1 = "[[${loginUser.id}]]"
+            var email1 = $("#userEmailInput").val();
+            var phone1 = $("#userPhoneInput").val();
+            var user = JSON.stringify({"id": id1, "email": email1, "phone": phone1});
+            console.log(user)
+            $.ajax({
+                data: user,
+                dataType: "json",
+                url: "/user/center",
+                type: "PUT",
+                contentType:"application/json",
+                success: function (obj) {
+                    window.location.href="/user/center";
+                }
+            });
             i = 0;
             // $("#userName").html("<h3>名字:"+username+"</h3>")
             $("#userEmail").html("<h3>邮箱:" + userEmail + "</h3>")
