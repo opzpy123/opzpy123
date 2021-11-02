@@ -57,7 +57,7 @@ public class RedisConfig {
     @Bean
     public RedisSerializer<Object> jackson2JsonRedisSerializer() {
         //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
-        Jackson2JsonRedisSerializer serializer = new Jackson2JsonRedisSerializer(Object.class);
+        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
@@ -101,12 +101,11 @@ public class RedisConfig {
         configMap.put("UUser", config.entryTtl(Duration.ofDays(3)));
 
         // 使用自定义的缓存配置初始化一个cacheManager
-        RedisCacheManager cacheManager = RedisCacheManager.builder(redisConnectionFactory)
+        return RedisCacheManager.builder(redisConnectionFactory)
                 // 一定要先调用该方法设置初始化的缓存名，再初始化相关的配置
                 .initialCacheNames(cacheNames)
                 .withInitialCacheConfigurations(configMap)
                 .build();
-        return cacheManager;
     }
 
 }

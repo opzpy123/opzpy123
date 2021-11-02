@@ -25,9 +25,9 @@
         </encoder>
     </appender>
 
-    <logger name="com.opzpy123" level="debug" additivity="true">
+    <logger name="com.opzpy123" level="debug" additivity="false">
         <appender-ref ref="FILE-ROLLING"/>
-        <appender-ref ref="CONSOLE"/>
+<!--        <appender-ref ref="CONSOLE"/>-->
     </logger>
 
 

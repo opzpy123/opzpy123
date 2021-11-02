@@ -86,4 +86,12 @@ public class DashboardController {
         return "dashboardLog";
     }
 
+    /**
+     * 交流
+     */
+    @GetMapping("/talk")
+    public String dashboardTalk(Principal principal) {
+        return "dashboardTalk";
+    }
+
 }
