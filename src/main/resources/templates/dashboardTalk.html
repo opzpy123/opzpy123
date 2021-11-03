@@ -16,15 +16,72 @@
 
 <div class="py-1 text-center">
     <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
-    <h2>交流</h2>
+    <!--    <h2>交流</h2>-->
     <br class="mb-4">
+</div>
+<div class="container" style="padding-top: 0;margin-top: 0;height: 700px">
+    <div class="jumbotron p-4 p-md-7  rounded  shadow"
+         style="position: relative;margin-top: 0;padding-top: 0;height: 650px">
+        <h4 style="margin: 0;padding: 0" class="text-center " th:text="${#authentication.principal['Username']}"></h4>
+        <hr>
+        <div class="row">
+            <div class="col-lg-12" id="showMessage">
+                hello
+            </div>
+        </div>
+        <input class=" input rounded text-white"
+             style="height: 40px;width: 70%;background-color: #1b1e21;position: absolute;bottom: 30px;left: 12%;">
 
+        </input>
+        <button class="btn btn-info" style="height: 40px;width: 80px;position: absolute;bottom: 30px;right: 12%">发送
+        </button>
+
+    </div>
 </div>
 
 
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
 <script>
+    //进入房间
+    $(window).ready(function () {
+        $.ajax({
+            url: "/talk/enter",
+            type: "get",
+            success: function (obj) {
+                console.log(obj);
+            }
+        });
+    });
+
+    //退出房间
+    window.onbeforeunload = function () {
+        $.ajax({
+            url: "/talk/exit",
+            type: "get",
+            success: function (obj) {
+                console.log(obj);
+            }
+        });
+    };
+
+    //接收消息
+    window.setInterval(function () {
+        $.ajax({
+            url: "/talk/receive",
+            type: "get",
+            success: function (obj) {
+                var html = '';
+                $.each(obj.data, function (messageVoIndex, messageVo) {
+                    // console.log(messageVo['message']);
+                    // console.log(messageVo['userName']);
+                    // console.log(messageVo['sendTime']);
+                    html += "<div>username:" + messageVo['message'] + ",message:" + messageVo['userName'] + ",sendTime:" + messageVo['sendTime'] + "</div>"
+                })
+                $("#showMessage").html(html);
+            }
+        })
+    }, 3000);
 </script>
 </body>
 </html>

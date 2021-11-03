@@ -27,17 +27,8 @@ public class RedisMessagePublisher implements MessagePublisher {
     }
 
     @Override
-    public void publish(String message) {
+    public void publish(Object message) {
         redisTemplate.convertAndSend(topic.getTopic(), message);
     }
 
-
-    public void publish(Object obj){
-        try {
-            publish(new ObjectMapper().writeValueAsString(obj));
-        }catch (Exception e){
-            log.error("消息发布对象序列化失败"+e.getMessage());
-        }
-
-    }
 }

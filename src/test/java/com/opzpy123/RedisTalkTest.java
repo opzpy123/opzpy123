@@ -1,7 +1,9 @@
 package com.opzpy123;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
 import com.opzpy123.model.pubsub.RedisMessagePublisher;
 import com.opzpy123.model.pubsub.RedisMessageSubscriber;
 import com.opzpy123.model.vo.MessageVo;
@@ -17,10 +19,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
@@ -33,23 +37,26 @@ public class RedisTalkTest {
     @Resource
     private RedisMessagePublisher redisMessagePublisher;
 
+    @Resource
+    private RedisSerializer<Object> jackson2JsonRedisSerializer;
 
     @Test
-    @SneakyThrows
-    void test() {
+    void test() throws InterruptedException {
 
         MessageVo messageVo = new MessageVo();
         messageVo.setMessage("hello everybody");
         messageVo.setSendTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         messageVo.setUserName("opzpy123");
-
-        redisMessagePublisher.publish(messageVo);
+        while (true) {
+            redisMessagePublisher.publish(messageVo);
+            Thread.sleep(1000);
+        }
     }
 
     @Test
     void serializeTest() throws JsonProcessingException {
-        MessageVo messageVo = new ObjectMapper().readValue("{\"message\":\"hello everybody\",\"userName\":\"opzpy123\",\"sendTime\":\"2021-11-02 14:39:28\"}", MessageVo.class);
-        System.out.println(messageVo);
+        MessageVo parse = JSONObject.parseObject("{\"message\":\"hello everybody\",\"userName\":\"opzpy123\",\"sendTime\":\"2021-11-02 23:18:30\"}",MessageVo.class);
+        System.out.println(parse);
     }
 
 }
