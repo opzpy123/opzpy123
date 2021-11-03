@@ -25,15 +25,16 @@
         <h4 style="margin: 0;padding: 0" class="text-center " th:text="${#authentication.principal['Username']}"></h4>
         <hr>
         <div class="row">
-            <div class="col-lg-12" id="showMessage">
-                hello
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10" id="showMessage">
             </div>
         </div>
-        <input class=" input rounded text-white"
-             style="height: 40px;width: 70%;background-color: #1b1e21;position: absolute;bottom: 30px;left: 12%;">
+        <input id="inputValue" type="text" class=" rounded text-white"
+               style="height: 40px;width: 70%;background-color: #1b1e21;position: absolute;bottom: 30px;left: 12%;">
 
         </input>
-        <button class="btn btn-info" style="height: 40px;width: 80px;position: absolute;bottom: 30px;right: 12%">发送
+        <button id="inputBtn" class="btn btn-info"
+                style="height: 40px;width: 80px;position: absolute;bottom: 30px;right: 12%">发送
         </button>
 
     </div>
@@ -65,23 +66,57 @@
         });
     };
 
+    var loginUser = "[[${#authentication.principal['Username']}]]"
     //接收消息
     window.setInterval(function () {
+
         $.ajax({
             url: "/talk/receive",
             type: "get",
             success: function (obj) {
                 var html = '';
                 $.each(obj.data, function (messageVoIndex, messageVo) {
-                    // console.log(messageVo['message']);
-                    // console.log(messageVo['userName']);
-                    // console.log(messageVo['sendTime']);
-                    html += "<div>username:" + messageVo['message'] + ",message:" + messageVo['userName'] + ",sendTime:" + messageVo['sendTime'] + "</div>"
+                    if (loginUser === messageVo['userName']) {
+                        html += "<div style='text-align: right;height: 90px'>" +
+                            "          <div >" +
+                            "              <h5 class=\"font-weight-light\" style=\"display: inline;\">" + messageVo['userName'] + "</h5>" +
+                            "              <div style=\"display: inline;color: #82817f;font-size: smaller\">" + messageVo['sendTime'] + "</div>" +
+                            "          </div>" +
+                            "          <h5 class=\"text-white font-weight-light \"\n" +
+                            "               style=\"float: right;border-radius: 10px;padding: 12px;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;background-color: #27b07c\">" +
+                            "              " + messageVo['message'] +
+                            "          </h5>" +
+                            "    </div>"
+                    } else {
+                        html += "<div >" +
+                            "         <div >" +
+                            "             <h5 class=\"font-weight-light\" style=\"display: inline;\">" + messageVo['userName'] + "</h5>" +
+                            "             <div style=\"display: inline;color: #82817f;font-size: smaller\">" + messageVo['sendTime'] + "</div>" +
+                            "         </div>" +
+                            "         <h5 class=\"text-white font-weight-light \"\n" +
+                            "              style=\"border-radius: 10px;padding: 12px;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;background-color: #3988bc\">" +
+                            "             " + messageVo['message'] +
+                            "         </h5>" +
+                            "   </div>"
+                    }
+
                 })
                 $("#showMessage").html(html);
             }
         })
-    }, 3000);
+    }, 200);
+
+    //发送消息
+    $("#inputBtn").click(function () {
+        var inputValue = document.getElementById("inputValue").value;
+        $.ajax({
+            url: "/talk/send?message=" + inputValue,
+            type: "get",
+            success: function (obj) {
+                document.getElementById("inputValue").value="";
+            }
+        });
+    })
 </script>
 </body>
 </html>

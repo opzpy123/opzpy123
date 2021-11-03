@@ -54,8 +54,10 @@ public class TalkService {
         List<MessageVo> res = new ArrayList<>();
         if (RedisMessageSubscriber.messageMap.get(principal.getName()) != null)
             res = RedisMessageSubscriber.messageMap.get(principal.getName());
+        if (res.size() >= 5)
+            res = res.stream().skip(res.size() - 5).collect(Collectors.toList());
 
-        log.info(principal.getName() + "获取消息" + res.stream().map(MessageVo::getMessage).collect(Collectors.toList()));
+//        log.info(principal.getName() + "获取消息" + res.stream().map(MessageVo::getMessage).collect(Collectors.toList()));
         return ApiResponse.ofSuccess(res);
     }
 
