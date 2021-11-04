@@ -13,7 +13,9 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -50,7 +52,7 @@ public class TalkService {
         return ApiResponse.ofSuccess();
     }
 
-    private String tempTime = null;
+    private final HashMap<String, String> tempTimeMap = new HashMap<String, String>();
 
     public ApiResponse<List<MessageVo>> getMessage(Principal principal) {
 
@@ -61,16 +63,21 @@ public class TalkService {
         if (res.size() >= 150)
             res = res.stream().skip(res.size() - 150).collect(Collectors.toList());
         //展示逻辑 未更新返回[] 已更新则返回最近150条
+        tempTimeMap.putIfAbsent(principal.getName(), null);
+        String tempTime = tempTimeMap.get(principal.getName());
         if (res.size() > 0) {
             if (tempTime == null) {
                 tempTime = res.get(res.size() - 1).getSendTime();
+                tempTimeMap.put(principal.getName(), tempTime);
             } else if (tempTime.equals(res.get(res.size() - 1).getSendTime())) {
                 res = new ArrayList<>();
             } else {
                 tempTime = res.get(res.size() - 1).getSendTime();
+                tempTimeMap.put(principal.getName(), tempTime);
             }
         } else {
             tempTime = null;
+            tempTimeMap.put(principal.getName(), tempTime);
             res = new ArrayList<>();
         }
         return ApiResponse.ofSuccess(res);
