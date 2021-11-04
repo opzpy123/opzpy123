@@ -24,9 +24,40 @@
          style="position: relative;margin-top: 0;padding-top: 0;height: 650px">
         <h4 style="margin: 0;padding: 0" class="text-center " th:text="${#authentication.principal['Username']}"></h4>
         <hr>
-        <div class="row">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10" id="showMessage">
+        <div class="row" id="box" style="height:480px;overflow-x:auto;white-space:nowrap;">
+            <div class="col-lg-12" id="showMessage">
+                <!--                <div style='text-align: right;height: 90px'>-->
+                <!--                    <div style="float: right;margin-left: 12px;margin-top:12px;border-radius: 30px;width: 60px;height: 60px;background-color: #777"></div>-->
+                <!--                    <div>-->
+                <!--                        <h5 class="font-weight-light" style="display: inline;">-->
+                <!--                            opzpy-->
+                <!--                        </h5>-->
+                <!--                        <div style="display: inline;color: #82817f;font-size: smaller">-->
+                <!--                            121212-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                    <h5 class="text-white font-weight-light "-->
+                <!--                        style="float: right;border-radius: 10px;padding:12px;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;background-color: #27b07c">-->
+                <!--                        消息1212313-->
+                <!--                    </h5>-->
+                <!--                </div>-->
+                <!--                <div style='height: 90px'>-->
+                <!--                    <div style="float: left;margin-right: 12px;margin-top:12px;border-radius: 30px;width: 60px;height: 60px;background-color: #777"></div>-->
+                <!--                    <div style="float: left">-->
+                <!--                        <div>-->
+                <!--                            <h5 class="font-weight-light" style="display: inline;">-->
+                <!--                                12312-->
+                <!--                            </h5>-->
+                <!--                            <div style="display: inline;color: #82817f;font-size: smaller">-->
+                <!--                                123-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                        <h5 class="text-white font-weight-light "-->
+                <!--                            style="border-radius: 10px;padding:12px;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;background-color: #3988bc">-->
+                <!--                            消息1212313-->
+                <!--                        </h5>-->
+                <!--                    </div>-->
+                <!--                </div>-->
             </div>
         </div>
         <input id="inputValue" type="text" class=" rounded text-white"
@@ -53,7 +84,15 @@
                 console.log(obj);
             }
         });
+        loadMessage();
+        scroll();
     });
+
+    window.onload = scroll;//不要括号
+    function scroll() {
+        var scrollDiv = document.getElementById('box');
+        scrollDiv.scrollTop = scrollDiv.scrollHeight;
+    }
 
     //退出房间
     window.onbeforeunload = function () {
@@ -68,43 +107,64 @@
 
     var loginUser = "[[${#authentication.principal['Username']}]]"
     //接收消息
-    window.setInterval(function () {
+    window.setInterval(loadMessage, 200);
 
+
+    function loadMessage() {
         $.ajax({
             url: "/talk/receive",
             type: "get",
             success: function (obj) {
-                var html = '';
-                $.each(obj.data, function (messageVoIndex, messageVo) {
-                    if (loginUser === messageVo['userName']) {
-                        html += "<div style='text-align: right;height: 90px'>" +
-                            "          <div >" +
-                            "              <h5 class=\"font-weight-light\" style=\"display: inline;\">" + messageVo['userName'] + "</h5>" +
-                            "              <div style=\"display: inline;color: #82817f;font-size: smaller\">" + messageVo['sendTime'] + "</div>" +
-                            "          </div>" +
-                            "          <h5 class=\"text-white font-weight-light \"\n" +
-                            "               style=\"float: right;border-radius: 10px;padding: 12px;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;background-color: #27b07c\">" +
-                            "              " + messageVo['message'] +
-                            "          </h5>" +
-                            "    </div>"
-                    } else {
-                        html += "<div >" +
-                            "         <div >" +
-                            "             <h5 class=\"font-weight-light\" style=\"display: inline;\">" + messageVo['userName'] + "</h5>" +
-                            "             <div style=\"display: inline;color: #82817f;font-size: smaller\">" + messageVo['sendTime'] + "</div>" +
-                            "         </div>" +
-                            "         <h5 class=\"text-white font-weight-light \"\n" +
-                            "              style=\"border-radius: 10px;padding: 12px;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;background-color: #3988bc\">" +
-                            "             " + messageVo['message'] +
-                            "         </h5>" +
-                            "   </div>"
-                    }
+                if (obj.data.length === 0) {
+                    //未更新 不做处理
 
-                })
-                $("#showMessage").html(html);
-            }
+                } else {
+                    //已更新
+                    console.log("已更新")
+                    var MessageHtml = '';
+                    $.each(obj.data, function (messageVoIndex, messageVo) {
+                        if (loginUser === messageVo['userName']) {
+                            MessageHtml += "<div style='text-align: right;height: 90px'>\n" +
+                                "        <div style=\"float: right;margin-left: 12px;margin-top:12px;border-radius: 30px;width: 60px;height: 60px;background-color: #777\"></div>\n" +
+                                "        <div>\n" +
+                                "            <h5 class=\"font-weight-light\" style=\"display: inline;\">\n" +
+                                messageVo['userName'] +
+                                "            </h5>\n" +
+                                "            <div style=\"display: inline;color: #82817f;font-size: smaller\">\n" +
+                                messageVo['sendTime'] +
+                                "            </div>\n" +
+                                "        </div>\n" +
+                                "        <h5 class=\"text-white font-weight-light \"\n" +
+                                "            style=\"float: right;border-radius: 10px;padding:12px;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;background-color: #27b07c\">\n" +
+                                messageVo['message'] +
+                                "        </h5>\n" +
+                                "    </div>"
+                        } else {
+                            MessageHtml += "<div style='height: 90px'>\n" +
+                                "        <div style=\"float: left;margin-right: 12px;margin-top:12px;border-radius: 30px;width: 60px;height: 60px;background-color: #777\"></div>\n" +
+                                "        <div style=\"float: left\">\n" +
+                                "            <div>\n" +
+                                "                <h5 class=\"font-weight-light\" style=\"display: inline;\">\n" +
+                                messageVo['userName'] +
+                                "                </h5>\n" +
+                                "                <div style=\"display: inline;color: #82817f;font-size: smaller\">\n" +
+                                messageVo['sendTime'] +
+                                "                </div>\n" +
+                                "            </div>\n" +
+                                "            <h5 class=\"text-white font-weight-light \"\n" +
+                                "                style=\"border-radius: 10px;padding:12px;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;background-color: #3988bc\">\n" +
+                                messageVo['message'] +
+                                "            </h5>\n" +
+                                "        </div>\n" +
+                                "    </div>"
+                        }
+                    })
+                    $("#showMessage").html(MessageHtml);
+                    scroll();
+                }
+            },
         })
-    }, 200);
+    }
 
     //发送消息
     $("#inputBtn").click(function () {
@@ -113,10 +173,30 @@
             url: "/talk/send?message=" + inputValue,
             type: "get",
             success: function (obj) {
-                document.getElementById("inputValue").value="";
+                document.getElementById("inputValue").value = "";
             }
         });
+        scroll();
     })
+
+
+    //监听回车键 发送消息
+    document.onkeyup = function (e) {
+        // 兼容FF和IE和Opera
+        var event = e || window.event;
+        var key = event.which || event.keyCode || event.charCode;
+        if (key == 13) {
+            var inputValue = document.getElementById("inputValue").value;
+            $.ajax({
+                url: "/talk/send?message=" + inputValue,
+                type: "get",
+                success: function (obj) {
+                    document.getElementById("inputValue").value = "";
+                }
+            });
+        }
+    };
+
 </script>
 </body>
 </html>

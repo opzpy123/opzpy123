@@ -1,5 +1,6 @@
 package com.opzpy123.service;
 
+import com.opzpy123.constant.enums.Status;
 import com.opzpy123.model.pubsub.RedisMessagePublisher;
 import com.opzpy123.model.pubsub.RedisMessageSubscriber;
 import com.opzpy123.model.vo.ApiResponse;
@@ -49,22 +50,36 @@ public class TalkService {
         return ApiResponse.ofSuccess();
     }
 
+    private String tempTime = null;
+
     public ApiResponse<List<MessageVo>> getMessage(Principal principal) {
 
         List<MessageVo> res = new ArrayList<>();
         if (RedisMessageSubscriber.messageMap.get(principal.getName()) != null)
             res = RedisMessageSubscriber.messageMap.get(principal.getName());
-        if (res.size() >= 5)
-            res = res.stream().skip(res.size() - 5).collect(Collectors.toList());
-
-//        log.info(principal.getName() + "获取消息" + res.stream().map(MessageVo::getMessage).collect(Collectors.toList()));
+        //只显示过去150条消息
+        if (res.size() >= 150)
+            res = res.stream().skip(res.size() - 150).collect(Collectors.toList());
+        //展示逻辑 未更新返回[] 已更新则返回最近150条
+        if (res.size() > 0) {
+            if (tempTime == null) {
+                tempTime = res.get(res.size() - 1).getSendTime();
+            } else if (tempTime.equals(res.get(res.size() - 1).getSendTime())) {
+                res = new ArrayList<>();
+            } else {
+                tempTime = res.get(res.size() - 1).getSendTime();
+            }
+        } else {
+            tempTime = null;
+            res = new ArrayList<>();
+        }
         return ApiResponse.ofSuccess(res);
     }
 
     public ApiResponse<String> exit(Principal principal) {
         log.info(principal.getName() + "退出房间");
-
-        RedisMessageSubscriber.messageMap.remove(principal.getName());
+        //退出房间不清理消息
+        //RedisMessageSubscriber.messageMap.remove(principal.getName());
 
         MessageVo messageVo = new MessageVo();
         messageVo.setMessage(principal.getName() + "已退出聊天");
