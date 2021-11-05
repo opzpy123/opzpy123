@@ -90,7 +90,9 @@ public class DashboardController {
      * 交流
      */
     @GetMapping("/talk")
-    public String dashboardTalk(Principal principal) {
+    public String dashboardTalk(Principal principal,Model model) {
+        AuthUser userByUsername = userService.getUserByUsername(principal.getName());
+        model.addAttribute("loginUser",userByUsername);
         return "dashboardTalk";
     }
 

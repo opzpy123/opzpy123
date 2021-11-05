@@ -11,6 +11,7 @@
     <link rel="shortcut icon" href="/brand/zicon.svg"/>
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/signin.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -22,6 +23,13 @@
 <div class="container" style="padding-top: 0;margin-top: 0;height: 700px">
     <div class="jumbotron p-4 p-md-7  rounded  shadow"
          style="position: relative;margin-top: 0;padding-top: 0;height: 650px">
+        <div id="switch" data-toggle="tooltip" data-placement="top" title="开启离线消息bark推送"
+             style="display: block;float: right;position: relative;border-radius: 20px;cursor: pointer;border: 2px solid #dedcdd;height: 31px;width: 65px;background-color: #dedcdd">
+            <div id="switchSub1"
+                 style="position: absolute;top: 1px;left:2px;z-index: 99;width: 25px;height: 25px;border-radius: 13px;background-color: white"></div>
+            <div id="switchSub2"
+                 style="position: absolute;top: 1px;left:34px;z-index: 99;width: 25px;height: 25px;border-radius: 13px;background-color:white"></div>
+        </div>
         <h4 style="margin: 0;padding: 0" class="text-center " th:text="${#authentication.principal['Username']}"></h4>
         <hr>
         <div class="row" id="box" style="height:480px;overflow-x:auto;white-space:nowrap;">
@@ -74,7 +82,13 @@
 
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
+<script src="/js/bootstrap.bundle.js"></script>
 <script>
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
     //进入房间
     $(window).ready(function () {
         $.ajax({
@@ -86,6 +100,18 @@
         });
         loadMessage();
         scroll();
+        var flag = "[[${loginUser.barkOfflineMessage}]]";
+
+        if (flag === "0") {
+            console.log("相同");
+            $("#switch").css("background-color", "#dedcdd");
+            $("#switchSub1").show()
+            $("#switchSub2").hide()
+        } else {
+            $("#switch").css("background-color", "green");
+            $("#switchSub1").hide()
+            $("#switchSub2").show()
+        }
     });
 
     window.onload = scroll;//不要括号
@@ -196,6 +222,33 @@
             });
         }
     };
+    //是否开启离线接收消息
+    var flag = "[[${loginUser.barkOfflineMessage}]]";
+    $("#switch").click(function () {
+        if (flag === "0") {
+            $("#switch").css("background-color", "green");
+            $("#switchSub1").hide()
+            $("#switchSub2").show()
+            flag = 1;
+            $.ajax({
+                url: "/user/offline?state=" + 1,
+                type: "get",
+                success: function (obj) {
+                }
+            });
+        } else {
+            $("#switch").css("background-color", "#dedcdd");
+            $("#switchSub1").show()
+            $("#switchSub2").hide()
+            flag = 0;
+            $.ajax({
+                url: "/user/offline?state=" + 0,
+                type: "get",
+                success: function (obj) {
+                }
+            });
+        }
+    });
 
 </script>
 </body>

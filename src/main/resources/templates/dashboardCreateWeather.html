@@ -13,11 +13,12 @@
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/signin.css" rel="stylesheet">
     <link href="/css/form-validation.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
 </head>
 <body>
 
 <div class="py-1">
-<!--    <img class="d-block mx-auto mb-4 text-center" src="/brand/zicon.svg" alt="" width="72" height="72">-->
+    <!--    <img class="d-block mx-auto mb-4 text-center" src="/brand/zicon.svg" alt="" width="72" height="72">-->
     <h2 class="text-center">创建天气任务</h2>
     <br class="mb-4">
     <form class="form-control-sm form-check  " action="/weather/weather" method="post">
@@ -30,7 +31,10 @@
                    required autofocus>
             <br class="mb-4">
 
-            <h6 class="px-1">bark推送地址</h6>
+            <h6 style="float: left" class="px-1">bark推送地址</h6>
+            <div data-toggle="tooltip" data-placement="right" title="一款消息推送app"
+                 style="display: inline;float:right;cursor: pointer;color: blue">bark?
+            </div>
             <input id="barkId" name="barkId" class="form-control" placeholder="https://api.day.app/{yourBarkId}/"
                    required>
             <br class="mb-4">
@@ -50,10 +54,10 @@
                        aria-label="pushType" aria-describedby="basic-addon2">
                 <div class="input-group-append">
                     <span class="input-group-text" style="margin: 0;padding: 0" id="basic-addon2">
-                        <button type="button" onclick="pushTypeSelect('DAILY')" class="btn btn-secondary">日报</button>
-                        <button type="button" onclick="pushTypeSelect('EARLY_WARNING')"
+                        <button data-toggle="tooltip" data-placement="top" title="每天早晚推送天气信息" type="button" onclick="pushTypeSelect('DAILY')" class="btn btn-secondary">日报</button>
+                        <button data-toggle="tooltip" data-placement="top" title="极端天气预警" type="button" onclick="pushTypeSelect('EARLY_WARNING')"
                                 class="btn btn-secondary">预警</button>
-                        <button type="button" onclick="pushTypeSelect('TEMPERATURE_DIFFERENCE')"
+                        <button data-toggle="tooltip" data-placement="top" title="温差提醒(未开发)" type="button" onclick="pushTypeSelect('TEMPERATURE_DIFFERENCE')"
                                 class="btn btn-secondary">温差</button>
                     </span>
                 </div>
@@ -69,7 +73,13 @@
 
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
+<script src="/js/bootstrap.bundle.js"></script>
 <script>
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
     function pushTypeSelect(type) {
         $("#pushTypeInput").val(type);
         $("#pushType").val(type);

@@ -39,6 +39,7 @@ class ScheduledTests {
             userWeather.setPushType(WeatherEnum.EARLY_WARNING);
             WeatherTaskVo weatherTaskVo = new WeatherTaskVo(userWeather);
             threadPoolTaskScheduler.schedule(weatherTaskVo, new CronTrigger(userWeather.getCronExpression()));
+
         while (true) {}
     }
 

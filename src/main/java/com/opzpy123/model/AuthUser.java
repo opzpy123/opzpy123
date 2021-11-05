@@ -23,4 +23,6 @@ public class AuthUser extends BaseModel {
 
     @TableField(fill = FieldFill.INSERT)
     private UserRolesEnum roles;
+
+    private Integer barkOfflineMessage;
 }

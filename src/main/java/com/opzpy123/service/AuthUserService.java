@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.Action;
+import java.security.Principal;
 
 
 @Slf4j
@@ -48,5 +49,12 @@ public class AuthUserService extends ServiceImpl<AuthUserMapper, AuthUser> {
 
     public AuthUser getUserByUsername(String username) {
         return getOne(new QueryWrapper<AuthUser>().lambda().eq(AuthUser::getUsername, username));
+    }
+
+    public ApiResponse<String> updateOfflineMessageState(Integer state, Principal principal) {
+        AuthUser userByUsername = getUserByUsername(principal.getName());
+        userByUsername.setBarkOfflineMessage(state);
+        baseMapper.updateById(userByUsername);
+        return ApiResponse.ofSuccess();
     }
 }
