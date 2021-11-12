@@ -1,0 +1,77 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"><!-- Thymeleaf为我们提供的Spring Security的标签支持 -->
+<head>
+    <meta charset="utf-8">
+    <meta content="text/html;charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="opzpy123">
+    <title>内联页面</title>
+    <link rel="canonical" href="/">
+    <link rel="shortcut icon" href="/brand/zicon.svg"/>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/signin.css" rel="stylesheet">
+</head>
+<body>
+<div class="py-1 ">
+    <div class="container">
+        <div class="jumbotron p-4 p-md-7  rounded  shadow">
+            <h2 class="text-center">发布</h2>
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="title" class="form-inline"><h5 style="margin-right: 20px">标题:</h5><input style="width: 80%" class="form-control"></div><br/>
+                    <div id="intro" class="form-inline"><h5 style="margin-right: 20px">简介:</h5><input style="width: 80%" class="form-control"></div><br/>
+                    <div id="about" class="form-inline"><h5 style="margin-right: 20px">关于:</h5><input style="width: 80%" class="form-control"></div><br/>
+                    <div id="link" class="form-inline"><h5 style="margin-right: 20px">链接:</h5><input style="width: 80%" class="form-control"></div><br/>
+
+                    <div id="content" class="form-inline"><h5 style="margin-right: 20px">内容:</h5></div><br>
+                    <div id="editor"></div><br>
+                </div>
+                <p style="margin-left: 15px"><a style="font-size: larger;width: 100px" class="btn btn-primary" id="changeUserInfo">发布</a></p>
+                <div class="col-lg-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+
+<script type="text/javascript">
+    const E = window.wangEditor
+    const editor = new E('#editor')
+    editor.config.focus = false
+    //修改内容回调函数
+    // 配置 onchange 回调函数
+    editor.config.onchange = onChangeCallBack;
+    // 配置触发 onchange 的时间频率，默认为 200ms
+    editor.config.onchangeTimeout = 500; // 修改为 500ms
+
+    editor.create()
+
+    //
+    // // 重新设置编辑器内容
+    // editor.txt.html('<p>用 JS 设置的内容</p>')
+    // //继续追加内容。
+    // editor.txt.append('<p>追加的内容</p>')
+    // //获取内容
+    // editor.txt.html()
+    // //获取text
+    // editor.txt.text()
+    //
+    // //json  editor.txt.getJSON()  editor.txt.setJSON([...])
+    // //清空内容 editor.txt.clear()
+    //
+    function onChangeCallBack() {
+        console.log("修改了内容")
+    }
+
+
+    // $(".w-e-toolbar").css("border","0")
+    // $(".w-e-text-container").css("border","0")
+
+</script>
+</body>
+</html>

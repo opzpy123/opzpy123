@@ -96,4 +96,14 @@ public class DashboardController {
         return "dashboardTalk";
     }
 
+    /**
+     * 交流
+     */
+    @GetMapping("/blog")
+    public String dashboardBlog(Principal principal,Model model) {
+        AuthUser userByUsername = userService.getUserByUsername(principal.getName());
+        model.addAttribute("loginUser",userByUsername);
+        return "dashboardBlog";
+    }
+
 }
