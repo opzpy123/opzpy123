@@ -4,10 +4,7 @@ import com.opzpy123.model.Blog;
 import com.opzpy123.model.vo.ApiResponse;
 import com.opzpy123.service.BlogService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -23,5 +20,12 @@ public class BlogController {
     @ResponseBody
     ApiResponse<List<Blog>> getBlogList() {
         return ApiResponse.ofSuccess(blogService.list());
+    }
+
+    @PostMapping
+    @ResponseBody
+    ApiResponse<String> addBlog(@RequestBody Blog blog) {
+        System.out.println(blog);
+        return blogService.addBlog(blog);
     }
 }

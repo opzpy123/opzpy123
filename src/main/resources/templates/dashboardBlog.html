@@ -20,15 +20,26 @@
             <hr>
             <div class="row">
                 <div class="col-lg-12">
-                    <div id="title" class="form-inline"><h5 style="margin-right: 20px">标题:</h5><input style="width: 80%" class="form-control"></div><br/>
-                    <div id="intro" class="form-inline"><h5 style="margin-right: 20px">简介:</h5><input style="width: 80%" class="form-control"></div><br/>
-                    <div id="about" class="form-inline"><h5 style="margin-right: 20px">关于:</h5><input style="width: 80%" class="form-control"></div><br/>
-                    <div id="link" class="form-inline"><h5 style="margin-right: 20px">链接:</h5><input style="width: 80%" class="form-control"></div><br/>
+                    <div class="form-inline"><h5 style="margin-right: 20px">标题:</h5><input id="title" style="width: 80%"
+                                                                                           class="form-control"></div>
+                    <br/>
+                    <div class="form-inline"><h5 style="margin-right: 20px">简介:</h5><input id="intro" style="width: 80%"
+                                                                                           class="form-control"></div>
+                    <br/>
+                    <div class="form-inline"><h5 style="margin-right: 20px">关于:</h5><input id="about" style="width: 80%"
+                                                                                           class="form-control"></div>
+                    <br/>
+                    <div class="form-inline"><h5 style="margin-right: 20px">链接:</h5><input id="link" style="width: 80%"
+                                                                                           class="form-control"></div>
+                    <br/>
 
-                    <div id="content" class="form-inline"><h5 style="margin-right: 20px">内容:</h5></div><br>
-                    <div id="editor"></div><br>
+                    <div class="form-inline"><h5 style="margin-right: 20px">内容:</h5></div>
+                    <br>
+                    <div id="editor"></div>
+                    <br>
                 </div>
-                <p style="margin-left: 15px"><a style="font-size: larger;width: 100px" class="btn btn-primary" id="changeUserInfo">发布</a></p>
+                <p style="margin-left: 15px"><a style="font-size: larger;width: 100px" class="btn btn-primary"
+                                                id="changeUserInfo">发布</a></p>
                 <div class="col-lg-2"></div>
             </div>
         </div>
@@ -71,6 +82,32 @@
 
     // $(".w-e-toolbar").css("border","0")
     // $(".w-e-text-container").css("border","0")
+
+    $("#changeUserInfo").click(function () {
+        var inputTitle = $("#title").val();
+        var inputIntro = $("#intro").val();
+        var inputAbout = $("#about").val();
+        var inputLink = $("#link").val();
+        var inputContent = editor.txt.html()
+        var blog = JSON.stringify({
+            "title": inputTitle,
+            "intro": inputIntro,
+            "about": inputAbout,
+            "link": inputLink,
+            "content": inputContent
+        });
+        console.log(blog)
+        $.ajax({
+            data: blog,
+            dataType: "json",
+            url: "/blog",
+            type: "POST",
+            contentType: "application/json",
+            success: function (res) {
+                //todo 跳转到已发布
+            }
+        });
+    })
 
 </script>
 </body>
