@@ -82,7 +82,7 @@
             <div class="blog-post" id="blogPost">
                 <h2 class="blog-post-title" id="blogTitle" th:text="${blogs.get(0).getTitle()}">博客标题</h2>
                 <p class="blog-post-meta"
-                   th:text="'博客日期('+${blogs.get(0).getCreateTime()}+') by '+${blogs.get(0).getUserId()}">
+                   th:text="'博客日期('+${blogs.get(0).getCreateTime()}+') by '+${blogs.get(0).getUserName()}">
                     博客日期(yyyy-MM-dd) by <a href="#">opzpy123</a></p>
 
                 <p id="blogIntroduction" th:text="${blogs.get(0).getIntro()}">你好 这里是博客简介</p>
@@ -131,16 +131,14 @@
 <script src="/js/bootstrap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
 
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
+
+    var blogs= [[${blogs}]];
+    console.log(blogs);
 
     //设置内容
-    var editorContent = '[[${blogs.get(0).getContent()}]]'
-    var editorHtml = '';
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(editorContent, "text/html");
-    editorHtml += doc.documentElement.textContent;
-    console.log(editorHtml);
-    $("#blogContent").html(editorHtml);
+    var editorContent = [[${blogs.get(0).getContent()}]]
+    $("#blogContent").html(editorContent);
 
 </script>
 </body>

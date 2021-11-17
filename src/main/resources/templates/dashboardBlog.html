@@ -50,7 +50,7 @@
 <script src="/js/bootstrap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
 
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
     const E = window.wangEditor
     const editor = new E('#editor')
     editor.config.focus = false
@@ -94,7 +94,8 @@
             "intro": inputIntro,
             "about": inputAbout,
             "link": inputLink,
-            "content": inputContent
+            "content": inputContent,
+            "userName":[[${loginUser.username}]]
         });
         console.log(blog)
         $.ajax({

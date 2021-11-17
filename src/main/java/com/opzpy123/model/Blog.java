@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Blog extends BaseModel {
 
-    private Long userId;          //发布的用户
+    private String userName;        //发布的用户
     private String content;         //文章内容
     private String about;           //关于
     private String link;            //引用链接
