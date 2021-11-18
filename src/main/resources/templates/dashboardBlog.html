@@ -40,6 +40,8 @@
                 </div>
                 <p style="margin-left: 15px"><a style="font-size: larger;width: 100px" class="btn btn-primary"
                                                 id="changeUserInfo">发布</a></p>
+                <div ><h6 style="margin-top: 8px;margin-left: 40px;color: #8e8f8e">tips:发布之后的内容可以在<a id="userCenter" style="color: #0069d9;cursor: pointer">个人中心</a>进行管理</h6></div>
+                <br/>
                 <div class="col-lg-2"></div>
             </div>
         </div>
@@ -105,11 +107,14 @@
             type: "POST",
             contentType: "application/json",
             success: function (res) {
-                //todo 跳转到已发布
+                window.top.location.href="/"
             }
         });
     })
 
+    $("#userCenter").click(function (){
+        window.top.location.href="/user/center"
+    })
 </script>
 </body>
 </html>
