@@ -80,23 +80,23 @@
             </h3>
 
             <div class="blog-post" id="blogPost">
-                <h2 class="blog-post-title" id="blogTitle" th:text="${blogs.get(0).getTitle()}">博客标题</h2>
-                <p class="blog-post-meta"
+                <h2 class="blog-post-title" id="blogTitle">博客标题</h2>
+                <p class="blog-post-meta" id="blogTime"
                    th:text="'博客日期('+${blogs.get(0).getCreateTime()}+') by '+${blogs.get(0).getUserName()}">
                     博客日期(yyyy-MM-dd) by <a href="#">opzpy123</a></p>
 
-                <p id="blogIntroduction" th:text="${blogs.get(0).getIntro()}">你好 这里是博客简介</p>
+                <p id="blogIntro">空</p>
                 <hr>
                 <div id="blogContent">
-                    <p>这里才是博客内容</p>
+                    <p>空</p>
                     <!--                    <div id="div1" >-->
                     <!--                    </div>-->
                 </div>
             </div>
 
             <nav class="blog-pagination">
-                <a class="btn btn-outline-primary" href="#">上一篇</a>
-                <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">下一篇</a>
+                <a class="btn btn-outline-primary" id="btnPre">上一篇</a>
+                <a class="btn btn-outline-primary" id="btnNext">下一篇</a>
             </nav>
 
         </div>
@@ -104,20 +104,21 @@
         <aside class="col-md-4 blog-sidebar">
             <div class="p-4 mb-3 bg-light rounded">
                 <h4 class="font-italic">关于</h4>
-                <p class="mb-0" th:text="${blogs.get(0).getAbout()}">你好 <em>这里是斜体</em>. 这里是关于这篇文章的思考</p>
+                <p class="mb-0" id="blogAbout">空</p>
             </div>
 
             <div class="p-4">
                 <h4 class="font-italic">目录</h4>
                 <ol class="list-unstyled mb-0" th:each="blog : ${blogs}">
-                    <li><a href="#" th:text="${blog.getTitle()}">文章1</a></li>
+                    <li><a style="color: #0069d9;cursor: pointer" th:onclick="contentList([[${blog}]])"
+                           th:text="${blog.getTitle()}+' by '+${blog.getUserName()}">文章1 todo by ***</a></li>
                 </ol>
             </div>
 
             <div class="p-4">
                 <h4 class="font-italic">链接</h4>
                 <ol class="list-unstyled">
-                    <li><a href="https://github.com/opzpy123" th:text="${blogs.get(0).getLink()}">这里应该是文章的引用出处</a></li>
+                    <li><a id="blogLink" href="https://github.com/opzpy123">空</a></li>
                 </ol>
             </div>
         </aside><!-- /.blog-sidebar -->
@@ -133,13 +134,74 @@
 
 <script type="text/javascript" th:inline="javascript">
 
-    var blogs= [[${blogs}]];
-    console.log(blogs);
+    var blogs = [[${blogs}]];
 
-    //设置内容
-    var editorContent = [[${blogs.get(0).getContent()}]]
-    $("#blogContent").html(editorContent);
+    var bloglen = blogs.length;
+    var index = 0;
+    setValue();
 
+
+    $("#btnPre").addClass("disabled")
+    $("#btnPre").click(function () {
+        if (index > 0) {
+            index--;
+            setValue();
+            if (index == 0) {
+                $("#btnPre").addClass("disabled")
+                $("#btnNext").removeClass("disabled")
+            } else {
+                $("#btnPre").removeClass("disabled")
+                $("#btnNext").removeClass("disabled")
+            }
+
+        }
+    })
+    $("#btnNext").click(function () {
+        if (index < bloglen - 1) {
+            index++;
+            setValue();
+            if (index == bloglen - 1) {
+                $("#btnNext").addClass("disabled")
+                $("#btnPre").removeClass("disabled")
+            } else {
+                $("#btnNext").removeClass("disabled")
+                $("#btnPre").removeClass("disabled")
+            }
+        }
+    })
+
+
+    function setValue() {
+        // console.log("设置值" + index)
+        //设置标题
+        $("#blogTitle").text(blogs[index].title);
+        //设置内容
+        $("#blogContent").html(blogs[index].content);
+        //设置关于
+        $("#blogAbout").text(blogs[index].about)
+        //设置日期
+        $("#blogTime").text(blogs[index].createTime + " by " + blogs[index].userName)
+        //设置简介
+        $("#blogIntro").text(blogs[index].intro)
+        //设置连接
+        $("#blogLink").text(blogs[index].link)
+    }
+
+    function contentList(blog) {
+        $("#blogTitle").text(blog.title);
+        //设置内容
+        $("#blogContent").html(blog.content);
+        //设置关于
+        $("#blogAbout").text(blog.about)
+        //设置日期
+        $("#blogTime").text(blog.createTime + " by " + blog.userName)
+        //设置简介
+        $("#blogIntro").text(blog.intro)
+        //设置连接
+        $("#blogLink").text(blog.link)
+        $("#btnPre").removeClass("disabled")
+        $("#btnNext").removeClass("disabled")
+    }
 </script>
 </body>
 </html>
