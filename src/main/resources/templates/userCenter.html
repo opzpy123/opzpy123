@@ -14,9 +14,22 @@
     <style>
         #userAvatar:hover {
             transform: scale(1.05, 1.05);
-
             cursor: pointer;
             transition: 0.3s;
+        }
+
+        .mybtn:hover {
+            transform: scale(1.05, 1.05);
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .mybtn {
+            cursor: pointer;
+            background-color: #6c757d;
+            border-radius: 16px;
+            margin: 12px;
+            color: white;
         }
     </style>
 </head>
@@ -53,7 +66,17 @@
             <!--            <div class="col-lg-4 bg-dark rounded-lg">-->
         </div>
     </div>
-    <div style="position: fixed;left: 0px;top: 100px;height: 200px;width: 90px;background-color: black"></div>
+    <div class="jumbotron p-4 p-md-7  rounded  shadow"
+         style="border-radius: 10px;position: fixed;right: 25px;top: 100px;height: 555px;width: 300px;background-color: #e9ecef">
+        <div>
+            <h3>我的博客</h3>
+        </div>
+        <hr>
+        <div th:each="blog : ${blogs}">
+            <div class="mybtn"><h5 style="padding: 5px;padding-left: 15px" th:onclick="toBlogDetail([[${blog.getId()}+'']])"
+                                   th:text="${blog.getTitle()}+'by'+${blog.getUserName()}">中文呢121af </h5></div>
+        </div>
+    </div>
 </div>
 
 
@@ -87,9 +110,9 @@
                 dataType: "json",
                 url: "/user/center",
                 type: "PUT",
-                contentType:"application/json",
+                contentType: "application/json",
                 success: function (obj) {
-                    window.location.href="/user/center";
+                    window.location.href = "/user/center";
                 }
             });
             i = 0;
@@ -102,6 +125,11 @@
 
         }
     })
+
+
+    function toBlogDetail(blog){
+        window.location.href="/dashboard/blog?blogId="+blog;
+    }
 </script>
 </body>
 </html>

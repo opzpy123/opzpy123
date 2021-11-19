@@ -1,7 +1,9 @@
 package com.opzpy123.controller;
 
 
+import com.opzpy123.mapper.BlogMapper;
 import com.opzpy123.model.AuthUser;
+import com.opzpy123.model.Blog;
 import com.opzpy123.model.UserWeather;
 import com.opzpy123.service.AuthUserService;
 import com.opzpy123.service.DashboardService;
@@ -36,6 +38,9 @@ public class DashboardController {
 
     @Resource
     private SessionRegistry sessionRegistry;
+
+    @Resource
+    private BlogMapper blogMapper;
 
     @GetMapping("")
     public String dashboard() {
@@ -97,12 +102,14 @@ public class DashboardController {
     }
 
     /**
-     * 交流
+     * 博客
      */
     @GetMapping("/blog")
-    public String dashboardBlog(Principal principal,Model model) {
+    public String dashboardBlog(Principal principal, Model model, String  blogId) {
         AuthUser userByUsername = userService.getUserByUsername(principal.getName());
         model.addAttribute("loginUser",userByUsername);
+        Blog blog = blogMapper.selectById(blogId);
+        model.addAttribute("blog",blog);
         return "dashboardBlog";
     }
 

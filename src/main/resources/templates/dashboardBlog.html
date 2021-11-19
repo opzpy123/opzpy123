@@ -6,7 +6,7 @@
     <meta content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="opzpy123">
-    <title>内联页面</title>
+    <title>修改</title>
     <link rel="canonical" href="/">
     <link rel="shortcut icon" href="/brand/zicon.svg"/>
     <link href="/css/bootstrap.css" rel="stylesheet">
@@ -20,6 +20,7 @@
             <hr>
             <div class="row">
                 <div class="col-lg-12">
+
                     <div class="form-inline"><h5 style="margin-right: 20px">标题:</h5><input id="title" style="width: 80%"
                                                                                            class="form-control"></div>
                     <br/>
@@ -38,9 +39,20 @@
                     <div id="editor"></div>
                     <br>
                 </div>
-                <p style="margin-left: 15px"><a style="font-size: larger;width: 100px" class="btn btn-primary"
-                                                id="changeUserInfo">发布</a></p>
-                <div ><h6 style="margin-top: 8px;margin-left: 40px;color: #8e8f8e">tips:发布之后的内容可以在<a id="userCenter" style="color: #0069d9;cursor: pointer">个人中心</a>进行管理</h6></div>
+                <p th:if="${blog}==null" style="margin-left: 15px"><a style="font-size: larger;width: 100px"
+                                                                      class="btn btn-primary"
+                                                                      id="postBlog">发布</a></p>
+                <p th:if="${blog}!=null" style="margin-left: 15px"><a style="font-size: larger;width: 100px"
+                                                                      class="btn btn-primary"
+                                                                      th:onclick="updateBlogFunc([[${blog.getId()+''}]])">修改</a>
+                </p>
+                <p th:if="${blog}!=null" style="margin-left: 15px"><a style="font-size: larger;width: 100px"
+                                                                      class="btn btn-danger"
+                                                                      th:onclick="deleteBlogFunc([[${blog.getId()+''}]])">删除</a>
+                </p>
+                <div><h6 style="margin-top: 8px;margin-left: 40px;color: #8e8f8e">tips:发布之后的内容可以在<a id="userCenter"
+                                                                                                    style="color: #0069d9;cursor: pointer">个人中心</a>进行管理
+                </h6></div>
                 <br/>
                 <div class="col-lg-2"></div>
             </div>
@@ -85,7 +97,7 @@
     // $(".w-e-toolbar").css("border","0")
     // $(".w-e-text-container").css("border","0")
 
-    $("#changeUserInfo").click(function () {
+    $("#postBlog").click(function () {
         var inputTitle = $("#title").val();
         var inputIntro = $("#intro").val();
         var inputAbout = $("#about").val();
@@ -97,7 +109,7 @@
             "about": inputAbout,
             "link": inputLink,
             "content": inputContent,
-            "userName":[[${loginUser.username}]]
+            "userName": [[${loginUser.username}]]
         });
         console.log(blog)
         $.ajax({
@@ -107,14 +119,69 @@
             type: "POST",
             contentType: "application/json",
             success: function (res) {
-                window.top.location.href="/"
+                window.top.location.href = "/"
             }
         });
     })
 
-    $("#userCenter").click(function (){
-        window.top.location.href="/user/center"
+    $("#userCenter").click(function () {
+        window.top.location.href = "/user/center"
     })
+
+    var updateBlog = [[${blog}]];
+    console.log(updateBlog)
+    if (updateBlog != null) {
+        console.log(updateBlog)
+        $("#title").val(updateBlog.title);
+        $("#intro").val(updateBlog.intro);
+        $("#about").val(updateBlog.about);
+        $("#link").val(updateBlog.link);
+        editor.txt.html(updateBlog.content)
+    }
+
+    function updateBlogFunc(blogId) {
+        var inputTitle = $("#title").val();
+        var inputIntro = $("#intro").val();
+        var inputAbout = $("#about").val();
+        var inputLink = $("#link").val();
+        var inputContent = editor.txt.html()
+        var blog = JSON.stringify({
+            "id": blogId,
+            "title": inputTitle,
+            "intro": inputIntro,
+            "about": inputAbout,
+            "link": inputLink,
+            "content": inputContent,
+            "userName": [[${loginUser.username}]]
+        });
+        console.log(blog)
+        $.ajax({
+            data: blog,
+            dataType: "json",
+            url: "/blog",
+            type: "PUT",
+            contentType: "application/json",
+            success: function (res) {
+                window.top.location.href = "/user/center"
+            }
+        });
+    }
+
+    function deleteBlogFunc(blogId) {
+        var blog = JSON.stringify({
+            "id": blogId
+        });
+        $.ajax({
+            data: blog,
+            dataType: "json",
+            url: "/blog",
+            type: "DELETE",
+            contentType: "application/json",
+            success: function (res) {
+                window.top.location.href = "/user/center"
+            }
+        });
+    }
 </script>
 </body>
 </html>

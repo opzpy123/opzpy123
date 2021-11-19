@@ -1,6 +1,9 @@
 package com.opzpy123.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.opzpy123.mapper.BlogMapper;
 import com.opzpy123.model.AuthUser;
+import com.opzpy123.model.Blog;
 import com.opzpy123.model.vo.ApiResponse;
 import com.opzpy123.service.AuthUserService;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.util.List;
 
 
 @Controller
@@ -20,6 +24,9 @@ public class AuthUserController {
     @Resource
     private AuthUserService authUserService;
 
+    @Resource
+    private BlogMapper blogMapper;
+
 
     @GetMapping("/center")
     public String center(Model model, Principal principal) {
@@ -27,6 +34,8 @@ public class AuthUserController {
         if (loginUser.getEmail() == null) loginUser.setEmail("");
         if (loginUser.getPhone() == null) loginUser.setPhone("");
         model.addAttribute("loginUser", loginUser);
+        List<Blog> blogs = blogMapper.selectList(new QueryWrapper<Blog>().lambda().eq(Blog::getUserName, principal.getName()));
+        model.addAttribute("blogs", blogs);
         return "userCenter";
     }
 

@@ -28,4 +28,18 @@ public class BlogController {
         System.out.println(blog);
         return blogService.addBlog(blog);
     }
+
+    @PutMapping
+    @ResponseBody
+    ApiResponse<String> updateBlog(@RequestBody Blog blog) {
+        blogService.updateById(blog);
+        return ApiResponse.ofSuccess();
+    }
+
+    @DeleteMapping
+    @ResponseBody
+    ApiResponse<String> deleteBlog(@RequestBody Blog blog) {
+        blogService.removeById(blog);
+        return ApiResponse.ofSuccess();
+    }
 }
