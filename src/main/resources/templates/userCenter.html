@@ -72,7 +72,10 @@
             <h3>我的博客</h3>
         </div>
         <hr>
-        <div th:each="blog : ${blogs}">
+        <div th:if="${blogs}==null">
+            <div><h5 style="padding: 5px;padding-left: 15px">还没有内容？<a href="/dashboard?path=blog">发布</a></h5></div>
+        </div>
+        <div th:if="${blogs}!=null" th:each="blog : ${blogs}">
             <div class="mybtn"><h5 style="padding: 5px;padding-left: 15px" th:onclick="toBlogDetail([[${blog.getId()}+'']])"
                                    th:text="${blog.getTitle()}+'-'+${blog.getUserName()}">中文呢121af </h5></div>
         </div>
