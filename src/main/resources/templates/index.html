@@ -13,6 +13,7 @@
     <link href="/css/blog.css" rel="stylesheet">
 </head>
 <body>
+<p style="float: left;" id="topFlag"></p>
 <div th:insert="navbar :: nav"></div>
 <!--<p th:text="${#authentication.principal}"></p>-->
 <p style="margin-top: 40px"></p>
@@ -75,12 +76,19 @@
 <main role="main" class="container">
     <div class="row" th:if="${blogs}!=null">
         <div class="col-md-8 blog-main">
-            <h3 class="pb-4 mb-4 font-italic border-bottom">
-                Lighthouse
-            </h3>
+            <div class="blog-post" id="blogPost" style="position: relative">
+                <div style="position: absolute;left: 0">
+                    <h2 class="blog-post-title" id="blogTitle">博客标题</h2>
+                </div>
+                <div style="position:  absolute;right: 0;top:15px">
+                    <nav class="blog-pagination">
+                        <a class="btn btn-outline-primary" id="btnPre">上一篇</a>
+                        <a class="btn btn-outline-primary" id="btnNext">下一篇</a>
+                    </nav>
+                </div>
+                <div>&nbsp;</div>
+                <br>
 
-            <div class="blog-post" id="blogPost">
-                <h2 class="blog-post-title" id="blogTitle">博客标题</h2>
                 <p class="blog-post-meta" id="blogTime"
                    th:text="'博客日期('+${blogs.get(0).getCreateTime()}+') by '+${blogs.get(0).getUserName()}">
                     博客日期(yyyy-MM-dd) by <a href="#">opzpy123</a></p>
@@ -92,12 +100,15 @@
                     <!--                    <div id="div1" >-->
                     <!--                    </div>-->
                 </div>
+                <nav class="blog-pagination">
+                <a class="btn btn-outline-primary" href="#topFlag">GOTO TOP</a>
+                </nav>
             </div>
 
-            <nav class="blog-pagination">
-                <a class="btn btn-outline-primary" id="btnPre">上一篇</a>
-                <a class="btn btn-outline-primary" id="btnNext">下一篇</a>
-            </nav>
+            <!--            <nav class="blog-pagination">-->
+            <!--                <a class="btn btn-outline-primary" id="btnPre">上一篇</a>-->
+            <!--                <a class="btn btn-outline-primary" id="btnNext">下一篇</a>-->
+            <!--            </nav>-->
 
         </div>
 

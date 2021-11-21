@@ -14,4 +14,5 @@ public class Blog extends BaseModel {
     private String link;            //引用链接
     private String intro;           //介绍
     private String title;           //标题
+    private Integer sort;           //排序字段
 }

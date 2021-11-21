@@ -37,10 +37,16 @@ public class AuthUserController {
         if (loginUser.getPhone() == null) loginUser.setPhone("");
         model.addAttribute("loginUser", loginUser);
         List<Blog> blogs;
+        //管理页面逻辑  管理员可以查看所有博客 ，非管理员只能查看自己的博客
         if (principal.getName().equals("admin")) {
-            blogs = blogMapper.selectList(null);
+            blogs = blogMapper.selectList(new QueryWrapper<Blog>()
+                    .lambda().orderByDesc(Blog::getSort)
+                    .orderByAsc(Blog::getCreateTime));
         } else {
-            blogs = blogMapper.selectList(new QueryWrapper<Blog>().lambda().eq(Blog::getUserName, principal.getName()));
+            blogs = blogMapper.selectList(new QueryWrapper<Blog>()
+                    .lambda().eq(Blog::getUserName, principal.getName())
+                    .orderByDesc(Blog::getSort)
+                    .orderByAsc(Blog::getCreateTime));
         }
         model.addAttribute("blogs", blogs);
         return "userCenter";

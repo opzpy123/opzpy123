@@ -40,13 +40,17 @@ public class indexController {
     public String index(Model model, Principal principal) {
         model.addAttribute("netdiscNum", userNetdiscMapper.getUsersNum());
         model.addAttribute("weatherNum", userWeatherMapper.getUsersNum());
+        //首页展示逻辑  管理员可以查看所有人的博客  非管理员只能查看自己和管理员和博客
         List<Blog> blogs;
         if (principal.getName().equals("admin")) {
-            blogs = blogMapper.selectList(null);
+            blogs = blogMapper.selectList(new QueryWrapper<Blog>().lambda()
+                    .orderByDesc(Blog::getSort)
+                    .orderByAsc(Blog::getCreateTime));
         } else {
             blogs = blogMapper.selectList(new QueryWrapper<Blog>().lambda()
                     .eq(Blog::getUserName, principal.getName()).or().eq(Blog::getUserName, "admin")
-                    .orderByDesc(Blog::getCreateTime));
+                    .orderByDesc(Blog::getSort)
+                    .orderByAsc(Blog::getCreateTime));
         }
         model.addAttribute("blogs", blogs);
         AuthUser loginUser = authUserService.getUserByUsername(principal.getName());
