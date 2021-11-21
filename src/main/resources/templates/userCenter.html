@@ -74,7 +74,7 @@
         <hr>
         <div th:each="blog : ${blogs}">
             <div class="mybtn"><h5 style="padding: 5px;padding-left: 15px" th:onclick="toBlogDetail([[${blog.getId()}+'']])"
-                                   th:text="${blog.getTitle()}+'by'+${blog.getUserName()}">中文呢121af </h5></div>
+                                   th:text="${blog.getTitle()}+'-'+${blog.getUserName()}">中文呢121af </h5></div>
         </div>
     </div>
 </div>

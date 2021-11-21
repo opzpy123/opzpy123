@@ -40,9 +40,14 @@ public class indexController {
     public String index(Model model, Principal principal) {
         model.addAttribute("netdiscNum", userNetdiscMapper.getUsersNum());
         model.addAttribute("weatherNum", userWeatherMapper.getUsersNum());
-        List<Blog> blogs = blogMapper.selectList(new QueryWrapper<Blog>().lambda()
-                .eq(Blog::getUserName, principal.getName()).or().eq(Blog::getUserName, "admin")
-                .orderByDesc(Blog::getCreateTime).last("limit 10"));
+        List<Blog> blogs;
+        if (principal.getName().equals("admin")) {
+            blogs = blogMapper.selectList(null);
+        } else {
+            blogs = blogMapper.selectList(new QueryWrapper<Blog>().lambda()
+                    .eq(Blog::getUserName, principal.getName()).or().eq(Blog::getUserName, "admin")
+                    .orderByDesc(Blog::getCreateTime));
+        }
         model.addAttribute("blogs", blogs);
         AuthUser loginUser = authUserService.getUserByUsername(principal.getName());
         model.addAttribute("loginUser", loginUser);
