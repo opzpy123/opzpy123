@@ -31,6 +31,20 @@
             margin: 12px;
             color: white;
         }
+        .fileInput{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            display: block;
+            width: 3.5rem;
+            clear: both;
+            display: block;
+            margin: auto;
+            background-color: red;
+        }
     </style>
 </head>
 <body>
@@ -47,7 +61,7 @@
         <hr>
         <div class="row">
             <div class="col-lg-5">
-                <svg class="bd-placeholder-img rounded-circle" id="userAvatar" width="140" height="140"
+                <svg  class="bd-placeholder-img rounded-circle" id="userAvatar" width="140" height="140"
                      xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140"
                      preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
                     <rect width="100%" height="100%" fill="#777"/>
@@ -133,6 +147,25 @@
     function toBlogDetail(blog){
         window.location.href="/dashboard/blog?blogId="+blog;
     }
+
+    $('#userAvatar').after('<input type="file" id="load_xls" name="file" style="display:none" onchange ="uploadFile()">');
+    $('#userAvatar').click(function(){
+        document.getElementById("load_xls").click();
+    });
+    function uploadFile() {
+        var myform = new FormData();
+        myform.append('file',$('#load_xls')[0].files[0]);
+        $.ajax({
+            url: "/user/avatar",
+            type: "POST",
+            data: myform,
+            contentType: false,
+            processData: false,
+            success: function () {
+                window.location.href="/user/center"
+            }
+        });
+    };
 </script>
 </body>
 </html>

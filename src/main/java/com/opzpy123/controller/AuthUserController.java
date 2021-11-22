@@ -6,16 +6,21 @@ import com.opzpy123.model.AuthUser;
 import com.opzpy123.model.Blog;
 import com.opzpy123.model.vo.ApiResponse;
 import com.opzpy123.service.AuthUserService;
+import com.opzpy123.util.OssUtils;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 @Slf4j
@@ -54,9 +59,9 @@ public class AuthUserController {
 
     @ResponseBody
     @PutMapping("/center")
-    public ApiResponse<AuthUser> changeUserInfo(@RequestBody AuthUser user) {
+    public ApiResponse<AuthUser> changeUserInfo(@RequestBody AuthUser user,Principal principal) {
         authUserService.updateById(user);
-        log.info(user.getUsername() + "修改了个人信息" + user);
+        log.info(principal.getName() + "修改了个人信息" + user);
         return ApiResponse.ofSuccess(user);
     }
 
@@ -79,5 +84,23 @@ public class AuthUserController {
         log.info(principal.getName() + (state == 1 ? "开启" : "关闭") + "了离线消息推送");
         return authUserService.updateOfflineMessageState(state, principal);
     }
+
+    /**
+     *  上传头像
+     */
+
+    @SneakyThrows
+    @ResponseBody
+    @PostMapping("/avatar")
+    @Transactional(rollbackFor = Exception.class)
+    public ApiResponse<String> uploadAvatar(MultipartFile file, Principal principal) {
+        OssUtils ossUtils = new OssUtils();
+        String url = ossUtils.upload(file.getInputStream(), "avatar/"+file.getOriginalFilename());
+        AuthUser authUser = authUserService.getUserByUsername(principal.getName());
+        authUser.setAvatar(url);
+        authUserService.updateById(authUser);
+        return ApiResponse.ofSuccess();
+    }
+
 
 }

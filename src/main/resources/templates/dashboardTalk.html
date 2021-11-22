@@ -151,7 +151,7 @@
                     $.each(obj.data, function (messageVoIndex, messageVo) {
                         if (loginUser === messageVo['userName']) {
                             MessageHtml += "<div style='text-align: right;height: 90px'>\n" +
-                                "        <div style=\"float: right;margin-left: 12px;margin-top:12px;border-radius: 30px;width: 60px;height: 60px;background-color: #777\"></div>\n" +
+                                "        <div style=\"float: right;margin-left: 12px;margin-top:12px;background-image: url([[${loginUser.getAvatar()}]]);border-radius: 30px;width: 60px;height: 60px;background-color: #777\"></div>\n" +
                                 "        <div>\n" +
                                 "            <h5 class=\"font-weight-light\" style=\"display: inline;\">\n" +
                                 messageVo['userName'] +
