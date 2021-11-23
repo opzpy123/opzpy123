@@ -69,6 +69,8 @@
     const editor = new E('#editor')
     editor.config.focus = false
     //修改内容回调函数
+    editor.config.uploadImgServer = '/blog/upload'
+    editor.config.uploadFileName  = 'file'
     // 配置 onchange 回调函数
     editor.config.onchange = onChangeCallBack;
     // 配置触发 onchange 的时间频率，默认为 200ms
