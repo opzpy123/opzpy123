@@ -61,6 +61,7 @@
             <button class="btn btn-lg btn-primary btn-block" id="submitBtn" type="submit">登 录</button>
             <br class="mb-4">
             <a class="nav-link" href="/register">注册</a>
+            <a class="nav-link" style="cursor: pointer" id="guestLogin">访客登录</a>
             <p class="mt-5 mb-3 text-muted">opzpy123 &copy; 2021-2021</p>
         </div>
     </form>
@@ -100,6 +101,11 @@
     //     // $('#alertTag').addClass("alert-warning show").show();
     //     $('#alertTag').addClass("alert-success show").show();
     // });
+    $("#guestLogin").click(function (){
+        $("#username").val("guest");
+        $("#password").val("guest");
+        $("#submitBtn").click();
+    })
 
 
 </script>
