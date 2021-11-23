@@ -1,11 +1,11 @@
 # 个人项目
 ## 介绍：
-      后端使用springboot
-      数据绑定使用thymeleaf
-      注册登录及权限使用springSecurity
-      天气推送使用spring定时任务+线程池
-      网盘及头像上传富文本图片 使用阿里OSS
-      交流使用redis发布订阅模式
+      ### 后端使用springboot
+      ### 数据绑定使用thymeleaf
+      ### 注册登录及权限使用springSecurity
+      ### 天气推送使用spring定时任务+线程池
+      ### 网盘及头像上传富文本图片 使用阿里OSS
+      ### 交流使用redis发布订阅模式
   ---    
       
 ## 主页
