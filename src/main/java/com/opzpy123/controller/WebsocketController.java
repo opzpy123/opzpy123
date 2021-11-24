@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = "/message_websocket")
+@ServerEndpoint(value = "/ws/opzpy")
 @Controller
 public class WebsocketController {
 
