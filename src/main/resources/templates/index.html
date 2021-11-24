@@ -129,7 +129,7 @@
             <div class="p-4">
                 <h4 class="font-italic">链接</h4>
                 <ol class="list-unstyled">
-                    <li><a id="blogLink" href="https://github.com/opzpy123">空</a></li>
+                    <li><div id="blogLink" style="color: #0069d9;cursor: pointer">空</div></li>
                 </ol>
             </div>
         </aside><!-- /.blog-sidebar -->
@@ -213,6 +213,10 @@
         $("#btnPre").removeClass("disabled")
         $("#btnNext").removeClass("disabled")
     }
+
+    $("#blogLink").click(function(){
+        window.open($("#blogLink").text(),'_blank')
+    })
 </script>
 </body>
 </html>
