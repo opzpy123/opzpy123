@@ -95,7 +95,7 @@ public class AuthUserController {
     @Transactional(rollbackFor = Exception.class)
     public ApiResponse<String> uploadAvatar(MultipartFile file, Principal principal) {
         OssUtils ossUtils = new OssUtils();
-        String url = ossUtils.upload(file.getInputStream(), "avatar/"+file.getOriginalFilename());
+        String url = ossUtils.upload(file.getInputStream(), "avatar/"+System.currentTimeMillis()+file.getOriginalFilename());
         AuthUser authUser = authUserService.getUserByUsername(principal.getName());
         authUser.setAvatar(url);
         authUserService.updateById(authUser);

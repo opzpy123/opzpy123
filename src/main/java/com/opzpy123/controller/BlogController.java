@@ -69,7 +69,7 @@ public class BlogController {
     @Transactional(rollbackFor = Exception.class)
     EditorApiResponse upload(MultipartFile file, Principal principal) {
         OssUtils ossUtils = new OssUtils();
-        String url = ossUtils.upload(file.getInputStream(), "editor/" + principal.getName() + "/" + file.getOriginalFilename());
+        String url = ossUtils.upload(file.getInputStream(), "editor/" + principal.getName() + "/"+System.currentTimeMillis() + file.getOriginalFilename());
         EditorApiResponse editorApiResponse = new EditorApiResponse();
         editorApiResponse.setErrno(0);
         ArrayList<EditorApiResponse.InnerData> innerDataArrayList = new ArrayList<>();
