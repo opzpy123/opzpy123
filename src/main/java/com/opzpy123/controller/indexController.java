@@ -8,17 +8,21 @@ import com.opzpy123.mapper.UserNetdiscMapper;
 import com.opzpy123.mapper.UserWeatherMapper;
 import com.opzpy123.model.AuthUser;
 import com.opzpy123.model.Blog;
+import com.opzpy123.model.vo.BlogResp;
 import com.opzpy123.service.AuthUserService;
 import com.opzpy123.service.BarkWeatherService;
 import com.opzpy123.service.BlogService;
 import com.opzpy123.service.UserWeatherService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -52,7 +56,14 @@ public class indexController {
                     .orderByDesc(Blog::getSort)
                     .orderByAsc(Blog::getCreateTime));
         }
-        model.addAttribute("blogs", blogs);
+
+        List<BlogResp> blogResps = blogs.stream().map(blog -> {
+            BlogResp blogResp = new BlogResp();
+            blogResp.fromBlog(blog);
+            return blogResp;
+        }).collect(Collectors.toList());
+
+        model.addAttribute("blogs", blogResps);
         AuthUser loginUser = authUserService.getUserByUsername(principal.getName());
         model.addAttribute("loginUser", loginUser);
         return "index";

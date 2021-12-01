@@ -101,7 +101,7 @@
                     <!--                    </div>-->
                 </div>
                 <nav class="blog-pagination">
-                <a class="btn btn-outline-primary" href="#topFlag">GOTO TOP</a>
+                    <a class="btn btn-outline-primary" href="#topFlag">GOTO TOP</a>
                 </nav>
             </div>
 
@@ -129,7 +129,22 @@
             <div class="p-4">
                 <h4 class="font-italic">链接</h4>
                 <ol class="list-unstyled">
-                    <li><div id="blogLink" style="color: #0069d9;cursor: pointer">空</div></li>
+                    <li>
+                        <div id="blogLink" style="color: #0069d9;cursor: pointer">空</div>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="p-4" id="blogEdit">
+                <h4 class="font-italic">操作</h4>
+                <ol class="list-unstyled">
+                    <li>
+                        <nav class="blog-pagination">
+                            <div id="blogEditBtn" style="margin: 7px;padding-left: 20px;padding-right: 20px"
+                                 class="btn btn-outline-info">E D I T
+                            </div>
+                        </nav>
+                    </li>
                 </ol>
             </div>
         </aside><!-- /.blog-sidebar -->
@@ -150,6 +165,8 @@
     var bloglen = blogs.length;
     var index = 0;
     setValue();
+
+    showEdit();
 
 
     $("#btnPre").addClass("disabled")
@@ -183,6 +200,7 @@
 
 
     function setValue() {
+        editId = blogs[index].id;
         // console.log("设置值" + index)
         //设置标题
         $("#blogTitle").text(blogs[index].title);
@@ -196,7 +214,11 @@
         $("#blogIntro").text(blogs[index].intro)
         //设置连接
         $("#blogLink").text(blogs[index].link)
+
+        showEdit();
     }
+
+    var editId = '';
 
     function contentList(blog) {
         $("#blogTitle").text(blog.title);
@@ -212,11 +234,26 @@
         $("#blogLink").text(blog.link)
         $("#btnPre").removeClass("disabled")
         $("#btnNext").removeClass("disabled")
+        editId = blog.id;
     }
 
-    $("#blogLink").click(function(){
-        window.open($("#blogLink").text(),'_blank')
+    $("#blogLink").click(function () {
+        window.open($("#blogLink").text(), '_blank')
     })
+
+    $("#blogEditBtn").click(function () {
+        // console.log(blogs)
+        window.location.href = "/dashboard/blog?blogId=" + editId;
+    })
+
+    function showEdit() {
+        if (blogs[index].userName == [[${loginUser.username}]]) {
+            $("#blogEdit").css("display", "block")
+        } else {
+            $("#blogEdit").css("display", "none")
+        }
+    }
+
 </script>
 </body>
 </html>
