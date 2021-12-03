@@ -200,7 +200,6 @@
 
 
     function setValue() {
-        editId = blogs[index].id;
         // console.log("设置值" + index)
         //设置标题
         $("#blogTitle").text(blogs[index].title);
@@ -214,8 +213,8 @@
         $("#blogIntro").text(blogs[index].intro)
         //设置连接
         $("#blogLink").text(blogs[index].link)
-
         showEdit();
+        editId = blogs[index].id;
     }
 
     var editId = '';
@@ -234,7 +233,10 @@
         $("#blogLink").text(blog.link)
         $("#btnPre").removeClass("disabled")
         $("#btnNext").removeClass("disabled")
-        editId = blog.id;
+        if (blog.id != null) {
+            editId = blog.id;
+        }
+
     }
 
     $("#blogLink").click(function () {
