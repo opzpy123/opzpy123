@@ -59,7 +59,7 @@ public class AuthUserController {
 
     @ResponseBody
     @PutMapping("/center")
-    public ApiResponse<AuthUser> changeUserInfo(@RequestBody AuthUser user,Principal principal) {
+    public ApiResponse<AuthUser> changeUserInfo(@RequestBody AuthUser user, Principal principal) {
         authUserService.updateById(user);
         log.info(principal.getName() + "修改了个人信息" + user);
         return ApiResponse.ofSuccess(user);
@@ -86,7 +86,7 @@ public class AuthUserController {
     }
 
     /**
-     *  上传头像
+     * 上传头像
      */
 
     @SneakyThrows
@@ -95,7 +95,7 @@ public class AuthUserController {
     @Transactional(rollbackFor = Exception.class)
     public ApiResponse<String> uploadAvatar(MultipartFile file, Principal principal) {
         OssUtils ossUtils = new OssUtils();
-        String url = ossUtils.upload(file.getInputStream(), "avatar/"+System.currentTimeMillis()+file.getOriginalFilename());
+        String url = ossUtils.upload(file.getInputStream(), "avatar/" + System.currentTimeMillis() + file.getOriginalFilename());
         AuthUser authUser = authUserService.getUserByUsername(principal.getName());
         authUser.setAvatar(url);
         authUserService.updateById(authUser);

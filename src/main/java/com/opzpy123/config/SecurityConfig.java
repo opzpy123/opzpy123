@@ -1,9 +1,5 @@
 package com.opzpy123.config;
 
-/**
- * spring security 配置类
- */
-
 
 import com.opzpy123.handler.MyLoginSuccessHandler;
 import com.opzpy123.handler.MyLogoutSuccessHadler;
@@ -22,22 +18,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-    @Autowired
+    @Resource
     private AuthUserDetailService myAuthUserDetailService;
 
-    @Autowired
+    @Resource
     private DataSource dataSource;
 
-    @Autowired
+    @Resource
     private MyLoginSuccessHandler loginSuccessHandler;
 
-    @Autowired
+    @Resource
     private MyLogoutSuccessHadler logoutSuccessHadler;
 
 
@@ -55,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/js/**", "/css/**", "/fonts/**", "/images/**", "/lib/**", "/brand/**","/ws/**");
+        web.ignoring().antMatchers("/js/**", "/css/**", "/fonts/**", "/images/**", "/lib/**", "/brand/**", "/ws/**");
     }
 
 

@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WeatherTaskVo implements Runnable {
     //   实现runnable无法注入bean
-//    @Resource
+    //   @Resource
     private final BarkWeatherService barkWeatherService = SpringContextUtil.getBean("BarkWeatherService");
 
     private final UserWeather userWeather;

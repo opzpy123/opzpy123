@@ -69,7 +69,7 @@ public class FileController {
         userNetdiscMapper.insert(userNetdisc);
 
         //上传任务放入线程池
-        threadPoolExecutor.execute(new OssUploadTask(fileKey,file.getInputStream(),userNetdisc.getId()));
+        threadPoolExecutor.execute(new OssUploadTask(fileKey, file.getInputStream(), userNetdisc.getId()));
         log.info(authUser.getUsername() + "上传了:" + file.getOriginalFilename());
         return ApiResponse.ofSuccess("上传成功");
     }
@@ -90,10 +90,10 @@ public class FileController {
 
     @ResponseBody
     @PostMapping("/download")
-    ApiResponse<String> downloadLog(Principal principal,@RequestBody String fileName){
+    ApiResponse<String> downloadLog(Principal principal, @RequestBody String fileName) {
         System.out.println(principal.getName());
         System.out.println(fileName);
-        log.info(principal.getName()+"下载了"+fileName);
+        log.info(principal.getName() + "下载了" + fileName);
         return ApiResponse.ofSuccess();
     }
 }

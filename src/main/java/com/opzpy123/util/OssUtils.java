@@ -89,7 +89,7 @@ public class OssUtils {
         } finally {
             ossClient.shutdown();
         }
-        log.info("上传"+fileName+"总upload耗时" + (System.currentTimeMillis() - all));
+        log.info("上传" + fileName + "总upload耗时" + (System.currentTimeMillis() - all));
         return url;
     }
 
@@ -153,7 +153,7 @@ public class OssUtils {
         String url = ossClient.generatePresignedUrl(PropertiesConfig.ALI_OSS_BUCKET_NAME, fileName, expiration).toString();
         // 关闭OSSClient。
         ossClient.shutdown();
-        log.info("上传"+fileName+"总upload耗时" + (System.currentTimeMillis() - all));
+        log.info("上传" + fileName + "总upload耗时" + (System.currentTimeMillis() - all));
         return url;
     }
 

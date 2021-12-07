@@ -33,7 +33,7 @@ public class JwtUtils {
      * @description: 生成Token字符串
      * @author: opzpy
      */
-    public static String getJwtToken( String id, Map<String, Object> map) {
+    public static String getJwtToken(String id, Map<String, Object> map) {
         JwtBuilder builder = Jwts.builder()
                 //设置Token头信息
                 .setHeaderParam("typ", "JWT")

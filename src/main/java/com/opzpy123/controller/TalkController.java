@@ -36,9 +36,6 @@ public class TalkController {
 
     /**
      * 进入房间，将自己注册进消息map 广播自己进入房间的消息
-     *
-     * @param principal
-     * @return
      */
     @GetMapping("/enter")
     @ResponseBody
@@ -48,10 +45,6 @@ public class TalkController {
 
     /**
      * 指定发送内容的广播消息
-     *
-     * @param principal
-     * @param message
-     * @return
      */
     @GetMapping("/send")
     @ResponseBody
@@ -61,9 +54,6 @@ public class TalkController {
 
     /**
      * 接受自己的消息
-     *
-     * @param principal
-     * @return
      */
     @GetMapping("/receive")
     @ResponseBody
@@ -73,9 +63,6 @@ public class TalkController {
 
     /**
      * 退出房间，广播退出时的消息 清理消息map
-     *
-     * @param principal
-     * @return
      */
     @GetMapping("/exit")
     @ResponseBody

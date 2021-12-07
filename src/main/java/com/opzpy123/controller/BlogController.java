@@ -51,7 +51,7 @@ public class BlogController {
     @DeleteMapping
     @ResponseBody
     ApiResponse<String> deleteBlog(@RequestBody Blog blog, Principal principal) {
-        if (principal.getName().equals("admin")) {
+        if ("admin".equals(principal.getName())) {
             blogService.removeById(blog);
         } else {
             Blog blogById = blogService.getById(blog.getId());
@@ -69,7 +69,7 @@ public class BlogController {
     @Transactional(rollbackFor = Exception.class)
     EditorApiResponse upload(MultipartFile file, Principal principal) {
         OssUtils ossUtils = new OssUtils();
-        String url = ossUtils.upload(file.getInputStream(), "editor/" + principal.getName() + "/"+System.currentTimeMillis() + file.getOriginalFilename());
+        String url = ossUtils.upload(file.getInputStream(), "editor/" + principal.getName() + "/" + System.currentTimeMillis() + file.getOriginalFilename());
         EditorApiResponse editorApiResponse = new EditorApiResponse();
         editorApiResponse.setErrno(0);
         ArrayList<EditorApiResponse.InnerData> innerDataArrayList = new ArrayList<>();

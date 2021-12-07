@@ -32,9 +32,6 @@ public class RedisConfig {
     /**
      * 配置自定义redisTemplate
      * 因为使用的连接客户端为：Lettuce,所以RedisConnectionFactory实际传入数据为 LettuceConnectionFactory
-     *
-     * @param connectionFactory
-     * @return
      */
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
@@ -51,8 +48,6 @@ public class RedisConfig {
 
     /**
      * json序列化
-     *
-     * @return
      */
     @Bean
     public RedisSerializer<Object> jackson2JsonRedisSerializer() {
@@ -70,9 +65,6 @@ public class RedisConfig {
      * 配置缓存管理器
      * 需要注意的是 你在RedisTemplate<String, Object>中的配置的key，value序列化方法并不会生效
      * 需要在RedisCacheConfiguration中单独配置。
-     *
-     * @param redisConnectionFactory
-     * @return
      */
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {

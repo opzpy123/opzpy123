@@ -46,7 +46,7 @@ public class indexController {
         model.addAttribute("weatherNum", userWeatherMapper.getUsersNum());
         //首页展示逻辑  管理员可以查看所有人的博客  非管理员只能查看自己和管理员和博客
         List<Blog> blogs;
-        if (principal.getName().equals("admin")) {
+        if ("admin".equals(principal.getName())) {
             blogs = blogMapper.selectList(new QueryWrapper<Blog>().lambda()
                     .orderByDesc(Blog::getSort)
                     .orderByAsc(Blog::getCreateTime));

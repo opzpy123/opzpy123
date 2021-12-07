@@ -38,9 +38,6 @@ public class DashboardService {
     }
 
 
-
-
-
     public void addDashboardWeatherRouter(HttpServletRequest request, HttpSession session, Model model, Principal principal) {
         AuthUser loginUser = authUserService.getUserByUsername(principal.getName());
         model.addAttribute("loginUser", loginUser);
@@ -51,6 +48,6 @@ public class DashboardService {
         model.addAttribute("loginUser", loginUser);
         List<UserNetdisc> netdiscFileList = userNetdiscMapper.selectList(new QueryWrapper<UserNetdisc>()
                 .lambda().eq(UserNetdisc::getUserId, loginUser.getId()));
-        model.addAttribute("netdiscFileList",netdiscFileList);
+        model.addAttribute("netdiscFileList", netdiscFileList);
     }
 }

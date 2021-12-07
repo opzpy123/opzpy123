@@ -23,7 +23,7 @@ public class MyLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
-        log.info("登陆成功->{}", ((User)authentication.getPrincipal()).getUsername());
+        log.info("登陆成功->{}", ((User) authentication.getPrincipal()).getUsername());
         httpServletResponse.sendRedirect("/");
     }
 }

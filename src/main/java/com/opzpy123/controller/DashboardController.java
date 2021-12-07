@@ -56,7 +56,7 @@ public class DashboardController {
     public String dashboardHome() {
         List<AuthUser> authUserList = new ArrayList<>();
         for (Object principal : sessionRegistry.getAllPrincipals()) {
-            User user = (User)principal;
+            User user = (User) principal;
             AuthUser authUser = userService.getUserByUsername(user.getUsername());
             authUserList.add(authUser);
         }
@@ -76,8 +76,8 @@ public class DashboardController {
      * 网盘面板
      */
     @GetMapping("/netdisc")
-    public String dashboardNetdisc( Model model, Principal principal) {
-        dashboardService.getDashboardNetdiscInfo(model,principal);
+    public String dashboardNetdisc(Model model, Principal principal) {
+        dashboardService.getDashboardNetdiscInfo(model, principal);
         return "dashboardNetdisc";
     }
 
@@ -86,8 +86,8 @@ public class DashboardController {
      */
     @GetMapping("/log")
     public String dashboardLog(Model model) {
-        model.addAttribute("sysLogTodayInfo",logService.getTodayLogInfo());
-        model.addAttribute("sysLogAllDebug",logService.getAllLogDebug());
+        model.addAttribute("sysLogTodayInfo", logService.getTodayLogInfo());
+        model.addAttribute("sysLogAllDebug", logService.getAllLogDebug());
         return "dashboardLog";
     }
 
@@ -95,9 +95,9 @@ public class DashboardController {
      * 交流
      */
     @GetMapping("/talk")
-    public String dashboardTalk(Principal principal,Model model) {
+    public String dashboardTalk(Principal principal, Model model) {
         AuthUser userByUsername = userService.getUserByUsername(principal.getName());
-        model.addAttribute("loginUser",userByUsername);
+        model.addAttribute("loginUser", userByUsername);
         return "dashboardTalk";
     }
 
@@ -105,11 +105,11 @@ public class DashboardController {
      * 博客
      */
     @GetMapping("/blog")
-    public String dashboardBlog(Principal principal, Model model, String  blogId) {
+    public String dashboardBlog(Principal principal, Model model, String blogId) {
         AuthUser userByUsername = userService.getUserByUsername(principal.getName());
-        model.addAttribute("loginUser",userByUsername);
+        model.addAttribute("loginUser", userByUsername);
         Blog blog = blogMapper.selectById(blogId);
-        model.addAttribute("blog",blog);
+        model.addAttribute("blog", blog);
         return "dashboardBlog";
     }
 

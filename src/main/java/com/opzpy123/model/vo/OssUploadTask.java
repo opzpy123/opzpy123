@@ -20,15 +20,11 @@ public class OssUploadTask implements Runnable {
 
     private final UserNetdiscMapper userNetdiscMapper = SpringContextUtil.getBean(UserNetdiscMapper.class);
 
+    private final Long userNetdiscId;
 
-    private Long userNetdiscId;
+    private final String fileName;//文件名
 
-    //文件名
-    private String fileName;
-
-    //文件流
-    private InputStream inputStream;
-
+    private final InputStream inputStream;//文件流
 
     public OssUploadTask(String fileName, InputStream inputStream, Long userNetdiscId) {
         this.fileName = fileName;

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class LogService {
     public ArrayList<String> getTodayLogInfo() {
         ArrayList<String> tmp = new ArrayList<>();
-        String path="logs" + File.separator;
+        String path = "logs" + File.separator;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         //获取过去三天的logInfo
         Calendar calendar = Calendar.getInstance();
@@ -28,9 +28,9 @@ public class LogService {
             calendar.setTime(new Date());
             calendar.add(Calendar.DATE, -i);
             String dateFormat = sdf.format(calendar.getTime());
-            tmp.add("\n-----------"+dateFormat+"-------------\n");
+            tmp.add("\n-----------" + dateFormat + "-------------\n");
             try (
-                    FileInputStream fileInputStream = new FileInputStream(path + "archived"+File.separator+"app."+dateFormat+".0.log");
+                    FileInputStream fileInputStream = new FileInputStream(path + "archived" + File.separator + "app." + dateFormat + ".0.log");
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream))) {
                 tmp.addAll(bufferedReader.lines().collect(Collectors.toCollection(ArrayList::new)));
             } catch (Exception e) {
@@ -38,7 +38,7 @@ public class LogService {
             }
         }
         String dateFormat = sdf.format(new Date());
-        tmp.add("\n-----------"+dateFormat+"-------------\n");
+        tmp.add("\n-----------" + dateFormat + "-------------\n");
         try (
                 FileInputStream fileInputStream = new FileInputStream(path + "opzpy123.log");
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream))) {
