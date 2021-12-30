@@ -132,7 +132,7 @@
 
 <main role="main" class="container">
     <div class="row">
-        <div class="col-md-8 blog-main">
+        <div class="col-md-12 blog-main">
             <div class="blog-post" id="blogPost" style="position: relative">
                 <div style="position: absolute;left: 0">
                     <h2 class="blog-post-title" id="blogTitle">博客标题</h2>
@@ -169,46 +169,46 @@
 
         </div>
 
-        <aside class="col-md-4 blog-sidebar">
-            <div class="p-4 mb-3 bg-light rounded">
-                <h4 class="font-italic">关于</h4>
-                <p class="mb-0" id="blogAbout">空</p>
-            </div>
-
-            <div class="p-4">
-                <h4 class="font-italic">目录</h4>
-                <ol class="list-unstyled mb-0" th:each="blog : ${blogs}">
-                    <li><a style="color: #0069d9;cursor: pointer" th:onclick="contentList([[${blog}]])"
-                           th:text="${blog.getTitle()}+' by '+${blog.getUserName()}">文章1 todo by ***</a></li>
-                </ol>
-            </div>
-
-            <div class="p-4">
-                <h4 class="font-italic">链接</h4>
-                <ol class="list-unstyled">
-                    <li>
-                        <div id="blogLink" style="color: #0069d9;cursor: pointer">空</div>
-                    </li>
-                </ol>
-            </div>
-
-            <div class="p-4" id="blogEdit">
-                <h4 class="font-italic">操作</h4>
-                <ol class="list-unstyled">
-                    <li>
-                        <nav class="blog-pagination">
-                            <div id="blogEditBtn" style="margin: 7px;padding-left: 20px;padding-right: 20px"
-                                 class="btn btn-outline-info">E D I T
-                            </div>
-                        </nav>
-                    </li>
-                </ol>
-            </div>
-        </aside><!-- /.blog-sidebar -->
 
     </div><!-- /.row -->
 
+
 </main><!-- /.container -->
+<div class="col-md-4" style="border-radius: 10px;position: absolute;right: 15px;top: 70%;width: 370px;">
+    <div class="p-4">
+        <h4 class="font-italic">目录</h4>
+        <ol class="list-unstyled mb-0" th:each="blog : ${blogs}">
+            <li><a style="color: #0069d9;cursor: pointer" th:onclick="contentList([[${blog}]])"
+                   th:text="${blog.getTitle()}+' by '+${blog.getUserName()}">文章1 todo by ***</a></li>
+        </ol>
+    </div>
+<!--    <div class="p-4  rounded">-->
+<!--        <h4 class="font-italic">关于</h4>-->
+<!--        <p class="mb-0" id="blogAbout">空</p>-->
+<!--    </div>-->
+    <div class="p-4 rounded">
+        <h4 class="font-italic">链接</h4>
+        <ol class="list-unstyled">
+            <li>
+                <div id="blogLink" style="color: #0069d9;cursor: pointer">空</div>
+            </li>
+        </ol>
+    </div>
+
+    <div class="p-4  rounded" id="blogEdit">
+        <h4 class="font-italic">操作</h4>
+        <ol class="list-unstyled">
+            <li>
+                <nav class="blog-pagination">
+                    <div id="blogEditBtn" style="margin: 7px;padding-left: 20px;padding-right: 20px"
+                         class="btn btn-outline-info">E D I T
+                    </div>
+                </nav>
+            </li>
+        </ol>
+    </div>
+</div><!-- /.blog-sidebar -->
+
 <div th:insert="footer :: footer"></div>
 
 <script src="/js/jquery.js"></script>
