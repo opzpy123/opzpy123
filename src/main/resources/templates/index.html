@@ -52,11 +52,17 @@
             padding: 7px 10px;
             margin: 0 3px;
             color: #dedcdd;
+
+        }
+        pre{
+            border-radius: 7px;
+            background-color: #2b2b2c;
         }
 
         code.Bash, code.C, code.CSS, code.Java, code.JavaScript, code.JSON, code.Html, code.XML, code.SQL, code.Python {
             background-color: #2b2b2c;
             color: #dedcdd;
+            font-size: 16px;
         }
 
         pre code {
@@ -66,6 +72,12 @@
         /* ul ol 样式 */
         ul, ol {
             margin: 10px 0 10px 20px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .none {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -88,7 +100,7 @@
         </div>
     </div>
 
-    <div class="row mb-2">
+    <div class="row mb-2 none">
         <div class="col-md-6">
             <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
@@ -174,7 +186,7 @@
 
 
 </main><!-- /.container -->
-<div class="col-md-4" style="border-radius: 10px;position: absolute;right: 15px;top: 70%;width: 370px;">
+<div class="col-md-4 none" style="border-radius: 10px;position: absolute;right: 15px;top: 70%;width: 370px;">
     <div class="p-4">
         <h4 class="font-italic">目录</h4>
         <ol class="list-unstyled mb-0" th:each="blog : ${blogs}">
@@ -182,10 +194,10 @@
                    th:text="${blog.getTitle()}+' by '+${blog.getUserName()}">文章1 todo by ***</a></li>
         </ol>
     </div>
-<!--    <div class="p-4  rounded">-->
-<!--        <h4 class="font-italic">关于</h4>-->
-<!--        <p class="mb-0" id="blogAbout">空</p>-->
-<!--    </div>-->
+    <!--    <div class="p-4  rounded">-->
+    <!--        <h4 class="font-italic">关于</h4>-->
+    <!--        <p class="mb-0" id="blogAbout">空</p>-->
+    <!--    </div>-->
     <div class="p-4 rounded">
         <h4 class="font-italic">链接</h4>
         <ol class="list-unstyled">

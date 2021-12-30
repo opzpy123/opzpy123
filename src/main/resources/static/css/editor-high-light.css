@@ -3,6 +3,7 @@
     padding: .5em;
     background: #d7d7d3;
     color: #d7d7d3;
+    font-size: 16px;
 }
 
 .hljs, .hljs-tag, .css .hljs-rules, .css .hljs-value, .css .hljs-function .hljs-preprocessor, .hljs-pragma {
@@ -34,28 +35,28 @@
 }
 
 .hljs-keyword, .hljs-function, .hljs-change, .hljs-winutils, .hljs-flow, .lisp .hljs-title, .clojure .hljs-built_in, .nginx .hljs-title, .tex .hljs-special, .hljs-header, .hljs-attribute, .hljs-symbol, .hljs-symbol .hljs-string, .hljs-tag .hljs-title, .hljs-value, .alias .hljs-keyword:first-child, .css .hljs-tag, .css .unit, .css .hljs-important {
-    color: #007bbb
+    color: #009ae7
 }
 
 .hljs-function .hljs-keyword, .hljs-class .hljs-keyword:first-child, .hljs-constant, .css .hljs-attribute {
-    color: #a59aca;
+    color: #ea037f;
 }
 
 .hljs-variable, .hljs-params, .hljs-class .hljs-title {
-    color: #04a274;
+    color: #08c08a;
 }
 
 .hljs-string, .css .hljs-id, .hljs-subst, .haskell .hljs-type, .ruby .hljs-class .hljs-parent, .hljs-built_in, .sql .hljs-aggregate, .django .hljs-template_tag, .django .hljs-variable, .smalltalk .hljs-class, .django .hljs-filter .hljs-argument, .smalltalk .hljs-localvars, .smalltalk .hljs-array, .hljs-attr_selector, .hljs-pseudo, .hljs-addition, .hljs-stream, .hljs-envvar, .apache .hljs-tag, .apache .hljs-cbracket, .tex .hljs-command, .hljs-prompt, .hljs-link_label, .hljs-link_url {
-    color: #70b60f;
+    color: #0ec272;
 }
 
 .hljs-comment, .hljs-javadoc, .java .hljs-annotation, .python .hljs-decorator, .hljs-template_comment, .hljs-pi, .hljs-doctype, .hljs-deletion, .hljs-shebang, .apache .hljs-sqbracket, .tex .hljs-formula {
-    color: #8f8f8f;
+    color: #9a9a9a;
 }
 
 .coffeescript .javascript, .javascript .xml, .tex .hljs-formula, .xml .javascript, .xml .vbscript, .xml .css, .xml .hljs-cdata, .xml .php, .php .xml {
     opacity: .5
 }
 .hljs-annotation{
-    color: #fcdc1c;
+    color: #e0c21a;
 }
