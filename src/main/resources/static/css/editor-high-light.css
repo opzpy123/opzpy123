@@ -1,7 +1,8 @@
 .hljs {
     display: block;
     padding: .5em;
-    background: #23241f
+    background: #d7d7d3;
+    color: #d7d7d3;
 }
 
 .hljs, .hljs-tag, .css .hljs-rules, .css .hljs-value, .css .hljs-function .hljs-preprocessor, .hljs-pragma {
@@ -49,9 +50,12 @@
 }
 
 .hljs-comment, .hljs-javadoc, .java .hljs-annotation, .python .hljs-decorator, .hljs-template_comment, .hljs-pi, .hljs-doctype, .hljs-deletion, .hljs-shebang, .apache .hljs-sqbracket, .tex .hljs-formula {
-    color: #b6a870;
+    color: #8f8f8f;
 }
 
 .coffeescript .javascript, .javascript .xml, .tex .hljs-formula, .xml .javascript, .xml .vbscript, .xml .css, .xml .hljs-cdata, .xml .php, .php .xml {
     opacity: .5
+}
+.hljs-annotation{
+    color: #fcdc1c;
 }
