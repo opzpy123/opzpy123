@@ -6,6 +6,7 @@ import com.opzpy123.model.Blog;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -13,8 +14,8 @@ public class BlogResp {
 
     private String id;
     private Integer isDelete;
-    private Date createTime;
-    private Date updateTime;
+    private String createTime;
+    private String updateTime;
     private String userName;        //发布的用户
     private String content;         //文章内容
     private String about;           //关于
@@ -24,7 +25,10 @@ public class BlogResp {
     private Integer sort;           //排序字段
 
     public void fromBlog(Blog blog) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.setId(blog.getId() + "");
+        this.setCreateTime(sdf.format(blog.getCreateTime()));
+        this.setUpdateTime(sdf.format(blog.getUpdateTime()));
         BeanUtils.copyProperties(blog, this);
     }
 }
