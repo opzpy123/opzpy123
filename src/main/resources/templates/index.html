@@ -191,7 +191,7 @@
         <h4 class="font-italic">目录</h4>
         <ol class="list-unstyled mb-0" th:each="blog : ${blogs}">
             <li><a style="color: #0069d9;cursor: pointer" th:onclick="contentList([[${blog}]])"
-                   th:text="${blog.getTitle()}+' by '+${blog.getUserName()}">文章1 todo by ***</a></li>
+                   th:text="${blog.getTitle()}">文章1 todo by ***</a></li>
         </ol>
     </div>
     <!--    <div class="p-4  rounded">-->
