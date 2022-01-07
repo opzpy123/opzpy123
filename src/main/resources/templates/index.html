@@ -283,7 +283,7 @@
     var bloglen = blogs.length;
     var index = 0;
     setValue();
-
+    var editId;
     showEdit();
 
 
@@ -331,11 +331,11 @@
         $("#blogIntro").text(blogs[index].intro)
         //设置连接
         $("#blogLink").text(blogs[index].link)
-        showEdit();
         editId = blogs[index].id;
+        showEdit();
     }
 
-    var editId = '';
+
 
     function contentList(blog) {
         $("#blogTitle").text(blog.title);
