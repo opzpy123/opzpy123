@@ -35,7 +35,6 @@ public class AuthUserDetailService implements UserDetailsService {
         if (authUser == null) {
             throw new BadCredentialsException("用户不存在");
         }
-
         //返回账号密码权限
         return new org.springframework.security.core.userdetails
                 .User(authUser.getUsername(), authUser.getPassword(),
