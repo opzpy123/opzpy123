@@ -243,6 +243,10 @@
 <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
 
 <script type="text/javascript" th:inline="javascript">
+    //ws连接
+    var ws = new WebSocket('ws://127.0.0.1:7789/ws/opzpy');
+
+
     //滚动触发
     var showFlag = 0;
     var window_height = $(window).height()*0.2;

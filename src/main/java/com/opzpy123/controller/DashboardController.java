@@ -22,6 +22,8 @@ import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -42,6 +44,10 @@ public class DashboardController {
     @Resource
     private BlogMapper blogMapper;
 
+    //存放定时任务Future
+    @Resource(name = "scheduledFutureMap")
+    private ConcurrentHashMap<Long, ScheduledFuture<?>> scheduledFutureMap;
+
     @GetMapping("")
     public String dashboard() {
         return "dashboard";
@@ -60,6 +66,10 @@ public class DashboardController {
             AuthUser authUser = userService.getUserByUsername(user.getUsername());
             authUserList.add(authUser);
         }
+
+        int weatherTaskSize = scheduledFutureMap.size();
+
+
         return "dashboardHome";
     }
 
