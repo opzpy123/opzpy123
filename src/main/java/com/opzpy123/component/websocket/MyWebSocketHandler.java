@@ -3,6 +3,7 @@ package com.opzpy123.component.websocket;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.opzpy123.model.vo.WSUserModel;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -22,13 +23,10 @@ import java.util.Map;
 @Component
 public class MyWebSocketHandler extends TextWebSocketHandler {
 
-
-    @Resource(name = "redisTemplate")
-    private RedisTemplate redisTemplate;
     /**
      * 先注册一个websocket服务器，将连接上的所有用户放进去
      */
-    private static final Hashtable<String, Hashtable<String, WSUserModel>> USER_SOCKET_SESSION_MAP;
+    private static final Hashtable<String, WSUserModel> USER_SOCKET_SESSION_MAP;
     /**
      * 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
      */
@@ -45,11 +43,9 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-        if (checkPermission(session)) {
-            session.setTextMessageSizeLimit(2048000);
-            session.setBinaryMessageSizeLimit(2048000);
-            openConn(session);
-        }
+        session.setTextMessageSizeLimit(2048000);
+        session.setBinaryMessageSizeLimit(2048000);
+        openConn(session);
     }
 
     /**
@@ -108,6 +104,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
     private void openConn(WebSocketSession session) {
         //创建一个连接窗口，并加入的队列中
         WSUserModel ws = new WSUserModel(session);
+        WSUserModel.webSocketMapAdd(USER_SOCKET_SESSION_MAP,ws);
         addOnlineCount();           //在线数加1
         log.info("有新窗口开始监听:" + ws.getId() + ",当前在线人数为" + getOnlineCount());
     }
@@ -117,6 +114,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         if (isError) {
             log.info("窗口关闭(Error):{},当前在线人数为{}", wsUserModel.getId(), getOnlineCount());
         } else {
+            WSUserModel.webSocketMapRemove(USER_SOCKET_SESSION_MAP,wsUserModel);
             subOnlineCount();              //在线数减1
             log.info("窗口关闭:{},当前在线人数为:{}", wsUserModel.getId(), getOnlineCount());
         }

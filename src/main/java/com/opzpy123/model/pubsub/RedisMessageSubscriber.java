@@ -45,7 +45,7 @@ public class RedisMessageSubscriber implements MessageListener {
                 break;
             }
         }
-
+        s="{"+s+"}";
         MessageVo messageVo = JSONObject.parseObject(s, MessageVo.class);
         //收到消息时 按名字存放到keyEntry每个人的List中
         //进入聊天室 则将自己的名字注册进messageMap中
