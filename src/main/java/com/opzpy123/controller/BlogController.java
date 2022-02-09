@@ -8,6 +8,10 @@ import com.opzpy123.util.OssUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +22,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @Controller
 @RequestMapping("blog")
 public class BlogController {
@@ -28,46 +31,33 @@ public class BlogController {
 
     @GetMapping
     @ResponseBody
-    ApiResponse<List<Blog>> getBlogList() {
-        return ApiResponse.ofSuccess(blogService.list());
+    public ApiResponse<List<Blog>> getBlogList() {
+        return blogService.getBlogList();
     }
 
     @PostMapping
     @ResponseBody
-    ApiResponse<String> addBlog(@RequestBody Blog blog) {
-        log.info(blog.getUserName() + "创建了blog:" + blog.getTitle());
+    public ApiResponse<String> addBlog(@RequestBody Blog blog) {
         return blogService.addBlog(blog);
     }
 
     @PutMapping
     @ResponseBody
-    ApiResponse<String> updateBlog(@RequestBody Blog blog) {
-        blog.setUserName(null);
-        blogService.updateById(blog);
-        log.info(blog.getUserName() + "修改了blog:" + blog.getTitle());
-        return ApiResponse.ofSuccess();
+    public ApiResponse<String> updateBlog(@RequestBody Blog blog) {
+        return blogService.updateBlog(blog);
     }
 
     @DeleteMapping
     @ResponseBody
-    ApiResponse<String> deleteBlog(@RequestBody Blog blog, Principal principal) {
-        if ("admin".equals(principal.getName())) {
-            blogService.removeById(blog);
-        } else {
-            Blog blogById = blogService.getById(blog.getId());
-            if (blogById != null && blogById.getUserName().equals(principal.getName())) {
-                blogService.removeById(blog);
-            }
-        }
-        log.info(blog.getUserName() + "删除了blog:" + blog.getTitle());
-        return ApiResponse.ofSuccess();
+    public ApiResponse<String> deleteBlog(@RequestBody Blog blog, Principal principal) {
+        return blogService.deleteBlog(blog,principal);
     }
 
     @SneakyThrows
     @ResponseBody
     @PostMapping("upload")
     @Transactional(rollbackFor = Exception.class)
-    EditorApiResponse upload(MultipartFile file, Principal principal) {
+    public EditorApiResponse upload(MultipartFile file, Principal principal) {
         OssUtils ossUtils = new OssUtils();
         String url = ossUtils.upload(file.getInputStream(), "editor/" + principal.getName() + "/" + System.currentTimeMillis() + file.getOriginalFilename());
         EditorApiResponse editorApiResponse = new EditorApiResponse();

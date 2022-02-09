@@ -2,6 +2,7 @@ package com.opzpy123.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.opzpy123.component.listener.MyHttpSessionListener;
 import com.opzpy123.mapper.AuthUserMapper;
 import com.opzpy123.mapper.BlogMapper;
 import com.opzpy123.mapper.UserNetdiscMapper;
@@ -9,10 +10,7 @@ import com.opzpy123.mapper.UserWeatherMapper;
 import com.opzpy123.model.AuthUser;
 import com.opzpy123.model.Blog;
 import com.opzpy123.model.vo.BlogResp;
-import com.opzpy123.service.AuthUserService;
-import com.opzpy123.service.BarkWeatherService;
-import com.opzpy123.service.BlogService;
-import com.opzpy123.service.UserWeatherService;
+import com.opzpy123.service.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +20,8 @@ import javax.annotation.Resource;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
 import java.util.stream.Collectors;
 
 
@@ -29,46 +29,12 @@ import java.util.stream.Collectors;
 public class indexController {
 
     @Resource
-    private UserNetdiscMapper userNetdiscMapper;
-
-    @Resource
-    private AuthUserService authUserService;
-
-    @Resource
-    private UserWeatherMapper userWeatherMapper;
-
-    @Resource
-    private BlogMapper blogMapper;
+    private IndexService indexService;
 
     @GetMapping("/")
     public String index(Model model, Principal principal) {
-        model.addAttribute("netdiscNum", userNetdiscMapper.getUsersNum());
-        model.addAttribute("weatherNum", userWeatherMapper.getUsersNum());
-        //首页展示逻辑  管理员可以查看所有人的博客  非管理员只能查看自己和管理员和博客
-        List<Blog> blogs;
-        if ("admin".equals(principal.getName())) {
-            blogs = blogMapper.selectList(new QueryWrapper<Blog>().lambda()
-                    .orderByDesc(Blog::getSort)
-                    .orderByAsc(Blog::getCreateTime));
-        } else {
-            blogs = blogMapper.selectList(new QueryWrapper<Blog>().lambda()
-                    .eq(Blog::getUserName, principal.getName()).or().eq(Blog::getUserName, "admin")
-                    .orderByDesc(Blog::getSort)
-                    .orderByAsc(Blog::getCreateTime));
-        }
-
-        List<BlogResp> blogResps = blogs.stream().map(blog -> {
-            BlogResp blogResp = new BlogResp();
-            blogResp.fromBlog(blog);
-            return blogResp;
-        }).collect(Collectors.toList());
-
-        model.addAttribute("blogs", blogResps);
-        AuthUser loginUser = authUserService.getUserByUsername(principal.getName());
-        model.addAttribute("loginUser", loginUser);
-        return "index";
+        return indexService.getIndexInfo(model, principal);
     }
-
 
     /**
      * 跳转登录

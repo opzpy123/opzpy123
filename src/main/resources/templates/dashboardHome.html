@@ -17,8 +17,8 @@
     <img class="d-block mx-auto mb-4" src="/brand/zicon.svg" alt="" width="72" height="72">
     <h2>主页</h2>
     <div>
-        <div>在线人数</div>
-        <div>任务线程池中的数量</div>
+        <div th:text="'在线人数: '+${onlineUser}">在线人数</div>
+        <div th:text="'运行中的天气任务数: '+${weatherTaskSize}">任务线程池中的数量</div>
         <div></div>
         <div></div>
     </div>

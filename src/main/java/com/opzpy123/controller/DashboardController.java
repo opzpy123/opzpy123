@@ -1,6 +1,7 @@
 package com.opzpy123.controller;
 
 
+import com.opzpy123.component.listener.MyHttpSessionListener;
 import com.opzpy123.mapper.BlogMapper;
 import com.opzpy123.model.AuthUser;
 import com.opzpy123.model.Blog;
@@ -59,7 +60,7 @@ public class DashboardController {
      * @return
      */
     @GetMapping("/dashboard")
-    public String dashboardHome() {
+    public String dashboardHome(Model model) {
         List<AuthUser> authUserList = new ArrayList<>();
         for (Object principal : sessionRegistry.getAllPrincipals()) {
             User user = (User) principal;
@@ -68,7 +69,9 @@ public class DashboardController {
         }
 
         int weatherTaskSize = scheduledFutureMap.size();
-
+        int onlineUser = MyHttpSessionListener.getOnlineCount();
+        model.addAttribute("weatherTaskSize", weatherTaskSize);
+        model.addAttribute("onlineUser", onlineUser);
 
         return "dashboardHome";
     }
