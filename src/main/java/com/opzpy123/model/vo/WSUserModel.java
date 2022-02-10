@@ -24,4 +24,12 @@ public class WSUserModel {
         this.ws = ws;
     }
 
+    public static void webSocketMapAdd(Hashtable<String,  WSUserModel> maps, WSUserModel wm) {
+        maps.put(wm.getId(),wm);
+    }
+
+    public static void webSocketMapRemove(Hashtable<String,  WSUserModel> maps, WSUserModel wm) {
+        maps.remove(wm.getId());
+    }
+
 }
