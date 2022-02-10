@@ -1,10 +1,12 @@
 package com.opzpy123.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
@@ -28,7 +30,7 @@ import java.util.Set;
 @Configuration
 @EnableCaching
 @AutoConfigureAfter(RedisAutoConfiguration.class)
-public class RedisConfig  extends CachingConfigurerSupport {
+public class RedisConfig extends CachingConfigurerSupport {
 
     /**
      * 配置自定义redisTemplate
@@ -51,42 +53,31 @@ public class RedisConfig  extends CachingConfigurerSupport {
 
     /**
      * 配置缓存管理器
+     *
      * @param factory Redis 线程安全连接工厂
      * @return 缓存管理器
      */
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
-        // 生成两套默认配置，通过 Config 对象即可对缓存进行自定义配置
-        RedisCacheConfiguration cacheConfig = RedisCacheConfiguration.defaultCacheConfig()
-                // 设置过期时间 10 分钟
-                .entryTtl(Duration.ofMinutes(10))
-                // 设置缓存前缀
-                .prefixKeysWith("cache:user:")
-                // 禁止缓存 null 值
-                .disableCachingNullValues()
-                // 设置 key 序列化
-                .serializeKeysWith(keyPair())
-                // 设置 value 序列化
-                .serializeValuesWith(valuePair());
-        // 返回 Redis 缓存管理器
+
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        //解决查询缓存转换异常的问题
+        jackson2JsonRedisSerializer.setObjectMapper(new ObjectMapper()
+                .setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
+                .activateDefaultTyping(LaissezFaireSubTypeValidator.instance,
+                        ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY));
+
+        // 配置序列化（解决乱码的问题）
+        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofDays(1))
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
+                .disableCachingNullValues();
+
         return RedisCacheManager.builder(factory)
-                .withCacheConfiguration("user", cacheConfig).build();
+                .cacheDefaults(config)
+                .build();
     }
 
-    /**
-     * 配置键序列化
-     * @return StringRedisSerializer
-     */
-    private RedisSerializationContext.SerializationPair<String> keyPair() {
-        return RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer());
-    }
-
-    /**
-     * 配置值序列化，使用 GenericJackson2JsonRedisSerializer 替换默认序列化
-     * @return GenericJackson2JsonRedisSerializer
-     */
-    private RedisSerializationContext.SerializationPair<Object> valuePair() {
-        return RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer());
-    }
 
 }

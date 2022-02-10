@@ -24,17 +24,19 @@ public class BlogService extends ServiceImpl<BlogMapper, Blog> {
 
     @Cacheable
     public ApiResponse<List<Blog>> getBlogList() {
-        return ApiResponse.ofSuccess(list());
+        return ApiResponse.ofSuccess(list(new QueryWrapper<Blog>().lambda()
+                .orderByDesc(Blog::getSort)
+                .orderByAsc(Blog::getCreateTime)));
     }
 
-    @CacheEvict
+    @CacheEvict(allEntries = true)
     public ApiResponse<String> addBlog(Blog blog) {
         baseMapper.insert(blog);
         log.info(blog.getUserName() + "创建了blog:" + blog.getTitle());
         return ApiResponse.ofSuccess();
     }
 
-    @CacheEvict
+    @CacheEvict(allEntries = true)
     public ApiResponse<String> updateBlog(Blog blog) {
         blog.setUserName(null);
         updateById(blog);
@@ -42,7 +44,7 @@ public class BlogService extends ServiceImpl<BlogMapper, Blog> {
         return ApiResponse.ofSuccess();
     }
 
-    @CacheEvict
+    @CacheEvict(allEntries = true)
     public ApiResponse<String> deleteBlog(Blog blog, Principal principal) {
         if ("admin".equals(principal.getName())) {
             removeById(blog);

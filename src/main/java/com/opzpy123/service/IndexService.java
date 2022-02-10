@@ -6,6 +6,7 @@ import com.opzpy123.mapper.UserNetdiscMapper;
 import com.opzpy123.mapper.UserWeatherMapper;
 import com.opzpy123.model.AuthUser;
 import com.opzpy123.model.Blog;
+import com.opzpy123.model.vo.ApiResponse;
 import com.opzpy123.model.vo.BlogResp;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -29,22 +30,18 @@ public class IndexService {
     private UserWeatherMapper userWeatherMapper;
 
     @Resource
-    private BlogMapper blogMapper;
+    private BlogService blogService;
 
     public String getIndexInfo(Model model, Principal principal) {
         model.addAttribute("netdiscNum", userNetdiscMapper.getUsersNum());
         model.addAttribute("weatherNum", userWeatherMapper.getUsersNum());
         //首页展示逻辑  管理员可以查看所有人的博客  非管理员只能查看自己和管理员和博客
-        List<Blog> blogs;
-        if ("admin".equals(principal.getName())) {
-            blogs = blogMapper.selectList(new QueryWrapper<Blog>().lambda()
-                    .orderByDesc(Blog::getSort)
-                    .orderByAsc(Blog::getCreateTime));
-        } else {
-            blogs = blogMapper.selectList(new QueryWrapper<Blog>().lambda()
-                    .eq(Blog::getUserName, principal.getName()).or().eq(Blog::getUserName, "admin")
-                    .orderByDesc(Blog::getSort)
-                    .orderByAsc(Blog::getCreateTime));
+        ApiResponse<List<Blog>> blogList = blogService.getBlogList();
+        List<Blog> blogs = blogList.getData();
+        if (!"admin".equals(principal.getName())) {
+            blogs = blogs.stream()
+                    .filter(a -> a.getUserName().equals(principal.getName()) || "admin".equals(a.getUserName()))
+                    .collect(Collectors.toList());
         }
 
         List<BlogResp> blogResps = blogs.stream().map(blog -> {
