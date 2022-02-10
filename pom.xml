@@ -10,9 +10,9 @@
     </parent>
     <groupId>com.opzpy123</groupId>
     <artifactId>opzpy123</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>opzpy123</name>
-    <description>Demo project for Spring Boot</description>
+    <description>opzpy123's project</description>
 
     <properties>
         <java.version>1.8</java.version>
