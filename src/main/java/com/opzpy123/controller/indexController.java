@@ -2,6 +2,7 @@ package com.opzpy123.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.opzpy123.component.listener.MyHttpSessionListener;
 import com.opzpy123.mapper.AuthUserMapper;
 import com.opzpy123.mapper.BlogMapper;
@@ -9,12 +10,16 @@ import com.opzpy123.mapper.UserNetdiscMapper;
 import com.opzpy123.mapper.UserWeatherMapper;
 import com.opzpy123.model.AuthUser;
 import com.opzpy123.model.Blog;
+import com.opzpy123.model.vo.ApiResponse;
 import com.opzpy123.model.vo.BlogResp;
+import com.opzpy123.model.vo.SearchVo;
 import com.opzpy123.service.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.security.Principal;
@@ -52,4 +57,9 @@ public class indexController {
         return "userRegister";
     }
 
+    @GetMapping("/search")
+    @ResponseBody
+    public ApiResponse<SearchVo> getSearchResult(@RequestParam String param){
+        return indexService.getSearchResult(param);
+    }
 }

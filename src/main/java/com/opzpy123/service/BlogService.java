@@ -1,9 +1,11 @@
 package com.opzpy123.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.opzpy123.mapper.BlogMapper;
+import com.opzpy123.model.BaseModel;
 import com.opzpy123.model.Blog;
 import com.opzpy123.model.vo.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -56,5 +59,11 @@ public class BlogService extends ServiceImpl<BlogMapper, Blog> {
         }
         log.info(blog.getUserName() + "删除了blog:" + blog.getTitle());
         return ApiResponse.ofSuccess();
+    }
+
+    public List<Blog> searchBlog(String blogTitle) {
+        return baseMapper.selectList(new LambdaQueryWrapper<Blog>()
+                .select(Blog::getId,Blog::getTitle)
+                .like(Blog::getTitle, blogTitle));
     }
 }
