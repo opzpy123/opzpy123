@@ -31,7 +31,7 @@ import java.util.UUID;
 /**
  * 使用redis 制作聊天室
  */
-@SpringBootTest
+//@SpringBootTest
 public class RedisTalkTest {
 
     @Resource
@@ -42,15 +42,20 @@ public class RedisTalkTest {
 
     @Test
     void test() throws InterruptedException {
-
-        MessageVo messageVo = new MessageVo();
-        messageVo.setMessage("hello everybody");
-        messageVo.setSendTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        messageVo.setUserName("opzpy123");
-        while (true) {
-            redisMessagePublisher.publish(messageVo);
-            Thread.sleep(1000);
-        }
+        String str = """
+                ashda
+                safjaskf
+                ajgansjkdas
+                """;
+        System.out.println(str);
+//        MessageVo messageVo = new MessageVo();
+//        messageVo.setMessage("hello everybody");
+//        messageVo.setSendTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+//        messageVo.setUserName("opzpy123");
+//        while (true) {
+//            redisMessagePublisher.publish(messageVo);
+//            Thread.sleep(1000);
+//        }
     }
 
     @Test

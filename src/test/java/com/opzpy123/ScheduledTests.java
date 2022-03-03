@@ -22,10 +22,8 @@ class ScheduledTests {
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
     private ScheduledFuture<?> future;
 
-    @Autowired
+    @Resource
     private BarkWeatherService barkWeatherService;
-
-
 
     @Test
     public void execute() {
