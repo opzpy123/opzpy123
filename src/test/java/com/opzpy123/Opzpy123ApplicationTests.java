@@ -1,5 +1,6 @@
 package com.opzpy123;
 
+import cn.hutool.core.util.RandomUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.model.Callback;
 import com.aliyun.oss.model.PutObjectRequest;
@@ -22,6 +23,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 
@@ -69,5 +71,20 @@ class Opzpy123ApplicationTests {
         System.out.println(ossUtils.upload(resourceAsStream, "test.html"));
     }
 
+    @Test
+    void getRandomStringSet() {
+        int maxRandomLen = 30;
+        String s = RandomUtil.randomString(10000);
+        HashSet<String> res = new HashSet<>();
+        for (int i = maxRandomLen + 1; i < s.length(); i++) {
+            int randInt1 = RandomUtil.randomInt(5, maxRandomLen);
+            int randInt2 = RandomUtil.randomInt(5, maxRandomLen);
+            int randInt3 = RandomUtil.randomInt(5, maxRandomLen);
+            res.add(s.substring(i-randInt1, i));
+            res.add(s.substring(i-randInt2, i));
+            res.add(s.substring(i-randInt3, i));
+        }
+        System.out.println(res);
+    }
 
 }

@@ -228,11 +228,13 @@
              class="btn btn-outline-info">CLOSE
         </div>
         <hr>
-        <ol class="list-unstyled mb-0" th:each="blog : ${blogs}">
-            <li><a class="font-italic " style="font-size: 16px;color: #0069d9;cursor: pointer"
-                   th:onclick="contentList([[${blog}]])"
-                   th:text="${blog.getTitle()}">文章1 todo by ***</a></li>
-        </ol>
+        <div style="height: 650px;overflow-x:auto;">
+            <ol class="list-unstyled mb-0" th:each="blog : ${blogs}">
+                <li><a class="font-italic " style="font-size: 16px;color: #0069d9;cursor: pointer"
+                       th:onclick="contentList([[${blog}]])"
+                       th:text="${blog.getTitle()}">文章1 todo by ***</a></li>
+            </ol>
+        </div>
     </div>
 </div>
 
