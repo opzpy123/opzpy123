@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class SearchVo {
-    private List<Blog> blogIdList;
+    private List<Blog> blogList;
 
     //todo 拓展其他检索条目
 }

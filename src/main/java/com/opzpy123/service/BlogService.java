@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.security.Principal;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -63,7 +64,7 @@ public class BlogService extends ServiceImpl<BlogMapper, Blog> {
 
     public List<Blog> searchBlog(String blogTitle) {
         return baseMapper.selectList(new LambdaQueryWrapper<Blog>()
-                .select(Blog::getId,Blog::getTitle)
+                .select(Blog::getId,Blog::getTitle,Blog::getUserName,Blog::getLink,Blog::getAbout,Blog::getIntro)
                 .like(Blog::getTitle, blogTitle));
     }
 }
