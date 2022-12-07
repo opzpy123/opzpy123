@@ -1,6 +1,6 @@
 package com.opzpy123.service;
 
-import com.opzpy123.constant.enums.Status;
+import com.opzpy123.chatgpt.Chatbot;
 import com.opzpy123.model.pubsub.RedisMessagePublisher;
 import com.opzpy123.model.pubsub.RedisMessageSubscriber;
 import com.opzpy123.model.vo.ApiResponse;
@@ -15,7 +15,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,6 +28,10 @@ public class TalkService {
 
     @Resource
     private RedisMessagePublisher redisMessagePublisher;
+    public ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 10,
+            1, TimeUnit.MINUTES, new ArrayBlockingQueue<>(5, true),
+            Executors.defaultThreadFactory(), new ThreadPoolExecutor.AbortPolicy());
+    protected Chatbot chatbot = new Chatbot();
 
     public ApiResponse<String> enter(Principal principal) {
         log.info(principal.getName() + "进入房间");
@@ -41,15 +49,38 @@ public class TalkService {
     }
 
     public ApiResponse<String> sendMessage(Principal principal, String message) {
-
         MessageVo messageVo = new MessageVo();
-        messageVo.setMessage(message);
+        messageVo.setMessage(cuttingStr(message));
         messageVo.setSendTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         messageVo.setUserName(principal.getName());
-
         redisMessagePublisher.publish(messageVo);
         log.info(principal.getName() + "发送消息" + message);
+        chat(message);//开启机器人回复消息
         return ApiResponse.ofSuccess();
+    }
+
+    private void chat(String message) {
+        threadPool.execute(() -> {
+            Map<String, Object> chatResponse = chatbot.getChatResponse(message);
+            String res = (String) chatResponse.getOrDefault("message", "");
+            MessageVo messageVo = new MessageVo();
+            messageVo.setMessage(cuttingStr(res));
+            messageVo.setSendTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            messageVo.setUserName("chatGPT");
+            log.info("chatGPT 发送消息" + message);
+            redisMessagePublisher.publish(messageVo);
+        });
+    }
+
+    private String cuttingStr(String message) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < message.length(); i++) {
+            if (i != 0 && i % 35 == 0) {
+                sb.append("<br/>");
+            }
+            sb.append(message.charAt(i));
+        }
+        return sb.toString();
     }
 
     private final HashMap<String, String> tempTimeMap = new HashMap<String, String>();

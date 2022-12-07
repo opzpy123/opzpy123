@@ -104,7 +104,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
     private void openConn(WebSocketSession session) {
         //创建一个连接窗口，并加入的队列中
         WSUserModel ws = new WSUserModel(session);
-        WSUserModel.webSocketMapAdd(USER_SOCKET_SESSION_MAP,ws);
+        WSUserModel.webSocketMapAdd(USER_SOCKET_SESSION_MAP, ws);
         addOnlineCount();           //在线数加1
         log.info("有新窗口开始监听:" + ws.getId() + ",当前在线人数为" + getOnlineCount());
     }
@@ -114,7 +114,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         if (isError) {
             log.info("窗口关闭(Error):{},当前在线人数为{}", wsUserModel.getId(), getOnlineCount());
         } else {
-            WSUserModel.webSocketMapRemove(USER_SOCKET_SESSION_MAP,wsUserModel);
+            WSUserModel.webSocketMapRemove(USER_SOCKET_SESSION_MAP, wsUserModel);
             subOnlineCount();              //在线数减1
             log.info("窗口关闭:{},当前在线人数为:{}", wsUserModel.getId(), getOnlineCount());
         }

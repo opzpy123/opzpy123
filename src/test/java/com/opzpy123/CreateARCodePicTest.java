@@ -5,6 +5,8 @@ import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import com.opzpy123.model.AuthUser;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,9 +16,42 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
-public class CreateARCodePicTest {
+public class CreateARCodePicTest implements Runnable {
+
+    public static void main(String[] args) {
+
+        CreateARCodePicTest cpuTestThread = new CreateARCodePicTest();
+        for (int i = 0; i < 16; i++) {
+            Thread cpuTest = new Thread(cpuTestThread);
+            cpuTest.start();
+        }
+    }
+
+
+    @Override
+    public void run() {
+        HashMap<String, HashMap<String, String>> stringHashMapHashMap = new HashMap<>();
+        int busyTime = 100;
+        int idleTime = busyTime;
+        long startTime = 0;
+        while (true) {
+            startTime = System.currentTimeMillis();
+            while ((System.currentTimeMillis() - startTime) <= busyTime){
+                stringHashMapHashMap.put(System.currentTimeMillis()+"",null);
+            }
+            try {
+                System.out.println(stringHashMapHashMap.keySet().stream().mapToLong(Long::parseLong));
+                Thread.sleep(idleTime);
+            } catch (InterruptedException e) {
+            }
+        }
+    }
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Test
     void test() throws IOException {
@@ -38,7 +73,7 @@ public class CreateARCodePicTest {
         setInfo(nucleicAcid, authUser, date, 1);
         File file = new File("/Users/opzpy/Desktop/result/" + authUser.getUsername() + "/");
         file.mkdirs();
-        ImageIO.write(nucleicAcid, "JPEG", new File("/Users/opzpy/Desktop/result/" + authUser.getUsername() + "/核酸证明.jpg"));
+        ImageIO.write(nucleicAcid, "JPEG", new File("/Users/opzpy/Desktop/result/" + authUser.getUsername() + "/核酸证明.jpeg"));
     }
 
     private void doCreateItineraryCode(AuthUser authUser, String date) throws IOException {
@@ -47,7 +82,7 @@ public class CreateARCodePicTest {
         setInfo(itineraryCode, authUser, date, 2);
         File file = new File("/Users/opzpy/Desktop/result/" + authUser.getUsername() + "/");
         file.mkdirs();
-        ImageIO.write(itineraryCode, "JPEG", new File("/Users/opzpy/Desktop/result/" + authUser.getUsername() + "/行程码.jpg"));
+        ImageIO.write(itineraryCode, "JPEG", new File("/Users/opzpy/Desktop/result/" + authUser.getUsername() + "/行程码.jpeg"));
     }
 
     private void doCreateAnkangCode(AuthUser authUser, String date) throws IOException {
@@ -56,12 +91,12 @@ public class CreateARCodePicTest {
         setInfo(ankangCode, authUser, date, 3);
         File file = new File("/Users/opzpy/Desktop/result/" + authUser.getUsername() + "/");
         file.mkdirs();
-        ImageIO.write(ankangCode, "JPEG", new File("/Users/opzpy/Desktop/result/" + authUser.getUsername() + "/安康码.jpg"));
+        ImageIO.write(ankangCode, "JPEG", new File("/Users/opzpy/Desktop/result/" + authUser.getUsername() + "/安康码.jpeg"));
     }
 
     private ArrayList<AuthUser> readExcel() {
         ArrayList<AuthUser> authUsers = new ArrayList<>();
-        ExcelReader reader = ExcelUtil.getReader("/Users/opzpy/Desktop/工作簿2.xlsx");
+        ExcelReader reader = ExcelUtil.getReader("/Users/opzpy/Desktop/1.xlsx");
         List<List<Object>> read = reader.read();
         read.remove(0);
         for (List<Object> objects : read) {
@@ -127,14 +162,14 @@ public class CreateARCodePicTest {
         // 行程码
         if (code == 2) {
             //设置手机号
-            String phone = authUser.getPhone().substring(0, 3) + "****" + authUser.getPhone().substring(authUser.getPhone().length()-4, authUser.getPhone().length());
+            String phone = authUser.getPhone().substring(0, 3) + "****" + authUser.getPhone().substring(authUser.getPhone().length() - 4, authUser.getPhone().length());
             setString(graphics, 183, 479, 30, phone);
             //设置时间
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
             Date date1 = new Date();
-            date1.setHours(RandomUtil.randomInt(6,new Date().getHours()));
-            date1.setMinutes(RandomUtil.randomInt(2,50));
-            date1.setSeconds(RandomUtil.randomInt(2,50));
+            date1.setHours(RandomUtil.randomInt(6, new Date().getHours()));
+            date1.setMinutes(RandomUtil.randomInt(2, 50));
+            date1.setSeconds(RandomUtil.randomInt(2, 50));
             graphics.setColor(new Color(152, 152, 152));
             graphics.setFont(new Font(null, Font.PLAIN, 34));
             graphics.drawString(sdf.format(date1), 262, 555);
@@ -150,9 +185,9 @@ public class CreateARCodePicTest {
             //设置核酸检测时间
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date1 = new Date();
-            date1.setHours(RandomUtil.randomInt(6,new Date().getHours()));
-            date1.setMinutes(RandomUtil.randomInt(2,50));
-            date1.setSeconds(RandomUtil.randomInt(2,50));
+            date1.setHours(RandomUtil.randomInt(6, new Date().getHours()));
+            date1.setMinutes(RandomUtil.randomInt(2, 50));
+            date1.setSeconds(RandomUtil.randomInt(2, 50));
             graphics.setColor(new Color(0, 0, 0));
             graphics.setFont(new Font(null, Font.BOLD, 36));
             graphics.drawString(sdf.format(date1), 176, 655);
