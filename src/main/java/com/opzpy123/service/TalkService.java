@@ -31,7 +31,7 @@ public class TalkService {
     public ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 10,
             1, TimeUnit.MINUTES, new ArrayBlockingQueue<>(5, true),
             Executors.defaultThreadFactory(), new ThreadPoolExecutor.AbortPolicy());
-    protected Chatbot chatbot = new Chatbot();
+    protected Chatbot chatbot = null;
 
     public ApiResponse<String> enter(Principal principal) {
         log.info(principal.getName() + "进入房间");
@@ -55,7 +55,7 @@ public class TalkService {
         messageVo.setUserName(principal.getName());
         redisMessagePublisher.publish(messageVo);
         log.info(principal.getName() + "发送消息" + message);
-        chat(message);//开启机器人回复消息
+        //chat(message);//开启机器人回复消息
         return ApiResponse.ofSuccess();
     }
 
